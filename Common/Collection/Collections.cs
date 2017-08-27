@@ -14,14 +14,17 @@ namespace Common.Collection
         public static string Join<T>(IEnumerable<T> collection)
         {
             var builder = new StringBuilder();
-            var enumerator = collection.GetEnumerator();
-            enumerator.MoveNext();
-            do
+            using (var enumerator = collection.GetEnumerator())
             {
-                builder.Append(Strings.Of(enumerator.Current));
+                enumerator.MoveNext();
+                do
+                {
+                    builder.Append(Strings.Of(enumerator.Current));
+                }
+                while (enumerator.MoveNext());
+                return builder.ToString();
             }
-            while(enumerator.MoveNext());
-            return builder.ToString();
+        
         }
 
         public static string Join<T>(IEnumerable<T> collection, Func<T, string> convert)
