@@ -8,7 +8,7 @@ namespace Common
     public static class Predicates
     {
         public static Expression<Func<T, bool>> False<T>() { return x => false; }
-        public static Expression<Func<T, bool>> True<T>() { return x => true; }
+        public static Expression<Func<T, bool>> True<T>()  { return x => true;  }
 
         public static Func<T, bool> And<T>(IEnumerable<Expression<Func<T, bool>>> exprs)
         {

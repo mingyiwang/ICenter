@@ -132,17 +132,17 @@ namespace Common
             }
         }
 
-        public static void False(bool value)
+        public static void IsFalse(bool value)
         {
-            False(value, "[Precondition Checks Failed] - Value must be false");
+            IsFalse(value, "[Precondition Checks Failed] - Value must be false");
         }
 
-        public static void False(bool value, string message)
+        public static void IsFalse(bool value, string message)
         {
-            False<ArgumentException>(value, message);
+            IsFalse<ArgumentException>(value, message);
         }
 
-        public static void False<T>(bool? value, string message) where T : Exception
+        public static void IsFalse<T>(bool? value, string message) where T : Exception
         {
             if(value != false)
             {
@@ -150,17 +150,17 @@ namespace Common
             }
         }
 
-        public static void True(bool value)
+        public static void IsTrue(bool value)
         {
-            True(value, "[Precondition Checks Failed] - Value must be true.");
+            IsTrue(value, "[Precondition Checks Failed] - Value must be true.");
         }
 
-        public static void True(bool value, string message)
+        public static void IsTrue(bool value, string message)
         {
-            True<ArgumentException>(value, message);
+            IsTrue<ArgumentException>(value, message);
         }
 
-        public static void True<T>(bool value, string message) where T : Exception
+        public static void IsTrue<T>(bool value, string message) where T : Exception
         {
             if(value != true)
             {

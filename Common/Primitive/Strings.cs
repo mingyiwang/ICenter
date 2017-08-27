@@ -30,18 +30,18 @@ namespace Common.Primitive
         public static string Substring(string input, int startIndex, int endIndex)
         {
             // Check range
-            Checks.True<IndexOutOfRangeException>(endIndex >= startIndex, $"End Index[{endIndex}] must be greater than Start Index[{startIndex}].");
+            Checks.IsTrue<IndexOutOfRangeException>(endIndex >= startIndex, $"End Index[{endIndex}] must be greater than Start Index[{startIndex}].");
             return input.Substring(startIndex, endIndex - startIndex + 1);
         }
 
         public static string Between(string input, int startIndex, int endIndex)
         {
             // Check bounds
-            Checks.True<IndexOutOfRangeException>(startIndex >=0 , $"Index[{startIndex}] can not be negative.");
-            Checks.True<IndexOutOfRangeException>(endIndex >= 0,   $"Index[{endIndex}] can not be negative.");
+            Checks.IsTrue<IndexOutOfRangeException>(startIndex >=0 , $"Index[{startIndex}] can not be negative.");
+            Checks.IsTrue<IndexOutOfRangeException>(endIndex >= 0,   $"Index[{endIndex}] can not be negative.");
             Checks.LessThan<IndexOutOfRangeException>(input.Length, startIndex, $"Index[{startIndex}] is out of range.");
             Checks.LessThan<IndexOutOfRangeException>(input.Length, endIndex,   $"Index[{endIndex}] is out of range.");
-            Checks.True<IndexOutOfRangeException>(endIndex >= startIndex,       $"End Index[{endIndex}] must be greater than Or Equal Start Index[{startIndex}].");
+            Checks.IsTrue<IndexOutOfRangeException>(endIndex >= startIndex,       $"End Index[{endIndex}] must be greater than Or Equal Start Index[{startIndex}].");
 
             var length = endIndex - startIndex - 1;
             if (length == 0 || length == -1)
