@@ -1,10 +1,9 @@
 ﻿namespace EL.Persist
 {
-
-    public class Person
+    public class Contact
     {
+
         public int Id { get; set; }
 
     }
-
 }
