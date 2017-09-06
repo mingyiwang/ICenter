@@ -9,22 +9,22 @@ namespace Common.Date
         public DateTime Nil = new DateTime(-1, DateTimeKind.Unspecified);
 
         //1 Tick = 100 nano Seconds
-        public const double TicksPerNanoSeconds = 0.01;
+        public const double TicksPerNanoSecond = 0.01;
 
         // Ticks for 1 MillSeconds
-        public const long TicksPerMillSeconds = 10000;
+        public const long TicksPerMillSecond = 10000;
 
         // Ticks for 1 Second
-        public const long TicksPerSecond = TicksPerMillSeconds * 1000;
+        public const long TicksPerSecond = TicksPerMillSecond * 1000;
 
         // Ticks for 1 Minute
         public const long TicksPerMinute = 60 * TicksPerSecond;
 
         // Ticks for 1 Hour
-        public const long TicksPerHour   = 60 * TicksPerMinute;
+        public const long TicksPerHour = 60 * TicksPerMinute;
 
         // Ticks for 1 Day
-        public const long TicksPerDay    = 24 * TicksPerHour;
+        public const long TicksPerDay = 24 * TicksPerHour;
 
         // Number of days in Leap Year
         public const int DaysPerLeapYear = 366;
@@ -97,7 +97,7 @@ namespace Common.Date
             if (TimeZoneInfo.Local.IsInvalidTime(dateTime1.LocalDateTime) 
             ||  TimeZoneInfo.Local.IsInvalidTime(dateTime2.LocalDateTime))
             {
-                throw new ArgumentException("DateTime must not be invalid");
+                throw new ArgumentException("DateTime is not invalid");
             }
 
             var diff = Math.Abs(dateTime2.Ticks - dateTime1.Ticks);
