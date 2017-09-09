@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EL", "EL\EL.csproj", "{82EB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "WebAPI\WebAPI.csproj", "{E1AB6829-F92F-4591-97D6-4025411915CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Test", "Common.Test\Common.Test.csproj", "{1C73D9F3-E378-4CE0-9B16-2191C426DE47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Test", "Common.Test\Common.Test.csproj", "{1C73D9F3-E378-4CE0-9B16-2191C426DE47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EL.Test", "EL.Test\EL.Test.csproj", "{7C557C1B-84E0-4770-9ACC-472ED246F2A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EL.Test", "EL.Test\EL.Test.csproj", "{7C557C1B-84E0-4770-9ACC-472ED246F2A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
