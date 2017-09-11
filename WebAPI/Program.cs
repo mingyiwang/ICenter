@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting.Internal;
 
 namespace WebAPI
 {
@@ -15,8 +14,7 @@ namespace WebAPI
 
         private static IWebHost CreateWebHost()
         {
-            // Read Configuration Files
-            
+            // Read Configuration Files            
             return new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
