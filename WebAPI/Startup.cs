@@ -16,6 +16,7 @@ namespace WebAPI
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", false, true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
+                
                 .AddEnvironmentVariables()
                 .Build();
         }       
