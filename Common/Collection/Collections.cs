@@ -113,6 +113,23 @@ namespace Common.Collection
                  !(dic1.Keys.AsParallel().Any(key => (!dic2.ContainsKey(key) || !dic2[key].Equals(dic1[key]))));
         }
 
+        public static void InsertFirst<T>(List<T> collections, T obj)
+        {
+              collections.Insert(0, obj);
+        }
+
+        public static void InsertLast<T>(List<T> collections, T obj)
+        {
+            var size = collections.Count;
+            if (size == 0)
+            {
+                collections.Add(obj);
+            }
+            else
+            {
+                collections.Insert(collections.Count, obj);
+            }
+        }
 
     }
 }

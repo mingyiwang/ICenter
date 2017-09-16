@@ -7,32 +7,51 @@ namespace WebAPI
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
-        {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
-
-            Configuration = builder.Build();
-        }
 
         public IConfigurationRoot Configuration { get; }
+
+        public Startup(IHostingEnvironment env)
+        {
+            Configuration = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", false, true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
+                .AddEnvironmentVariables()
+                .Build();
+        }       
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
-            services.AddMvc();
+             services.AddMvc();
         }
 
         
         public void Configure(IApplicationBuilder app)
         {
-            app.UseMvc();
-        }
+            
+            Middlewares
+                .Of(app)
+                .With(context =>
+                {
+                    
+                    
+                })
+                .With(context =>
+                {
+                    
+                })
+                .First(context =>
+                {
+                    
+                })
+                .Last(context =>
+                {
+                    
+                })
+                .Build();
 
+        }
 
     }
 }

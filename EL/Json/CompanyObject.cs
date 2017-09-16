@@ -1,5 +1,4 @@
-﻿
-namespace EL.Json
+﻿namespace EL.Json
 {
 
     public class CompanyObject
