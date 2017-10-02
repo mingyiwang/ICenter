@@ -1,6 +1,6 @@
 ﻿namespace Common.Json
 {
-    public class JsonWriter
+    public class JsonObjectWriter
     {
         
     }

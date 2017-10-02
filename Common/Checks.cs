@@ -17,7 +17,7 @@ namespace Common
 
         public static void NotNull(object obj)
         {
-            NotNull(obj, $"[Precondition Check Failed] - Object{obj.GetType()} can not be null.");
+            NotNull(obj, "Expected Not null but was null.");
         }
 
         public static void NotNull(object obj, string message)
@@ -35,7 +35,7 @@ namespace Common
 
         public static void Null(object obj)
         {
-            Null(obj, $"[Precondition Check Failed] - Object must be null.");
+            Null(obj, "Expected null but was not null.");
         }
 
         public static void Null(object obj, string message)
@@ -53,7 +53,7 @@ namespace Common
 
         public static void NotEmpty<TC>(ICollection<TC> collection)
         {
-            NotEmpty<ArgumentException, TC>(collection, "[Precondition Checks Failed] - Collection can not be emtpy.");
+            NotEmpty<ArgumentException, TC>(collection, "Expected not empty but was empty.");
         }
 
         public static void NotEmpty<TC>(ICollection<TC> collection, string message)
@@ -71,7 +71,7 @@ namespace Common
 
         public static void NotBlank(string s)
         {
-            NotBlank(s, "[Precondition Checks Failed] - String can not be empty.");
+            NotBlank(s, "Expected not blank but was blank.");
         }
 
         public static void NotBlank(string s, string message)
@@ -121,7 +121,7 @@ namespace Common
 
         public static void NotEquals(object expected, object actual)
         {
-            NotEquals<ArgumentException>(expected, actual, "[Precondition Checks Failed] - value must not be equal.");
+            NotEquals<ArgumentException>(expected, actual, "Value must not be equal.");
         }
 
         public static void NotEquals<T>(object expected, object actual, string message) where T : Exception
@@ -134,7 +134,7 @@ namespace Common
 
         public static void IsFalse(bool value)
         {
-            IsFalse(value, "[Precondition Checks Failed] - Value must be false");
+            IsFalse(value, "Expected false but was true.");
         }
 
         public static void IsFalse(bool value, string message)
@@ -152,7 +152,7 @@ namespace Common
 
         public static void IsTrue(bool value)
         {
-            IsTrue(value, "[Precondition Checks Failed] - Value must be true.");
+            IsTrue(value, "Expected true but was false.");
         }
 
         public static void IsTrue(bool value, string message)
@@ -225,7 +225,7 @@ namespace Common
                    message
             });
         }
+        }
 
     }
 
-}

@@ -1,7 +1,9 @@
 ﻿namespace Common.Json
 {
-    public class JsonReader
+
+    public class JsonObjectReader
     {
         
     }
+
 }

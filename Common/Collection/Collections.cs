@@ -11,7 +11,7 @@ namespace Common.Collection
     public sealed class Collections
     {
 
-        public static string Join<T>(IEnumerable<T> collection)
+        public static string JoinAsString<T>(IEnumerable<T> collection)
         {
             var builder = new StringBuilder();
             using (var enumerator = collection.GetEnumerator())
@@ -27,7 +27,7 @@ namespace Common.Collection
         
         }
 
-        public static string Join<T>(IEnumerable<T> collection, Func<T, string> convert)
+        public static string JoinAsString<T>(IEnumerable<T> collection, Func<T, string> convert)
         {
             var builder = new StringBuilder();
             var enumerator = collection.GetEnumerator();

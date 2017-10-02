@@ -40,7 +40,7 @@ namespace Common.Collection {
 
         public static string AsString<T>(this IEnumerable<T> collection)
         {
-            return Collections.Join(collection);
+            return Collections.JoinAsString(collection);
         }
 
         public static void Clear<T>(this ConcurrentQueue<T> queue)

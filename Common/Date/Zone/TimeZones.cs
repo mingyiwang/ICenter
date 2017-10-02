@@ -6,7 +6,7 @@ using System.Threading;
 namespace Common.Date.Zone
 {
 
-    public sealed class TimeZones
+    public static class TimeZones
     {
 
         public static readonly Lazy<TimeZoneInfo> AuEast    = GetTimeZoneById("AUS Eastern Standard Time");
@@ -17,10 +17,11 @@ namespace Common.Date.Zone
         public static Lazy<TimeZoneInfo> GetTimeZoneById(string id)
         {
             return new Lazy<TimeZoneInfo>(() =>
-            {
-                var timeZone = TimeZoneInfo.GetSystemTimeZones().SingleOrDefault(zone => zone.Id.Equals(id));
-                return timeZone ?? TimeZoneInfo.Utc;
-            }, LazyThreadSafetyMode.ExecutionAndPublication
+                {
+                    var timeZone = TimeZoneInfo.GetSystemTimeZones().SingleOrDefault(zone => zone.Id.Equals(id));
+                    return timeZone ?? TimeZoneInfo.Utc;
+                }, 
+                LazyThreadSafetyMode.ExecutionAndPublication
             );
         }
 
@@ -66,9 +67,5 @@ namespace Common.Date.Zone
 
             return new DaylightTime(startDate, endDate, adjustRule.DaylightDelta);
         }
-
-        private TimeZones(){}
-
-      
     }
 }
