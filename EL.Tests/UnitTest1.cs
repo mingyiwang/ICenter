@@ -45,10 +45,6 @@ namespace EL.Tests
           
         }
 
-        [Test]
-        public void Test2()
-        {
-                
-        }
+        
     }
 }

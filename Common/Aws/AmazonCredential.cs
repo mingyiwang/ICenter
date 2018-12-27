@@ -21,6 +21,16 @@
 
         }
 
+        public void Test()
+        {
+            lock (this)
+            {
+                
+            }
+
+        }
+
+
     }
 
 }
