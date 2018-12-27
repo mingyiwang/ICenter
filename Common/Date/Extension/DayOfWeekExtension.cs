@@ -17,7 +17,7 @@ namespace Common.Date.Extension
                 case DayOfWeek.Friday    : return 5;
                 case DayOfWeek.Saturday  : return 6;
                 case DayOfWeek.Sunday    : return 0;
-                default                  : return 0; // never happens
+                default                  : return -1; // never happens
             }
         }
 

@@ -8,7 +8,7 @@ namespace Common.Collection
     public class HashMap<TKey, TValue> : IDictionary<TKey, TValue>
     {
 
-        ICollection<TKey> IDictionary<TKey, TValue>.Keys => _dict.Keys;
+        ICollection<TKey>   IDictionary<TKey, TValue>.Keys   => _dict.Keys;
         ICollection<TValue> IDictionary<TKey, TValue>.Values => _dict.Values;
 
         public static HashMap<TKey, TValue> Of(Dictionary<TKey, TValue> dict)

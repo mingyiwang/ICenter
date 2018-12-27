@@ -6,10 +6,10 @@ namespace Common.Collection
 
     public sealed class Arrays
     {
-
-        public static byte[]   EmptyBytes  => Empty<byte>();
-        public static string[] EmptyString => Empty<string>();
-        public static int[]    EmptyInt    => Empty<int>();
+         
+        public static byte[]     EmptyBytesArray  => Empty<byte>();
+        public static string[]   EmptyStringArray  => Empty<string>();
+        public static int[]       EmptyIntArray       => Empty<int>();
 
         public static bool IsEmpty<T>(T[] array)
         {

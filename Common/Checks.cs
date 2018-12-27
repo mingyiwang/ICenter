@@ -9,6 +9,7 @@ namespace Common
 
         public static void Is(Type expectedType, object actual)
         {
+            
             if (actual.GetType() != expectedType)
             {
                 Fail<ArgumentException>($"Expected Type {expectedType.Name} But was {actual.GetType().Name}");
