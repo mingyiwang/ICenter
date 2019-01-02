@@ -10,10 +10,10 @@ namespace Common
         public static Expression<Func<T, bool>> False<T>() { return x => false; }
         public static Expression<Func<T, bool>> True<T>()  { return x => true;  }
 
-        public static Func<T, bool> And<T>(IEnumerable<Expression<Func<T, bool>>> exprs)
+        public static Func<T, bool> And<T>(IEnumerable<Expression<Func<T, bool>>> expressions)
         {
             var exp = True<T>();
-            exprs.ForEach(expression => {
+            expressions.ForEach(expression => {
                 exp = exp.And(expression);
             });
             return exp.Compile();
@@ -35,8 +35,7 @@ namespace Common
             );
         }
 
-        public static Expression<Func<T, bool>> And<T>(this Expression<Func<T, bool>> expr1,
-            Expression<Func<T, bool>> expr2)
+        public static Expression<Func<T, bool>> And<T>(this Expression<Func<T, bool>> expr1, Expression<Func<T, bool>> expr2)
         {
             var invokedExpr = Expression.Invoke(expr2, expr1.Parameters);
             return Expression.Lambda<Func<T, bool>>(
