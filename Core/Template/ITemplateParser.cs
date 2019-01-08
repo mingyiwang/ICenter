@@ -9,7 +9,7 @@ namespace Core.Template
         List<ITemplateSegment> Parse(string input);
     }
 
-    public class SimpleParser : ITemplateParser
+    public sealed class SimpleParser : ITemplateParser
     {
 
         private static readonly Regex Pattern = new Regex(
@@ -24,7 +24,7 @@ namespace Core.Template
             var match = Pattern.Match(input);
             if (!match.Success)
             {
-
+                return segments;
             }
 
             var start = 0;
