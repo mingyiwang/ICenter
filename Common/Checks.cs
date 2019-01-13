@@ -12,13 +12,13 @@ namespace Common
             
             if (actual.GetType() != expectedType)
             {
-                Fail<ArgumentException>($"Expected Type {expectedType.Name} But was {actual.GetType().Name}");
+                Fail<ArgumentException>($"Expected type {expectedType.Name} but was {actual.GetType().Name}");
             }
         }
 
         public static void NotNull(object obj)
         {
-            NotNull(obj, "Expected Not null but was null.");
+            NotNull(obj, "Expected not null but was null.");
         }
 
         public static void NotNull(object obj, string message)
@@ -31,6 +31,13 @@ namespace Common
             if(obj == null)
             {
                 Fail<T>(message);
+            }
+        }
+
+        public static void NotNullOrEmpty(string value) {
+            NotNull(value, "Expected not null but was null.");
+            if (value.Trim().Length == 0) {
+                Fail<ArgumentException>("Expected not empty but was empty.");
             }
         }
 
@@ -193,17 +200,17 @@ namespace Common
             }
         }
 
-        public static void GreaterThan<T>(int expected, int actual, string message) where T : Exception
+        public static void GreaterThan<T>(int comparor, int actual, string message) where T : Exception
         {
-            if (actual <= expected)
+            if (actual <= comparor)
             {
                 Fail<T>(message);
             }
         }
 
-        public static void GreaterThanOrEqual<T>(int expected, int actual, string message) where T : Exception
+        public static void GreaterThanOrEqual<T>(int comparor, int actual, string message) where T : Exception
         {
-            if (actual < expected)
+            if (actual < comparor)
             {
                 Fail<T>(message);
             }
@@ -219,14 +226,14 @@ namespace Common
             
             if (constructor == null)
             {
-                throw new ArgumentException("Exception[" + type.FullName + "] must have a constructor of a single string parameter");
+                throw new ArgumentException("Exception[" + type.FullName + "] must have a constructor of a single string parameter.");
             }
 
             throw (T) constructor.Invoke(new object[] {
                    message
             });
         }
-        }
-
     }
+
+}
 

@@ -45,8 +45,7 @@ namespace Common.Collection {
 
         public static void Clear<T>(this ConcurrentQueue<T> queue)
         {
-            T result;
-            while (queue.TryDequeue(out result)){}
+            while (queue.TryDequeue(out T result)) { }
         }
 
     }

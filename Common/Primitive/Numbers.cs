@@ -6,13 +6,14 @@ namespace Common.Primitive
     public sealed class Numbers
     {
 
+        public const int  Zero = 0;
         public const int  FloatExponentMask     = 0x7f800000;
         public const int  FloatSignificantMask  = 0x007fffff;
         public const long DoubleExponentMask    = 0x7ff0000000000000L;
         public const long DoubleSignificantMask = 0x000fffffffffffffL;
 
-        public const int    NegativeSignMask   = int.MinValue;
-        public const float  FloatHalfOfOne  = 0.5f;
+        public const int NegativeSignMask = int.MinValue;
+        public const float FloatHalfOfOne = 0.5f;
         public const double DoubleHalfOfOne = 0.5d;
 
         public static bool Equals(float v1, float v2)

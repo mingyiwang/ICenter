@@ -13,7 +13,7 @@ namespace Core.Template.Expression
 
         public ExpressionReader(string input)
         {
-            Checks.NotNull(input);
+            Checks.NotNullOrEmpty(input);
             _input = input;
             _pos = 0;
         }
@@ -58,11 +58,15 @@ namespace Core.Template.Expression
             return Eos;
         }
 
+        public bool HasNext() {
+            return InBound(_pos + 1);
+        }
+
         // View Next 'n' char without changing position
         public char ViewNextChar()
         {
             var nexPos = _pos + 1;
-            if (IsInRange(nexPos))
+            if (InBound(nexPos))
             {
                 return _input[nexPos];
             }
@@ -78,14 +82,14 @@ namespace Core.Template.Expression
         public void MoveNext(int n)
         {
             var nexPos = _pos + n;
-            if (IsInRange(nexPos)) {
+            if (InBound(nexPos)) {
                 _pos += n;
             }
         }
 
         public void MoveBack(int b) {
             var nexPos = _pos - b;
-            if (IsInRange(nexPos))
+            if (InBound(nexPos))
             {
                 _pos -= b;
             }
@@ -136,13 +140,13 @@ namespace Core.Template.Expression
 
         private void MoveTo(int position)
         {
-            if (IsInRange(position))
+            if (InBound(position))
             {
                 _pos = position;
             }
         }
 
-        private bool IsInRange(int position) {
+        private bool InBound(int position) {
             return position >= 0 
                 && position < _input.Length; 
         }
