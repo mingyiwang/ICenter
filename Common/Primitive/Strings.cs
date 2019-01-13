@@ -41,7 +41,7 @@ namespace Common.Primitive
             Checks.IsTrue<IndexOutOfRangeException>(endIndex >= 0,   $"Index[{endIndex}] can not be negative.");
             Checks.LessThan<IndexOutOfRangeException>(input.Length, startIndex, $"Index[{startIndex}] is out of range.");
             Checks.LessThan<IndexOutOfRangeException>(input.Length, endIndex,   $"Index[{endIndex}] is out of range.");
-            Checks.IsTrue<IndexOutOfRangeException>(endIndex >= startIndex,       $"End Index[{endIndex}] must be greater than Or Equal Start Index[{startIndex}].");
+            Checks.IsTrue<IndexOutOfRangeException>(endIndex >= startIndex,     $"End Index[{endIndex}] must be greater than Or Equal Start Index[{startIndex}].");
 
             var length = endIndex - startIndex - 1;
             if (length == 0 || length == -1)

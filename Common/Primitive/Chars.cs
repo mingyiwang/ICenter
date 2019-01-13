@@ -8,6 +8,12 @@
         public static readonly char Zero = (char)0x30;
         public static readonly char BigA = (char)0x41;
 
+
+        public static bool IsWhiteSpace(char c) {
+
+            return false;
+        }
+
     }
 
 }

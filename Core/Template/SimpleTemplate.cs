@@ -45,10 +45,11 @@ namespace Core.Template
 
             var results = new List<string>();
             segments.ForEach(s => {
-                results.Add(_evaluator.Eval(s, _context));
+//                yield _evaluator.Eval(s, _context);
             });
 
-            return Collections.JoinAsString(results);
+            return "";
+            //return Collections.JoinAsString(results);
         }
 
 
