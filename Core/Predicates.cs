@@ -1,4 +1,9 @@
-﻿namespace Core
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using Core.Collection;
+
+namespace Core
 {
     public static class Predicates
     {

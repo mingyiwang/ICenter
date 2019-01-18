@@ -1,6 +1,7 @@
-﻿using System.Linq;
-using Common;
-using Common.Collection;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Core.Collection;
 
 namespace Core.Primitive
 {

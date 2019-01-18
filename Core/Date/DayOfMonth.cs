@@ -1,4 +1,6 @@
-﻿namespace Core.Date
+﻿using System;
+
+namespace Core.Date
 {
 
     public sealed class DayOfMonth : IDateTime, IComparable<DayOfMonth>, IComparable,IEquatable<DayOfMonth>

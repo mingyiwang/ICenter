@@ -1,4 +1,9 @@
-﻿namespace Core.IO
+﻿using System;
+using System.IO;
+using System.Linq;
+using Core.Primitive;
+
+namespace Core.IO
 {
 
     public sealed class Resources

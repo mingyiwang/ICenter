@@ -10,9 +10,4 @@
     <None Remove="Config\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="IO\" />
-    <Folder Include="Primitive\" />
-  </ItemGroup>
-
 </Project>

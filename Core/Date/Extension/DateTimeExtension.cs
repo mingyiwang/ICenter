@@ -1,4 +1,6 @@
-﻿namespace Core.Date.Extension
+﻿using System;
+
+namespace Core.Date.Extension
 {
 
     public static class DateTimeExtension

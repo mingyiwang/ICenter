@@ -1,4 +1,8 @@
-﻿namespace Core.IO
+﻿using System;
+using System.IO;
+using System.Text;
+
+namespace Core.IO
 {
     public sealed class Streams
     {

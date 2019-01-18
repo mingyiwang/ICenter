@@ -1,5 +1,5 @@
-﻿using Common;
-using Common.Collection;
+﻿using System;
+using Core.Collection;
 
 namespace Core.Primitive
 {

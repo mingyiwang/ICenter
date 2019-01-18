@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using Common.Collection;
 
 namespace Core.Template
 {

@@ -1,4 +1,6 @@
-﻿namespace Core.Primitive
+﻿using System;
+
+namespace Core.Primitive
 {
 
     public sealed class Numbers

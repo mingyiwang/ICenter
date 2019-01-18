@@ -1,4 +1,4 @@
-﻿using Common.Collection;
+﻿using Core.Collection;
 
 namespace Core.Date.Format
 {

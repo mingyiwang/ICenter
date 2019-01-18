@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace Core.IO
 {
     public class ByteBuffer : Buffer<byte>

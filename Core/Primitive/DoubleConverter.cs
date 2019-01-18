@@ -1,4 +1,7 @@
-﻿namespace Core.Primitive
+﻿using System;
+using System.Globalization;
+
+namespace Core.Primitive
 {
     public class DoubleConverter
     {
