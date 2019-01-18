@@ -22,9 +22,9 @@ namespace Core.Template
 
     public sealed class TemplateContext : ITemplateContext
     {
-        private readonly HashMap<string, object> _objects = new HashMap<string, object>();
-        private readonly HashMap<string, Type> _instances = new HashMap<string, Type>();
-        private readonly HashMap<string, Assembly> _references = new HashMap<string, Assembly>();
+        private readonly Collection.HashMap<string, object> _objects = new Collection.HashMap<string, object>();
+        private readonly Collection.HashMap<string, Type> _instances = new Collection.HashMap<string, Type>();
+        private readonly Collection.HashMap<string, Assembly> _references = new Collection.HashMap<string, Assembly>();
         private ITemplateParser _parser;
 
         private TemplateContext(){}

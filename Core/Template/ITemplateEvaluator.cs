@@ -1,4 +1,4 @@
-﻿using Common.Primitive;
+﻿using Core.Primitive;
 
 namespace Core.Template
 {

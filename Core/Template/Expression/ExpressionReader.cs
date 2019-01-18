@@ -1,6 +1,6 @@
 ﻿using System;
 using Common;
-using Common.Primitive;
+using Core.Primitive;
 
 namespace Core.Template.Expression
 {

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Core.Primitive;
 
-namespace Common.Collection
+namespace Core.Collection
 {
 
     public sealed class Collections
