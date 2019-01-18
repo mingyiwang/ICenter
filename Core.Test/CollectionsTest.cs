@@ -1,8 +1,10 @@
-using Common.Collection;
+
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using Common.Primitive;
+using Core.Collection;
+using Core.Primitive;
+
 
 namespace Tests
 {
