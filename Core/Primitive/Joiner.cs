@@ -7,21 +7,26 @@ namespace Core.Primitive
     public sealed class Joiner
     {
 
-        private readonly string _joiner;
+        private readonly string _glue;
 
-        private Joiner(string joiner)
+        private Joiner(string glue)
         {
-            _joiner = joiner;
+            _glue = glue;
         }
 
-        public static Joiner On(char character)
+        public static Joiner On(char glue)
         {
-            return new Joiner(char.ToString(character));
+            return new Joiner(char.ToString(glue));
         }
 
-        public static Joiner On(string texts)
+        public static Joiner On(string glue)
         {
-            return new Joiner(Strings.Of(texts));
+            return new Joiner(Strings.Of(glue));
+        }
+
+        public static Joiner On<T>(T glue)
+        {
+            return new Joiner(Strings.Of(glue));
         }
 
         public string Join<T>(IEnumerable<T> enumerable, Func<T, string> generator = null)
@@ -32,21 +37,24 @@ namespace Core.Primitive
             }
 
             var builder = new StringBuilder();
-            var enumerator = enumerable.GetEnumerator();
-            if (enumerator.MoveNext())
+            using (var enumerator = enumerable.GetEnumerator())
             {
-                var item = enumerator.Current;
-                builder.Append(generator == null ? Strings.Of<T>(item) : generator(item));
+                if (enumerator.MoveNext())
+                {
+                    var item = enumerator.Current;
+                    builder.Append(generator == null ? Strings.Of<T>(item) : generator(item));
+                }
+
+                while (enumerator.MoveNext())
+                {
+                    var item = enumerator.Current;
+                    builder.Append(_glue);
+                    builder.Append(generator == null ? Strings.Of<T>(item) : generator(item));
+                }
+
+                return builder.ToString();
             }
 
-            while (enumerator.MoveNext())
-            {
-                var item = enumerator.Current;
-                builder.Append(_joiner);
-                builder.Append(generator == null ? Strings.Of<T>(item) : generator(item));
-            }
-
-            return builder.ToString();
         }  
 
     }

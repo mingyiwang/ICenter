@@ -7,7 +7,7 @@ namespace Core
     public sealed class Checks
     {
 
-        public static void Is(Type expectedType, object actual)
+        public static void Is(object actual, Type expectedType)
         {
             
             if (actual.GetType() != expectedType)

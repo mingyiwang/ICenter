@@ -61,8 +61,7 @@ namespace Core.Primitive
 
         public static int GetInt(string value, int defaultValue)
         {
-            int result;
-            return int.TryParse(value, out result) ? result : defaultValue;
+            return int.TryParse(value, out var result) ? result : defaultValue;
         }
 
         public static int GetInt(float value, RoundKind round = RoundKind.HalfUp)
@@ -306,19 +305,19 @@ namespace Core.Primitive
         None = 0,
 
         /// <summary>
-        /// Away from Zero, if positive then interger part plus 1 else then interger part minus 1
+        /// Away from Zero, if positive then integer part plus 1 else then interger part minus 1
         /// </summary>
         Up = 1,
 
         /// <summary>
-        /// Twards to Zero, just the integer part of current number
+        /// Towards to Zero, just the integer part of current number
         /// </summary>
         Down = 1 << 1,
 
         /// <summary>
-        /// The smallest interger greater or equal to current number
-        /// When number is poistive then similiar to Up
-        /// When number is negative then similiar to Down
+        /// The smallest integer greater or equal to current number
+        /// When number is positive then similar to Up
+        /// When number is negative then similar to Down
         /// </summary>
         Ceil = 1 << 2,
 

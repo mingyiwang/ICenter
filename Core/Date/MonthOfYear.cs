@@ -24,7 +24,7 @@ namespace Core.Date
             get
             {
                 var dateTime = DateTime.Now;
-                return new MonthOfYear(Date.Month.Of((int) dateTime.Month), Date.Year.Of((int) dateTime.Year));
+                return new MonthOfYear(Month.Of(dateTime.Month), Year.Of(dateTime.Year));
             }
         }
 
@@ -39,10 +39,10 @@ namespace Core.Date
             if (dateTime.Kind == DateTimeKind.Utc)
             {
                 var localDateTime = TimeZoneInfo.ConvertTimeFromUtc(dateTime, TimeZoneInfo.Local);
-                return Of((int) localDateTime.Month, localDateTime.Year);
+                return Of(localDateTime.Month, localDateTime.Year);
             }
             
-            return Of((int) dateTime.Month, dateTime.Year);
+            return Of(dateTime.Month, dateTime.Year);
 
         }
 
@@ -87,7 +87,7 @@ namespace Core.Date
         {
             get
             {
-                return _month.GetTotalDaysInYear(_year.GetYear());
+                return _month.GetTotalDaysOfMonthInYear(_year.GetYear());
             }
         }
 
@@ -107,18 +107,18 @@ namespace Core.Date
         public int TotalDaysBeforeStartOfMonth
         {
             get {
-                return TotalDaysToEndOfMonth - _month.GetTotalDaysInYear(_year.GetYear());
+                return TotalDaysToEndOfMonth - _month.GetTotalDaysOfMonthInYear(_year.GetYear());
             }
         }
 
         /// <summary>
-        /// Get First DateTiem of This Month
+        /// Get First DateTime of This Month
         /// </summary>
         public DateTime FirstDateOfMonth
         {
             get
             {
-                return new DateTime(_year.GetYear(), _month.GetMonth(), 1);
+                return new DateTime(_year.GetYear(), _month.GetMonth(), day: 1);
             }
         }
 
@@ -129,7 +129,7 @@ namespace Core.Date
         {
             get
             {
-                var day = _month.GetTotalDaysInYear(_year.GetYear());
+                var day = _month.GetTotalDaysOfMonthInYear(_year.GetYear());
                 return new DateTime(_year.GetYear(), _month.GetMonth(), day);
             }
 
@@ -208,7 +208,7 @@ namespace Core.Date
         public int CompareTo(object obj)
         {
             Checks.NotNull(obj);
-            Checks.Is(typeof(MonthOfYear), obj);
+            Checks.Is(obj, expectedType: typeof(MonthOfYear));
             return CompareTo(obj as MonthOfYear);
         }
 
@@ -224,8 +224,7 @@ namespace Core.Date
                 return true;
             }
 
-            var my = obj as MonthOfYear;
-            return my != null && Equals(my);
+            return obj is MonthOfYear my && Equals(my);
         }
 
         public override int GetHashCode()

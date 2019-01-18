@@ -31,7 +31,7 @@ namespace Core.Concurrent
         }
 
         /// <summary>
-        /// acquire lock if certian condition is meet, but will not wait for whether it is satisfied or not
+        /// acquire lock if certain condition is meet, but will not wait for whether it is satisfied or not
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
@@ -40,7 +40,7 @@ namespace Core.Concurrent
             var lockToken = false;
             try
             {
-                //The output is true if the lock is acquired; otherwise, the output is false if lock is not acquaried or exception is throw.
+                //The output is true if the lock is acquired; otherwise, the output is false if lock is not got or exception is throw.
                 Monitor.Enter(_lock, ref lockToken);
             }
             catch
@@ -52,7 +52,7 @@ namespace Core.Concurrent
                 }
             }
 
-            // When lock is acquired, then check whehter predicate is true or false
+            // When lock is acquired, then check whether predicate is true or false
             var flag = false;
             try
             {
@@ -70,7 +70,7 @@ namespace Core.Concurrent
         }
 
         /// <summary>
-        /// acquire lock if certian condition is meet, but will not wait for whether it is satisfied or not
+        /// acquire lock if certain condition is meet, but will not wait for whether it is satisfied or not
         /// </summary>
         /// <param name="model"></param>
         /// <param name="predicate"></param>

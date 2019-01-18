@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Aliyun.Acs.Cdn.Model.V20141111;
 using Core.Primitive;
 
 namespace Core.Collection
@@ -30,14 +31,17 @@ namespace Core.Collection
         public static string JoinAsString<T>(IEnumerable<T> collection, Func<T, string> convert)
         {
             var builder = new StringBuilder();
-            var enumerator = collection.GetEnumerator();
-            enumerator.MoveNext();
-            do
+            using (var enumerator = collection.GetEnumerator())
             {
-                builder.Append(Strings.Of(convert(enumerator.Current)));
+                enumerator.MoveNext();
+                do
+                {
+                    builder.Append(Strings.Of(convert(enumerator.Current)));
+                }
+                while (enumerator.MoveNext());
+                return builder.ToString();
             }
-            while(enumerator.MoveNext());
-            return builder.ToString();
+
         }
 
         public static string Join<T>(char character, IEnumerable<T> collection)
@@ -107,10 +111,25 @@ namespace Core.Collection
                 return true;
             }
 
-            // 1. Found any key not exist in dic2 or value is not equal in dic2 then return true then false
-            // 2. Can not found any then return false then true
-            return dic1.Count == dic2.Count &&
-                 !(dic1.Keys.AsParallel().Any(key => (!dic2.ContainsKey(key) || !dic2[key].Equals(dic1[key]))));
+            var dicCount1  = dic1.Count;
+            var dicCount2  = dic2.Count;
+            if (dicCount1 != dicCount2)
+            {
+                return false;
+            }
+
+            if (dicCount1 == 0)
+            {
+                return true;
+            }
+
+            if (dicCount2 >= 10000)
+            {
+                return !(dic1.Keys.AsParallel().Any(key => (!dic2.ContainsKey(key) || !dic2[key].Equals(dic1[key]))));
+            }
+
+            return !(dic1.Keys.Any(key => (!dic2.ContainsKey(key) || !dic2[key].Equals(dic1[key]))));
+
         }
 
         public static void InsertFirst<T>(List<T> collections, T obj)

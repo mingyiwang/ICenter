@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Core.Collection {
 
-    public static class CollectionExtension {
+    public static class CollectionExtensions {
 
         /// <summary>
         /// ForEach Extension
@@ -29,7 +29,7 @@ namespace Core.Collection {
             var index = 0;
             foreach(var item in collection) {
                 var referenceCopy = item;
-                action(index++, referenceCopy); // incase action is running in another thread
+                action(index++, referenceCopy); // in case action is running in another thread
             }
         }
 

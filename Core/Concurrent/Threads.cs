@@ -7,25 +7,24 @@ namespace Core.Concurrent
     public static class Threads
     {
 
-        public static void StartNew(string name, ThreadStart action)
+        public static void Start(string name, ThreadStart action)
         {
-            var thread = new Thread(action)
+            new Thread(action)
             {
                 Name = name,
-                IsBackground = false,
-            };
-            thread.Start();
+                IsBackground = false
+            }.Start();
         }
 
-        public static void Sleep(int ms)
+        public static void Sleep(int milliseconds)
         {
             try
             {
-                Thread.Sleep(ms);
+                Thread.Sleep(milliseconds);
             }
             catch (Exception)
             {
-                
+                // ignored
             }
         }
 

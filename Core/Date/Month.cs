@@ -22,6 +22,7 @@ namespace Core.Date
         public static readonly Month October   = new Month(10, "October",   31, 31);
         public static readonly Month November  = new Month(11, "November",  30, 30);
         public static readonly Month December  = new Month(12, "December",  31, 31);
+        public static readonly Month NotExist  = new Month(0,  "NotExist",  0,  0);
 
         private readonly string _name;
         private readonly int _month;
@@ -43,7 +44,7 @@ namespace Core.Date
         {
             get
             {
-                return Of((int) DateTime.Now.Month);
+                return Of(DateTime.Now.Month);
             }
         }
 
@@ -54,7 +55,9 @@ namespace Core.Date
         /// <returns>Month</returns>
         public static Month Of(int month)
         {
-            switch(month)
+            Checks.InRange(1, 12, month, $"Invalid Month [{month}]");
+
+            switch (month)
             {
                 case 1 : return January;
                 case 2 : return February;
@@ -68,7 +71,7 @@ namespace Core.Date
                 case 10: return October;
                 case 11: return November;
                 case 12: return December;
-                default: throw new ArgumentOutOfRangeException($"Invalid Month [{month}]");
+                default: return NotExist;
             }
         }
 
@@ -121,7 +124,7 @@ namespace Core.Date
         /// </summary>
         /// <param name="year"></param>
         /// <returns></returns>
-        public int GetTotalDaysInYear(int year)
+        public int GetTotalDaysOfMonthInYear(int year)
         {
             return DateTime.IsLeapYear(Year.CheckRange(year)) ? _daysOfLeapYear : _days;
         }
@@ -137,7 +140,7 @@ namespace Core.Date
             {
                 return 0;
             }
-            return GetDaysToEndOfMonthInYear(year) - GetTotalDaysInYear(year);
+            return GetDaysToEndOfMonthInYear(year) - GetTotalDaysOfMonthInYear(year);
         }
 
         /// <summary>
@@ -150,7 +153,7 @@ namespace Core.Date
             var sum = 0;
             for (var i = 1; i <= _month; i++)
             {
-                sum += Of(i).GetTotalDaysInYear(year);
+                sum += Of(i).GetTotalDaysOfMonthInYear(year);
             }
             return sum;
         }
@@ -163,7 +166,7 @@ namespace Core.Date
         /// <returns></returns>
         public bool IsValid(int day, int year)
         {
-            return day >= MinDayOfMonth && day <= GetTotalDaysInYear(year);
+            return day >= MinDayOfMonth && day <= GetTotalDaysOfMonthInYear(year);
         }
 
         /// <summary>
@@ -174,7 +177,7 @@ namespace Core.Date
         /// <returns></returns>
         public int CheckRange(int day, int year)
         {
-            var maxDays = GetTotalDaysInYear(year);
+            var maxDays = GetTotalDaysOfMonthInYear(year);
             Checks.InRange(MinDayOfMonth, maxDays, day,
                 $"{day} of {GetName()} in Year [{year}] must be within {MaxDayOfMonth} to {maxDays}"
             );
