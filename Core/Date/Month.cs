@@ -55,7 +55,7 @@ namespace Core.Date
         /// <returns>Month</returns>
         public static Month Of(int month)
         {
-            Checks.InRange(1, 12, month, $"Invalid Month [{month}]");
+            Checks.IsInRange(1, 12, month, $"Invalid Month [{month}]");
 
             switch (month)
             {
@@ -178,7 +178,7 @@ namespace Core.Date
         public int CheckRange(int day, int year)
         {
             var maxDays = GetTotalDaysOfMonthInYear(year);
-            Checks.InRange(MinDayOfMonth, maxDays, day,
+            Checks.IsInRange(MinDayOfMonth, maxDays, day,
                 $"{day} of {GetName()} in Year [{year}] must be within {MaxDayOfMonth} to {maxDays}"
             );
             return day;

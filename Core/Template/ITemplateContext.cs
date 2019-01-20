@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using Core.Collection;
 
 namespace Core.Template
 {
@@ -21,7 +22,7 @@ namespace Core.Template
 
     public sealed class TemplateContext : ITemplateContext
     {
-        private readonly Collection.HashMap<string, object> _objects = new Collection.HashMap<string, object>();
+        private readonly HashMap<string, object> _objects = new Collection.HashMap<string, object>();
         private readonly Collection.HashMap<string, Type> _instances = new Collection.HashMap<string, Type>();
         private readonly Collection.HashMap<string, Assembly> _references = new Collection.HashMap<string, Assembly>();
         private ITemplateParser _parser;

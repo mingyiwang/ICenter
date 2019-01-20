@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using Aliyun.Acs.Cdn.Model.V20141111;
 using Core.Primitive;
 
 namespace Core.Collection
@@ -59,19 +58,22 @@ namespace Core.Collection
             var joiner = Strings.Of(character);
             var builder = new StringBuilder();
 
-            var enumerator = collection.GetEnumerator();
-            if(enumerator.MoveNext())
+            using (var enumerator = collection.GetEnumerator())
             {
-                builder.Append(Strings.Of(enumerator.Current));
+                if (enumerator.MoveNext())
+                {
+                    builder.Append(Strings.Of(enumerator.Current));
+                }
+
+                while (enumerator.MoveNext())
+                {
+                    builder.Append(joiner);
+                    builder.Append(Strings.Of(enumerator.Current));
+                }
+
+                return builder.ToString();
             }
 
-            while(enumerator.MoveNext())
-            {
-                builder.Append(joiner);
-                builder.Append(Strings.Of(enumerator.Current));
-            }
-
-            return builder.ToString();
         }
 
         public static string Join<TJ, T>(TJ character, IEnumerable<T> collection, Func<T, string> convert)
@@ -79,19 +81,23 @@ namespace Core.Collection
             var joiner = Strings.Of(character);
             var builder = new StringBuilder();
 
-            var enumerator = collection.GetEnumerator();
-            if(enumerator.MoveNext())
+            using (var enumerator = collection.GetEnumerator())
             {
-                builder.Append(Strings.Of(convert(enumerator.Current)));
+                if (enumerator.MoveNext())
+                {
+                    builder.Append(Strings.Of(convert(enumerator.Current)));
+                }
+
+                while (enumerator.MoveNext())
+                {
+                    builder.Append(joiner);
+                    builder.Append(Strings.Of(convert(enumerator.Current)));
+                }
+
+                return builder.ToString();
             }
 
-            while(enumerator.MoveNext())
-            {
-                builder.Append(joiner);
-                builder.Append(Strings.Of(convert(enumerator.Current)));
-            }
-
-            return builder.ToString();
+            
         }
 
         public static IReadOnlyCollection<TModel> AsReadOnly<TModel>(IList<TModel> collection)

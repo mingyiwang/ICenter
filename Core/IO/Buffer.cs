@@ -109,8 +109,7 @@ namespace Core.IO
                 return true;
             }
 
-            var buf = other as Buffer<T>;
-            return buf != null && Equals(buf);
+            return other is Buffer<T> buf && Equals(buf);
         }
 
     }

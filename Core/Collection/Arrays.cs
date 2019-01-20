@@ -7,9 +7,9 @@ namespace Core.Collection
     public sealed class Arrays
     {
          
-        public static byte[]     EmptyBytesArray  => Empty<byte>();
+        public static byte[]     EmptyBytesArray   => Empty<byte>();
         public static string[]   EmptyStringArray  => Empty<string>();
-        public static int[]       EmptyIntArray       => Empty<int>();
+        public static int[]      EmptyIntArray     => Empty<int>();
 
         public static bool IsEmpty<T>(T[] array)
         {

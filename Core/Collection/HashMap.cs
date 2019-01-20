@@ -38,16 +38,15 @@ namespace Core.Collection
             _dict = new Dictionary<TKey, TValue>(initialCapacity);
         }
 
-       
-
+      
         public int Count => _dict.Count;
 
         public bool IsReadOnly => false;
 
         public TValue this[TKey key]
         {
-            get { return Get(key); }
-            set { _dict[key] = value; }
+            get => Get(key);
+            set => _dict[key] = value;
         }
 
         public void Add(TKey key, TValue value)
@@ -83,7 +82,7 @@ namespace Core.Collection
         /// <param name="defaultValue">the value to add if the key does not already exist</param>
         public void AddIfAbsent(IEnumerable<TKey> keys, TValue defaultValue)
         {
-            foreach(TKey key in keys)
+            foreach(var key in keys)
             {
                 if(!_dict.ContainsKey(key))
                 {
@@ -147,8 +146,7 @@ namespace Core.Collection
         /// <param name="func">the delegate to call if key does not exist</param>
         public TValue GetValueAddIfNotExist(TKey key, Func<TValue> func)
         {
-            TValue value;
-            if(_dict.TryGetValue(key, out value))
+            if(_dict.TryGetValue(key, out var value))
             {
                 return value;
             }
@@ -186,8 +184,7 @@ namespace Core.Collection
 
         public TValue Get(TKey key)
         {
-            TValue value;
-            if(_dict.TryGetValue(key, out value))
+            if(_dict.TryGetValue(key, out var value))
             {
                 return value;
             }

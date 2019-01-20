@@ -68,7 +68,7 @@ namespace Core.Date
         /// <returns>Numeric value of Year</returns>
         public static int CheckRange(int year)
         {
-            Checks.InRange(MinYear, MaxYear, year, $"{year} is out of range.");
+            Checks.IsInRange(MinYear, MaxYear, year, $"{year} is out of range.");
             return year;
         }
 

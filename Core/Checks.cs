@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Core.Primitive;
 
 namespace Core
 {
@@ -176,7 +177,7 @@ namespace Core
             }
         }
 
-        public static void InRange(int min, int max, int actual, string message)
+        public static void IsInRange(int min, int max, int actual, string message)
         {
             if (actual < min || actual > max)
             {
@@ -184,33 +185,41 @@ namespace Core
             }
         }
 
-        public static void LessThan<T>(int expected, int actual, string message) where T : Exception
+        public static void IsInRange(int actual, Range<int> range, string message)
         {
-            if (actual >= expected)
+            if (actual < range.GetStart() || actual > range.GetStart())
+            {
+                Fail<OverflowException>(message);
+            }
+        }
+
+        public static void LessThan<T>(int comparer, int actual, string message) where T : Exception
+        {
+            if (actual >= comparer)
             {
                 Fail<T>(message);
             }
         }
 
-        public static void LessThanOrEqual<T>(int expected, int actual, string message) where T : Exception
+        public static void LessThanOrEqual<T>(int comparer, int actual, string message) where T : Exception
         {
-            if(actual > expected)
+            if(actual > comparer)
             {
                 Fail<T>(message);
             }
         }
 
-        public static void GreaterThan<T>(int comparor, int actual, string message) where T : Exception
+        public static void IsGreaterThan<T>(int actual, int comparer, string message) where T : Exception
         {
-            if (actual <= comparor)
+            if (actual <= comparer)
             {
                 Fail<T>(message);
             }
         }
 
-        public static void GreaterThanOrEqual<T>(int comparor, int actual, string message) where T : Exception
+        public static void GreaterThanOrEqual<T>(int comparer, int actual, string message) where T : Exception
         {
-            if (actual < comparor)
+            if (actual < comparer)
             {
                 Fail<T>(message);
             }
