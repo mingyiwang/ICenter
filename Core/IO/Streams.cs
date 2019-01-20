@@ -9,7 +9,7 @@ namespace Core.IO
 
         private const int BufferSize = 1024 * 32; // 32K
 
-        public static MemoryStream Empty => new MemoryStream();
+        public static MemoryStream Memory => new MemoryStream();
 
         public static MemoryStream MemoryStream(byte[] bytes)
         {
@@ -39,8 +39,8 @@ namespace Core.IO
         /// <returns></returns>
         public static byte[] GetBytes(Stream s, int bufferSize)
         {
-            Checks.NotNull(s, "Stream is null, please make sure Stream is reachable or the resource is Embedded Resource");
-            Checks.NotEquals(0, bufferSize, "Buffer size must not be 0 or negative number.");
+            Checks.NotEquals(0, bufferSize, "Buffer size must not be empty.");
+            Checks.NotNull(s, "Stream can not be null.");
 
             if (!s.CanRead)
             {
@@ -49,7 +49,7 @@ namespace Core.IO
 
             if (s.CanSeek)
             {
-                s.Position = 0; // Make Sure we are in the first position of Stream if Stream is Seekable
+                s.Position = 0; // Make sure we are in the first position of stream if stream is seekable
             }
             
             using (var reader = new BinaryReader(s))
@@ -59,19 +59,19 @@ namespace Core.IO
             
         }
 
-        public static void PutBytes(byte[] data, Stream output, Encoding encoding)
+        public static void PutBytes(byte[] bytes, Stream output, Encoding encoding)
         {
-            Checks.NotEmpty(data , "Collection can not be empty");
+            Checks.NotEmpty(bytes , "Collection can not be empty");
             Checks.NotNull(output, "Output Stream can not be null.");
             
             if (!output.CanWrite)
             {
-                throw new InvalidOperationException("Output Stream is not writable");
+                 throw new InvalidOperationException("Output Stream is not writable");
             }
 
             using (var writer = new BinaryWriter(output, encoding, true))
             {
-                writer.Write(data);
+                writer.Write(bytes);
                 writer.Flush();
             }
         }

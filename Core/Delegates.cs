@@ -1,7 +1,7 @@
 ﻿namespace Core
 {
 
-    public class Delegates
+    public sealed class Delegates
     {
         
     }

@@ -38,9 +38,10 @@ namespace Core.IO
         {
             var assemblyName = Strings.Substring(fullPath, 0, fullPath.IndexOf(".", StringComparison.Ordinal));
             var assembly = AppDomain.CurrentDomain.GetAssemblies().Single(a => a.GetName().Name.Equals(assemblyName));
-            if(assembly == null)
+
+            if (assembly == null)
             {
-                throw new FileNotFoundException("Can not found resource [" + fullPath + "]");
+                throw Throws.FileNotFound("Can not found resource [" + fullPath + "]");
             }
 
             return assembly.GetManifestResourceStream(fullPath);
