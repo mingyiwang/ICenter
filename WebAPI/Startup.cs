@@ -16,15 +16,17 @@ namespace WebAPI
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", false, true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
-                
                 .AddEnvironmentVariables()
                 .Build();
+
+            
+
         }       
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-             services.AddMvc();
+            services.AddMvc();
         }
 
         

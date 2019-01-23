@@ -31,12 +31,12 @@ namespace Core.Collection
             return Make(length, default(T));
         }
 
-        public static T[] Make<T>(int length, T defautValue)
+        public static T[] Make<T>(int length, T defaultValue)
         {
             var array = new T[length];
             for(var i = 0; i < length; i++)
             {
-                array[i] = defautValue;
+                array[i] = defaultValue;
             }
             return array;
         }

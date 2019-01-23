@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography;
 using System.Text;
-using Core.IO;
 
 namespace Core.Encryption
 {
@@ -9,7 +8,7 @@ namespace Core.Encryption
     public sealed class Hashing
     {
         // Used for MD5 Hex Hash
-        public static string MD5Hex(string input)
+        public static string Md5Hex(string input)
         {
             using (var md5Hash = new MD5CryptoServiceProvider())
             {
@@ -19,7 +18,7 @@ namespace Core.Encryption
         }
 
         // Used for MD5 Base64 Hash
-        public static string MD5Base64(string input)
+        public static string Md5Base64(string input)
         {
             using (var md5Hash = new MD5CryptoServiceProvider())
             {
