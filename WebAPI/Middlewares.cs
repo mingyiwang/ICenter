@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Common.Collection;
-using Common.Concurrent;
+using Core.Collection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 

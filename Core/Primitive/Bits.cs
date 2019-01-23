@@ -459,8 +459,7 @@ namespace Core.Primitive
                 return true;
             }
 
-            var b = obj as Bits;
-            return b != null && Equals(b);
+            return obj is Bits b && Equals(b);
         }
 
         public override int GetHashCode()
@@ -643,8 +642,6 @@ namespace Core.Primitive
             return longRawValue;
         }
         
-
-
     }
 
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Globalization;
+using System.Text;
 
 namespace Core.Date.Format
 {

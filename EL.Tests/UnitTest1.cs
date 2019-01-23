@@ -1,6 +1,6 @@
 using System;
 using System.Text;
-using Common;
+using Core;
 using NUnit.Framework;
 
 namespace EL.Tests

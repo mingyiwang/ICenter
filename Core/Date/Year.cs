@@ -19,13 +19,7 @@ namespace Core.Date
         /// <summary>
         /// Get Year in Local Time Zone
         /// </summary>
-        public static Year Now
-        {
-            get
-            {
-                return new Year(DateTime.Now.Year);
-            }
-        }
+        public static Year Now => new Year(DateTime.Now.Year);
 
         /// <summary>
         /// Get Year by numeric number of year
