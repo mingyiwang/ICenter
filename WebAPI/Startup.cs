@@ -33,7 +33,7 @@ namespace WebAPI
         public void Configure(IApplicationBuilder app)
         {
             
-            Middlewares
+            Middleware
                 .Of(app)
                 .With(context =>
                 {
