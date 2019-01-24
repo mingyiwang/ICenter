@@ -5,12 +5,11 @@ using Newtonsoft.Json.Converters;
 namespace Core.Json
 {
 
-    public sealed class JSON
+    public sealed class JsonUtils
     {
                
         public static string Serialize(object obj, params JsonConverter[] converters)
         {
-            new IsoDateTimeConverter();
             return obj == null 
                  ? JsonConvert.Null
                  : JsonConvert.SerializeObject(obj, CreateDefaultSettings(converters))
@@ -41,7 +40,7 @@ namespace Core.Json
             return JsonConvert.DeserializeObject<T>(json, CreateDefaultSettings(converters));
         }
 
-        public static bool TryDeserialize<T>(string json, out T result, Lazy<T> defaultFactory, params JsonConverter[] converters)
+        public static bool TryDeserialize<T>(string json, out T result, Func<T> defaultFactory, params JsonConverter[] converters)
         {
             try
             {
@@ -51,7 +50,7 @@ namespace Core.Json
             catch (Exception)
             {
                 // Todo: logo the message
-                result = defaultFactory.Value;
+                result = defaultFactory();
                 return false;
             }
         }
@@ -60,7 +59,7 @@ namespace Core.Json
         {
             return new JsonSerializerSettings()
             {
-                   DateFormatHandling   = DateFormatHandling.MicrosoftDateFormat,
+                   DateFormatHandling   = DateFormatHandling.IsoDateFormat,
                    Converters           = converters,
                    NullValueHandling    = NullValueHandling.Include,
                    StringEscapeHandling = StringEscapeHandling.Default
