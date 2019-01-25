@@ -41,7 +41,7 @@ namespace Core.IO
 
             if (assembly == null)
             {
-                throw Throws.FileNotFound("Can not found resource [" + fullPath + "]");
+                throw Throws.FileNotFound("Can not found resource at [" + fullPath + "]");
             }
 
             return assembly.GetManifestResourceStream(fullPath);
