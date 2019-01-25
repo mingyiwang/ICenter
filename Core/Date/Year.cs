@@ -62,7 +62,7 @@ namespace Core.Date
         /// <returns>Numeric value of Year</returns>
         public static int CheckRange(int year)
         {
-            Checks.IsInRange(MinYear, MaxYear, year, $"{year} is out of range.");
+            Checks.InRange(MinYear, MaxYear, year, $"{year} is out of range.");
             return year;
         }
 
@@ -245,7 +245,7 @@ namespace Core.Date
 
         public override string ToString()
         {
-            return Strings.Of(_year);
+            return StringUtil.Of(_year);
         }
 
         /// <summary>

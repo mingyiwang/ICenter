@@ -80,7 +80,7 @@ namespace Core.Date.Format
         {
             DateTime result;
             var parsed = DateTime.TryParseExact(dateTimeString,
-                         Strings.Of(_pattern, _formatInfo.DateTimeFormat.FullDateTimePattern),
+                         StringUtil.Of(_pattern, _formatInfo.DateTimeFormat.FullDateTimePattern),
                          _formatInfo,
                          DateTimeStyles.AllowWhiteSpaces,
                          out result);
@@ -101,7 +101,7 @@ namespace Core.Date.Format
 
             DateTime result;
             var parsed = DateTime.TryParseExact(dateTimeString,
-                         Strings.Of(_pattern, _formatInfo.DateTimeFormat.FullDateTimePattern),
+                         StringUtil.Of(_pattern, _formatInfo.DateTimeFormat.FullDateTimePattern),
                          _formatInfo,
                          DateTimeStyles.AllowWhiteSpaces,
                          out result);

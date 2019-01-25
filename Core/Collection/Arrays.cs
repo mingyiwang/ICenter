@@ -34,13 +34,13 @@ namespace Core.Collection
         public static T[] Make<T>(int length, T defaultValue)
         {
             var array = new T[length];
-            for(var i = 0; i < length; i++)
+            for (var i = 0; i < array.Length; i++)
             {
                 array[i] = defaultValue;
             }
             return array;
         }
-
+        
         public static void Reverse<T>(ref T[] array)
         {
             Checks.NotNull(array);
@@ -167,7 +167,6 @@ namespace Core.Collection
 
             return true;
         }
-
 
     }
 }

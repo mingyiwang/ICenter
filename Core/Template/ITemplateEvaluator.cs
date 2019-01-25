@@ -15,7 +15,7 @@ namespace Core.Template
         {
             return segment.IsText 
                  ? segment.Text 
-                 : Strings.Of(context.GetObjectIfNotExist(segment.Expression));
+                 : StringUtil.Of(context.GetObjectIfNotExist(segment.Expression));
         }
 
     }

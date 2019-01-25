@@ -4,7 +4,7 @@ using Core.Collection;
 namespace Core.Primitive
 {
 
-    public sealed class Strings
+    public sealed class StringUtil
     {
 
         public static string Of(string value)

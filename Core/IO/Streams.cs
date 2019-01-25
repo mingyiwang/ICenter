@@ -61,7 +61,7 @@ namespace Core.IO
 
         public static void PutBytes(byte[] bytes, Stream output, Encoding encoding)
         {
-            Checks.NotEmpty(bytes , "Collection can not be empty");
+            Checks.NotNullOrEmpty(bytes , "Collection can not be empty");
             Checks.NotNull(output, "Output Stream can not be null.");
             
             if (!output.CanWrite)

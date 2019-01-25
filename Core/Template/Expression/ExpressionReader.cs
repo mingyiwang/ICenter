@@ -33,7 +33,7 @@ namespace Core.Template.Expression
 
         public string Between(int startIndex, int endIndex)
         {
-            return Strings.Between(_input, startIndex, endIndex);
+            return StringUtil.Between(_input, startIndex, endIndex);
         }
 
        

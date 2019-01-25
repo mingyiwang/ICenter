@@ -16,16 +16,21 @@ namespace Core.Json
                  ;
         }
 
-        public static bool TrySerialize(object obj, ref string result, params JsonConverter[] converters)
+        public static bool TrySerialize(object obj, ref string jsonResult, params JsonConverter[] converters)
         {
+            if (jsonResult == null)
+            {
+                jsonResult = JsonConvert.Undefined;
+            }
+            
             try
             {
-                result = Serialize(obj, converters);
+                jsonResult = Serialize(obj, converters);
                 return true;
             }
             catch (Exception)
             {
-                result = JsonConvert.Null;
+                jsonResult = JsonConvert.NaN;
                 return false;
             }
         }
@@ -33,14 +38,16 @@ namespace Core.Json
         public static T Deserialize<T>(string json, params JsonConverter[] converters)
         {
             Checks.NotNullOrEmpty(json);
-            if (json.Equals(JsonConvert.Null))
+            if (json.Equals(JsonConvert.Null)
+              ||json.Equals(JsonConvert.NaN)
+              ||json.Equals(JsonConvert.Undefined))
             {
                 return default(T);
             }
             return JsonConvert.DeserializeObject<T>(json, CreateDefaultSettings(converters));
         }
 
-        public static bool TryDeserialize<T>(string json, out T result, Func<T> defaultFactory, params JsonConverter[] converters)
+        public static bool TryDeserialize<T>(string json, out T result, params JsonConverter[] converters)
         {
             try
             {
@@ -50,7 +57,34 @@ namespace Core.Json
             catch (Exception)
             {
                 // Todo: logo the message
-                result = defaultFactory();
+                result = default(T);
+                return false;
+            }
+        }
+
+        public static T Deserialize<T>(string json, Func<T> valueCreator, params JsonConverter[] converters)
+        {
+            Checks.NotNullOrEmpty(json);
+            if (json.Equals(JsonConvert.Null)
+             || json.Equals(JsonConvert.NaN)
+             || json.Equals(JsonConvert.Undefined))
+            {
+                return valueCreator();
+            }
+            return JsonConvert.DeserializeObject<T>(json, CreateDefaultSettings(converters));
+        }
+
+        public static bool TryDeserialize<T>(string json, out T result, Func<T> valueCreator, params JsonConverter[] converters)
+        {
+            try
+            {
+                result = Deserialize<T>(json, valueCreator, converters);
+                return true;
+            }
+            catch (Exception)
+            {
+                // Todo: logo the message
+                result = valueCreator();
                 return false;
             }
         }

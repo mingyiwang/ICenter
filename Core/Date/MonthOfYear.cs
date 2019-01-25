@@ -137,7 +137,7 @@ namespace Core.Date
 
         public DateTime GetDayOfWeekDateForWeek(int week, DayOfWeek dayOfWeek)
         {
-            Checks.IsInRange(1, 5, week, $"{week} is out of range in month {_month.GetName()} of Year {_year.GetYear()}");
+            Checks.InRange(1, 5, week, $"{week} is out of range in month {_month.GetName()} of Year {_year.GetYear()}");
             
             var daysUtilFirstDayOfThisWeek = 1 + (week - 1) * 7;
             var dateTime = new DateTime(_year.GetYear(), _month.GetMonth(), daysUtilFirstDayOfThisWeek);
