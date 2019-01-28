@@ -53,10 +53,7 @@ namespace Core.Test.Json
         [Test]
         public void TestArray()
         {
-            var array  = Arrays.Make<int>(10);
-            var result = JsonUtils.Serialize(array);
-            var deserialize = JsonUtils.Deserialize<int[]>(result);
-            Checks.Equals(array, deserialize);
+           
         }
 
         [Test]
