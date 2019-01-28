@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Core.Aws
+﻿namespace Core.Aws
 {
-    class AwsAccount
+    public class AwsAccount
     {
+
     }
+
 }

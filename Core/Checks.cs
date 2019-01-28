@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Core.Collection;
 using Core.Primitive;
 
 namespace Core
@@ -10,7 +11,8 @@ namespace Core
 
         public static void Is(object actual, Type expectedType)
         {
-            
+            NotNull(expectedType);
+            NotNull(actual);
             if (actual.GetType() != expectedType)
             {
                 Fail<ArgumentException>($"Expected type {expectedType.Name} but was {actual.GetType().Name}");
@@ -19,7 +21,7 @@ namespace Core
 
         public static void NotNull(object obj)
         {
-            NotNull(obj, "Expected not null but was null.");
+            NotNull(obj, "Expected {not null} but was {null}.");
         }
 
         public static void NotNull(object obj, string message)
@@ -35,7 +37,9 @@ namespace Core
             }
         }
 
-        public static void NotNullOrEmpty(string value) {
+        public static void NotNullOrEmpty(string value)
+        {
+
             NotNull(value, "Expected not null but was null.");
             if (value.Trim().Length == 0) {
                 Fail<ArgumentException>("Expected not empty but was empty.");
@@ -52,7 +56,7 @@ namespace Core
             Null<ArgumentException>(obj, message);
         }
 
-        public static void Null<T>(object obj, string message) where T : Exception
+        private static void Null<T>(object obj, string message) where T : Exception
         {
             if (obj != null)
             {
@@ -60,39 +64,21 @@ namespace Core
             }
         }
 
-        public static void NotEmpty<TC>(ICollection<TC> collection)
+        public static void NotNullOrEmpty<TC>(ICollection<TC> collection)
         {
-            NotEmpty<ArgumentException, TC>(collection, "Expected not empty but was empty.");
+            NotNullOrEmpty<ArgumentException, TC>(collection, "Expected not empty but was empty.");
         }
 
-        public static void NotEmpty<TC>(ICollection<TC> collection, string message)
+        public static void NotNullOrEmpty<TC>(ICollection<TC> collection, string message)
         {
-            NotEmpty<ArgumentException, TC>(collection, message);
+            NotNullOrEmpty<ArgumentException, TC>(collection, message);
         }
 
-        public static void NotEmpty<TE, TC>(ICollection<TC> collection, string message) where TE : Exception
+        private static void NotNullOrEmpty<TE, TC>(ICollection<TC> collection, string message) where TE : Exception
         {
             if(collection == null || collection.Count == 0)
             {
-                Fail<TE>(message);
-            }
-        }
-
-        public static void NotBlank(string s)
-        {
-            NotBlank(s, "Expected not blank but was blank.");
-        }
-
-        public static void NotBlank(string s, string message)
-        {
-            NotBlank<ArgumentException>(s, message);
-        }
-
-        public static void NotBlank<T>(string s, string message) where T : Exception
-        {
-            if(string.IsNullOrEmpty(s))
-            {
-                Fail<T>(message);
+               Fail<TE>(message);
             }
         }
 
@@ -111,6 +97,14 @@ namespace Core
             if(!expected.Equals(actual))
             {
                 Fail<ArgumentException>($"Expected {expected} but was {actual}.");
+            }
+        }
+
+        public static void Equals<T>(T[] actual, T[] expected)
+        {
+            if (!Arrays.Equals(actual,expected))
+            {
+                 Fail<ArgumentException>($"Expected {expected} but was {actual}.");
             }
         }
 
@@ -177,7 +171,7 @@ namespace Core
             }
         }
 
-        public static void IsInRange(int min, int max, int actual, string message)
+        public static void InRange(int min, int max, int actual, string message)
         {
             if (actual < min || actual > max)
             {
@@ -185,7 +179,7 @@ namespace Core
             }
         }
 
-        public static void IsInRange(int actual, Range<int> range, string message)
+        public static void InRange(int actual, Range<int> range, string message)
         {
             if (actual < range.GetStart() || actual > range.GetStart())
             {
@@ -193,33 +187,33 @@ namespace Core
             }
         }
 
-        public static void LessThan<T>(int comparer, int actual, string message) where T : Exception
+        public static void LessThan<T>(int comparator, int actual, string message) where T : Exception
         {
-            if (actual >= comparer)
+            if (actual >= comparator)
             {
                 Fail<T>(message);
             }
         }
 
-        public static void LessThanOrEqual<T>(int comparer, int actual, string message) where T : Exception
+        public static void LessThanOrEqual<T>(int comparator, int actual, string message) where T : Exception
         {
-            if(actual > comparer)
+            if(actual > comparator)
             {
                 Fail<T>(message);
             }
         }
 
-        public static void IsGreaterThan<T>(int actual, int comparer, string message) where T : Exception
+        public static void GreaterThan<T>(int actual, int comparator, string message) where T : Exception
         {
-            if (actual <= comparer)
+            if (actual <= comparator)
             {
                 Fail<T>(message);
             }
         }
 
-        public static void GreaterThanOrEqual<T>(int comparer, int actual, string message) where T : Exception
+        public static void GreaterThanOrEqual<T>(int actual, int comparator, string message) where T : Exception
         {
-            if (actual < comparer)
+            if (actual < comparator)
             {
                 Fail<T>(message);
             }

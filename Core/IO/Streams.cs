@@ -1,26 +1,23 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using Core.Collection;
-using Core.Primitive;
 
 namespace Core.IO
 {
+
     public sealed class Streams
     {
 
-        private const int BufferSize = 1024 * 32; // 32K
+        private const int BUFFER_SIZE = 1024 * 32; // 32K
 
-        public static MemoryStream Memory => new MemoryStream();
-
-        public static MemoryStream MemoryStream(byte[] bytes)
+        public static MemoryStream Of(byte[] bytes)
         {
             return new MemoryStream(bytes);
         }
 
         public static string GetString(Stream stream)
         {
-            return Encoding.UTF8.GetString(GetBytes(stream, 1));
+            return Encoding.UTF8.GetString(GetBytes(stream, 1000));
         }
 
         public static string GetString(Stream stream, Encoding encoding)
@@ -30,87 +27,45 @@ namespace Core.IO
 
         public static byte[] GetBytes(Stream stream)
         {
-            return GetBytes(stream, BufferSize);
+            return GetBytes(stream, BUFFER_SIZE);
         }
 
         /// <summary>
-        /// .Net streams are mainly working with bytes that is input and output of stream are all bytes
+        /// .Net Streams are mainly working with bytes that is input and output of stream are all bytes
         /// </summary>
-        /// <param name="s"></param>
-        /// <param name="bufferSize"></param>
-        /// <returns></returns>
-        public static byte[] GetBytes(Stream s, int bufferSize)
+        /// <param name="stream">The current stream to read</param>
+        /// <param name="bufferSize">The specified buffer size</param>
+        /// <returns>Total number of bytes read</returns>
+        /// <exception cref="T:System.ArgumentException">Buffer size is empty.</exception>
+        /// <exception cref="T:System.ArgumentException">The stream is null.</exception>
+        /// <exception cref="T:System.InvalidOperationException">The stream is not readable or seekable.</exception>
+        public static byte[] GetBytes(Stream stream, int bufferSize)
         {
-            Checks.NotEquals(0, bufferSize, "Buffer size must not be zero.");
+            Checks.NotEquals(0, bufferSize, "Buffer size must not be empty.");
             Checks.NotNull(s, "Stream can not be null.");
 
-            if (!s.CanRead)
+            if (!stream.CanRead || !stream.CanSeek)
             {
-                throw new InvalidOperationException("Stream is not readable.");
+                 throw new InvalidOperationException("Stream is not readable or seekable.");
             }
 
             if (s.CanSeek)
             {
                 s.Position = 0; // Make sure we are in the first position of stream if stream is seekable
             }
-
-            using (s)
+            
+            using (var reader = new BinaryReader(s))
             {
-                var bufferResult = Arrays.Make<byte>(0);
-                while(true)
-                {
-                    var test = s.ReadByte();
-                    if(test == -1)
-                    {
-                        return bufferResult;
-                    }
-
-                    var b  = BitConverter.GetBytes(test);
-                    var b1 = Arrays.Extend(bufferResult, b.Length);
-                    var bl = bufferResult.Length;
-                    bufferResult = b1;
-                    Buffer.BlockCopy(b,0,bufferResult,bl,b.Length);
-                } 
+                return reader.ReadBytes(bufferSize);
             }
-        }
-
-        public static byte[] GetBytes(Stream s, int offset, int bufferSize)
-        {
-            if (bufferSize == 0)
-            {
-                return Array.Empty<byte>();
-            }
-            var buffer = new byte[bufferSize];
-            var length = offset;
-            do
-            {
-                var num = s.Read(buffer, length, bufferSize);
-                if (num != 0)
-                {
-                    length += num;
-                    bufferSize -= num;
-                }
-                else
-                    break;
-            }
-            while (bufferSize > 0);
-
-            var newLength = length - offset;
-            if (newLength == buffer.Length)
-            {
-                return buffer;
-            }
-            var numArray = new byte[newLength];
-            Buffer.BlockCopy((Array)buffer, 0, (Array)numArray, 0, newLength);
-            buffer = numArray;
-            return buffer;
+            
         }
 
 
         public static void PutBytes(byte[] bytes, Stream output, Encoding encoding)
         {
-            Checks.NotEmpty(bytes , "Collection can not be empty.");
-            Checks.NotNull(output,  "Output stream can not be null.");
+            Checks.NotEmpty(bytes , "Collection can not be empty");
+            Checks.NotNull(output, "Output Stream can not be null.");
             
             if (!output.CanWrite)
             {
@@ -131,22 +86,17 @@ namespace Core.IO
 
         public static TS Transfer<TS>(Stream input, TS output, Encoding encoding) where TS : Stream
         {
-            Checks.NotNull(input, "InputStream can not be null");
-            Checks.NotNull(output, "OutputStream can not be null");
+            Checks.NotNull(input,   "InputStream can not be null");
+            Checks.NotNull(output,  "OutputStream can not be null");
 
-            if(encoding == null)
-            {
-                encoding = Encoding.UTF8;
-            }
-
-            if(!input.CanRead)
+            if(!input.CanRead || !input.CanSeek)
             {
                 throw new InvalidOperationException("Input stream is not readable");
             }
 
             using(input)
             {
-                PutBytes(GetBytes(input, BufferSize), output, encoding);
+                PutBytes(GetBytes(input, BUFFER_SIZE), output, encoding);
                 return output;
             }
         }

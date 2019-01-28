@@ -99,12 +99,12 @@ namespace Core.IO
 
         public sealed override bool Equals(object other)
         {
-            if (ReferenceEquals(other, null))
+            if(other == null)
             {
                 return false;
             }
 
-            if (ReferenceEquals(this, other))
+            if(ReferenceEquals(this, other))
             {
                 return true;
             }

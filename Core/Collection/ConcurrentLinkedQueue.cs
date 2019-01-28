@@ -8,6 +8,10 @@ using CAS = Core.Concurrent.CAS;
 namespace Core.Collection
 {
 
+    /// <summary>
+    /// Under development
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class ConcurrentLinkedQueue<T> : IProducerConsumerCollection<T>, IReadOnlyCollection<T> where T : class
     {
 

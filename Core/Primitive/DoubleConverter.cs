@@ -191,7 +191,7 @@ namespace Core.Primitive
             /// <summary>
             /// Converts the value to a proper decimal string representation.
             /// </summary>
-            public override String ToString()
+            public override System.String ToString()
             {
                 char[] digitString = new char[digits.Length];
                 for (int i = 0; i < digits.Length; i++)

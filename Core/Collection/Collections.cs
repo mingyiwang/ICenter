@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using Core.Primitive;
 
 namespace Core.Collection
@@ -11,41 +10,19 @@ namespace Core.Collection
     public sealed class Collections
     {
 
-        public static string JoinAsString<T>(IEnumerable<T> collection)
+        public static string Join<T>(IEnumerable<T> collection)
         {
-            var builder = new StringBuilder();
-            using (var enumerator = collection.GetEnumerator())
-            {
-                enumerator.MoveNext();
-                do
-                {
-                    builder.Append(Strings.Of(enumerator.Current));
-                }
-                while (enumerator.MoveNext());
-                return builder.ToString();
-            }
-        
+            return Joiner.On(string.Empty).Join(collection);
         }
 
-        public static string JoinAsString<T>(IEnumerable<T> collection, Func<T, string> convert)
+        public static string Join<T>(IEnumerable<T> collection, Func<T, string> convert)
         {
-            var builder = new StringBuilder();
-            using (var enumerator = collection.GetEnumerator())
-            {
-                enumerator.MoveNext();
-                do
-                {
-                    builder.Append(Strings.Of(convert(enumerator.Current)));
-                }
-                while (enumerator.MoveNext());
-                return builder.ToString();
-            }
-
+            return Joiner.On(string.Empty).Join(collection, convert);
         }
 
         public static string Join<T>(char character, IEnumerable<T> collection)
         {
-            return Join<char, T>(character, collection);
+            return Join<char,T>(character, collection);
         }
 
         public static string Join<T>(char character, IEnumerable<T> collection, Func<T, string> convert)
@@ -55,49 +32,12 @@ namespace Core.Collection
 
         public static string Join<TJ, T>(TJ character, IEnumerable<T> collection)
         {
-            var joiner = Strings.Of(character);
-            var builder = new StringBuilder();
-
-            using (var enumerator = collection.GetEnumerator())
-            {
-                if (enumerator.MoveNext())
-                {
-                    builder.Append(Strings.Of(enumerator.Current));
-                }
-
-                while (enumerator.MoveNext())
-                {
-                    builder.Append(joiner);
-                    builder.Append(Strings.Of(enumerator.Current));
-                }
-
-                return builder.ToString();
-            }
-
+            return Joiner.On(character).Join(collection);
         }
 
-        public static string Join<TJ, T>(TJ character, IEnumerable<T> collection, Func<T, string> convert)
+        public static string Join<TJ, T>(TJ character, IEnumerable<T> collection, Func<T, string> converter)
         {
-            var joiner = Strings.Of(character);
-            var builder = new StringBuilder();
-
-            using (var enumerator = collection.GetEnumerator())
-            {
-                if (enumerator.MoveNext())
-                {
-                    builder.Append(Strings.Of(convert(enumerator.Current)));
-                }
-
-                while (enumerator.MoveNext())
-                {
-                    builder.Append(joiner);
-                    builder.Append(Strings.Of(convert(enumerator.Current)));
-                }
-
-                return builder.ToString();
-            }
-
-            
+            return Joiner.On(character).Join(collection, converter);
         }
 
         public static IReadOnlyCollection<TModel> AsReadOnly<TModel>(IList<TModel> collection)
@@ -105,9 +45,9 @@ namespace Core.Collection
             return new ReadOnlyCollection<TModel>(collection);
         }
 
-        public static IReadOnlyDictionary<TKey, TValue> AsReadOnly<TKey, TValue>(IDictionary<TKey, TValue> enumrable)
+        public static IReadOnlyDictionary<TKey, TValue> AsReadOnly<TKey, TValue>(IDictionary<TKey, TValue> dictionary)
         {
-            return new ReadOnlyDictionary<TKey, TValue>(enumrable);
+            return new ReadOnlyDictionary<TKey, TValue>(dictionary);
         }
 
         public static bool Equals<TKey, TValue>(IDictionary<TKey, TValue> dic1, IDictionary<TKey, TValue> dic2)

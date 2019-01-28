@@ -7,10 +7,6 @@ namespace Core.Collection
     public sealed class Arrays
     {
          
-        public static byte[]     EmptyBytesArray   => Empty<byte>();
-        public static string[]   EmptyStringArray  => Empty<string>();
-        public static int[]      EmptyIntArray     => Empty<int>();
-
         public static bool IsEmpty<T>(T[] array)
         {
             return array == null || array.Length == 0;
@@ -34,13 +30,13 @@ namespace Core.Collection
         public static T[] Make<T>(int length, T defaultValue)
         {
             var array = new T[length];
-            for(var i = 0; i < length; i++)
+            for (var i = 0; i < array.Length; i++)
             {
                 array[i] = defaultValue;
             }
             return array;
         }
-
+        
         public static void Reverse<T>(ref T[] array)
         {
             Checks.NotNull(array);
@@ -52,13 +48,11 @@ namespace Core.Collection
             Checks.NotNull(array);
             var copy = Make<T>(array.Length);
             var j = 0;
-
             for (var i = array.Length - 1; i >= 0; i--)
             {
                 copy[j] = array[i];
                 j++;
             }
-
             return copy;
         }
 
@@ -76,7 +70,7 @@ namespace Core.Collection
         {
             if(startIndex > length)
             {
-                throw new IndexOutOfRangeException();
+               throw new IndexOutOfRangeException();
             }
 
             var originalLength = source.Length;
@@ -135,19 +129,6 @@ namespace Core.Collection
             return source;
         }
 
-        public static T[] Extend<T>(T[] source, int length)
-        {
-            if (length == 0)
-            {
-                return source;
-            }
-
-            var srcLength = source.Length;
-            var distArray = new T[srcLength + length];
-            Buffer.BlockCopy(source, 0, distArray, 0, srcLength);
-            return distArray;
-        }
-
         public static bool Equals<T>(T[] array1, T[] array2)
         {
             if (array1 == null || array2 == null)
@@ -180,7 +161,6 @@ namespace Core.Collection
 
             return true;
         }
-
 
     }
 }

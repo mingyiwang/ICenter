@@ -1,18 +1,25 @@
 ﻿namespace Core.IO
 {
     /// <summary>
-    /// Utility Class used to control files
+    /// Utility class used to control files
     /// </summary>
     public sealed class Files
     {
 
-        public static void Write(string content)
+        public static string GetFileName(string path)
         {
-
-            
+            return string.Empty;
         }
 
-        private Files() {}
+        public static void ChangeName(string src, string name)
+        {
+
+        }
+
+        public static void Move(string src, string destination)
+        {
+
+        }
 
     }
 

@@ -40,7 +40,7 @@ namespace Core.Collection {
 
         public static string AsString<T>(this IEnumerable<T> collection)
         {
-            return Collections.JoinAsString(collection);
+            return Collections.Join(collection);
         }
 
         public static void Clear<T>(this ConcurrentQueue<T> queue)

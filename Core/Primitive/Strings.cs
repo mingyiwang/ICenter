@@ -1,5 +1,4 @@
 ﻿using System;
-using Core.Collection;
 
 namespace Core.Primitive
 {
@@ -7,17 +6,13 @@ namespace Core.Primitive
     public sealed class Strings
     {
 
+        public static readonly string Empty = string.Empty;
+
         public static string Of(string value)
         {
             return Of(value, string.Empty);
         }
 
-        /// <summary>
-        /// Get value if null then returns defaultIfNull
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="defaultIfNull"></param>
-        /// <returns></returns>
         public static string Of(string value, string defaultIfNull)
         {
             return value ?? defaultIfNull;
@@ -33,43 +28,63 @@ namespace Core.Primitive
             return obj == null ? defaultIfNull : obj.ToString();
         }
 
-        public static string Substring(string input, int startIndex, int endIndex)
+        public static string GetSubstring(string input, int startIndex, int endIndex)
         {
             Checks.NotNullOrEmpty(input);
-            Checks.GreaterThanOrEqual<IndexOutOfRangeException>(startIndex, endIndex, $"End index[{endIndex}] must be greater than start index[{startIndex}].");
-            return input.Substring(startIndex, endIndex - startIndex + 1);
+            Checks.GreaterThanOrEqual<IndexOutOfRangeException>(startIndex, 0, $"Start index[{startIndex}] can not be negative.");
+            Checks.GreaterThanOrEqual<IndexOutOfRangeException>(endIndex,   0, $"End index[{endIndex}] can not be negative.");
+            Checks.GreaterThanOrEqual<IndexOutOfRangeException>(endIndex,   startIndex, $"End index[{endIndex}] must be greater than start index[{startIndex}].");
+            var length = endIndex - startIndex + 1;
+            return input.Substring(startIndex, length);
         }
 
-        public static string Between(string input, int startIndex, int endIndex)
+        public static bool TryGetSubstring(string input, ref string result, int startIndex, int endIndex)
         {
-            // Check bounds
-            Checks.NotNullOrEmpty(input);
-            Checks.LessThan<IndexOutOfRangeException>(input.Length, startIndex, $"Index[{startIndex}] is out of range.");
-            Checks.LessThan<IndexOutOfRangeException>(input.Length, endIndex, $"Index[{endIndex}] is out of range.");
-            Checks.GreaterThanOrEqual<IndexOutOfRangeException>(Numbers.Zero, startIndex,$"Index[{startIndex}] can not be negative.");
-            Checks.GreaterThanOrEqual<IndexOutOfRangeException>(Numbers.Zero, endIndex,$"Index[{endIndex}] can not be negative.");
-            Checks.GreaterThanOrEqual<IndexOutOfRangeException>(startIndex,   endIndex, $"Last index[{endIndex}] must be greater than or equal to index[{startIndex}].");
-
-            var start  = ++startIndex;
-            var length = endIndex - start;
-
-            return length <= Numbers.Zero 
-                 ? string.Empty 
-                 : input.Substring(start, length)
-                 ;
-            
+            result = Empty;
+            try
+            {
+                result = GetSubstring(input, startIndex, endIndex);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
-        public static string[] Split(string input, params char[] characters)
+        public static string GetRightInnerSubstring(string input, int startIndex, int endIndex)
         {
-            return Split(input, StringSplitOptions.RemoveEmptyEntries, characters);
+            var end = endIndex - 1;
+            return GetSubstring(input, startIndex, end);
         }
 
-        public static string[] Split(string input, StringSplitOptions options, params char[] characters)
+        public static string GetLeftInnerSubstring(string input, int startIndex, int endIndex)
         {
-            Checks.NotNull(characters, "Seperator can not be null.");
-            return string.IsNullOrEmpty(input) ? Arrays.Empty<string>() : input.Split(characters, options);
+            var start = startIndex - 1;
+            return GetSubstring(input, start, endIndex);
         }
+
+        public static string GetInnerSubstring(string input, int startIndex, int endIndex)
+        {
+            var start = startIndex + 1;
+            var end = endIndex - 1;
+            return GetSubstring(input, start, end);
+        }
+
+        public static bool TryGetInnerSubstring(string input, ref string result, int startIndex, int endIndex)
+        {
+            result = Empty;
+            try
+            {
+                result = GetInnerSubstring(input, startIndex, endIndex);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
 
     }
 

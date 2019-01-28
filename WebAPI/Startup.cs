@@ -25,7 +25,6 @@ namespace WebAPI
         {
             services.AddMvc();
         }
-
         
         public void Configure(IApplicationBuilder app)
         {
@@ -50,7 +49,6 @@ namespace WebAPI
                     
                 })
                 .Build();
-
         }
 
     }
