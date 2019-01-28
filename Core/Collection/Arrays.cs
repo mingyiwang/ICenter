@@ -135,6 +135,19 @@ namespace Core.Collection
             return source;
         }
 
+        public static T[] Extend<T>(T[] source, int length)
+        {
+            if (length == 0)
+            {
+                return source;
+            }
+
+            var srcLength = source.Length;
+            var distArray = new T[srcLength + length];
+            Buffer.BlockCopy(source, 0, distArray, 0, srcLength);
+            return distArray;
+        }
+
         public static bool Equals<T>(T[] array1, T[] array2)
         {
             if (array1 == null || array2 == null)

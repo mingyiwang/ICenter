@@ -1,4 +1,7 @@
 using System;
+using System.IO;
+using System.Text;
+using Core.IO;
 using Core.Json;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -16,11 +19,7 @@ namespace Tests
         [Test]
         public void Test1()
         {
-            var test = "123";
-            change1(test);
-            Console.WriteLine(test);
-            change(ref test);
-            Console.WriteLine(test);
+            Console.WriteLine(Streams.GetString(new MemoryStream(Encoding.UTF8.GetBytes("test"))));
         }
 
         void change1(string input)
