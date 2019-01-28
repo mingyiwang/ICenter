@@ -31,14 +31,20 @@ namespace Core.IO
             return GetBytes(stream, BUFFER_SIZE);
         }
 
+        /// <summary>
+        /// Under development
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="bufferSize"></param>
+        /// <returns></returns>
         public static byte[] GetBytes(Stream stream, int bufferSize)
         {
             Checks.NotEquals(0, bufferSize, "Buffer size must not be empty.");
             Checks.NotNull(stream, "Stream can not be null.");
 
-            if (!stream.CanRead || !stream.CanSeek)
+            if (!stream.CanRead)
             {
-                 throw new InvalidOperationException("Stream is not readable or seekable.");
+                throw new InvalidOperationException("Stream is not readable or seekable.");
             }
 
             if (stream.CanSeek)
@@ -46,39 +52,46 @@ namespace Core.IO
                 stream.Position = 0; // Make sure we are in the first position of stream if stream is seekable
             }
 
-            var totalLengthOfStream = stream.Length;
-            var totalNumOfBytesRead = 0;
-            var result = Arrays.Empty<byte>(0);
             using (stream)
             {
-                do
-                {
-                    var buffer = Arrays.Make<byte>(bufferSize);
-                    var numOfBytesRead = stream.Read(buffer, totalNumOfBytesRead, bufferSize);
-                    if (numOfBytesRead == 0)
-                    {
-                        // already reached the end of stream or this stream is not prepared.
-                        break;
-                    }
+               var totalNumOfBytesRead = 0;
+               var result = Arrays.Empty<byte>();
+               while (true)
+               {
+                   var buffer = Arrays.Make<byte>(bufferSize);
+                   var numOfBytesRead = stream.Read(buffer, totalNumOfBytesRead, bufferSize);
+                   if (numOfBytesRead == 0)
+                   {
+                       return result;
+                   }
 
-                    if (numOfBytesRead != buffer.Length)
-                    {
-                        var tempBuffer = new byte[numOfBytesRead];
-                        Buffer.BlockCopy(buffer, 0, tempBuffer, 0, numOfBytesRead);
-                        buffer = tempBuffer;
-                    }
+                   if (numOfBytesRead != buffer.Length)
+                   {
+                       var tempBuffer = new byte[numOfBytesRead];
+                       Buffer.BlockCopy(buffer, 0, tempBuffer, 0, numOfBytesRead);
+                       buffer = tempBuffer;
+                   }
 
-                    var tempResult = new byte[result.Length + buffer.Length];
-                    Buffer.BlockCopy(buffer, 0, tempResult, totalNumOfBytesRead, buffer.Length);
-                    totalNumOfBytesRead += numOfBytesRead;
-                    result = tempResult;
+                   var nextByte = stream.ReadByte();
+                   if (nextByte == -1) // reached the end of stream
+                   {
+                       var tempResult = new byte[result.Length + buffer.Length];
+                       Buffer.BlockCopy(buffer, 0, tempResult, totalNumOfBytesRead, buffer.Length);
+                       result = tempResult;
+                       return result;
+                   }
+                   else
+                   {
+                       var tempResult = new byte[result.Length + buffer.Length + 1];
+                       Buffer.BlockCopy(buffer, 0, tempResult, totalNumOfBytesRead, buffer.Length);
+                       totalNumOfBytesRead += numOfBytesRead;
+                       totalNumOfBytesRead += 1;
+                       tempResult[totalNumOfBytesRead] = (byte)nextByte;
+                       result = tempResult;
+                    }
                 }
-                while (totalNumOfBytesRead < totalLengthOfStream);
-                return result;
             }
-
         }
-
 
         public static void PutBytes(byte[] bytes, Stream output, Encoding encoding)
         {
