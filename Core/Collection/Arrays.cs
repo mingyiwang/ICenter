@@ -6,7 +6,7 @@ namespace Core.Collection
 
     public sealed class Arrays
     {
-         
+
         public static bool IsEmpty<T>(T[] array)
         {
             return array == null || array.Length == 0;
@@ -36,7 +36,7 @@ namespace Core.Collection
             }
             return array;
         }
-        
+
         public static void Reverse<T>(ref T[] array)
         {
             Checks.NotNull(array);
@@ -68,13 +68,13 @@ namespace Core.Collection
 
         public static T[] CopyOf<T>(T[] source, int startIndex, int length)
         {
-            if(startIndex > length)
+            if (startIndex > length)
             {
-               throw new IndexOutOfRangeException();
+                throw new IndexOutOfRangeException();
             }
 
             var originalLength = source.Length;
-            if(startIndex < 0 || startIndex > originalLength)
+            if (startIndex < 0 || startIndex > originalLength)
             {
                 throw new IndexOutOfRangeException();
             }
@@ -97,18 +97,18 @@ namespace Core.Collection
 
         public static void CopyTo<T>(T[] source, int startIndex, int length, ref T[] target, int targetStartIndex)
         {
-            if(startIndex > source.Length || length > (source.Length - startIndex))
+            if (startIndex > source.Length || length > (source.Length - startIndex))
             {
                 throw new IndexOutOfRangeException();
             }
 
-            if(targetStartIndex > target.Length)
+            if (targetStartIndex > target.Length)
             {
                 throw new IndexOutOfRangeException();
             }
 
             var availableLength = target.Length - targetStartIndex;
-            if(length <= availableLength)
+            if (length <= availableLength)
             {
                 Array.Copy(source, startIndex, target, targetStartIndex, length);
             }
@@ -117,16 +117,6 @@ namespace Core.Collection
                 target = Resize(ref target, (target.Length + (length - availableLength)));
                 Array.Copy(source, startIndex, target, targetStartIndex, length);
             }
-        }
-
-        public static T[] DeepCopyOf<T>(T[] source, int startIndex, int length)
-        {
-            return source;
-        }
-
-        public static T[] DeepCopyOf<T>(T[] source, int startIndex, int length, Func<T, T> copyFunc)
-        {
-            return source;
         }
 
         public static bool Equals<T>(T[] array1, T[] array2)
@@ -153,7 +143,7 @@ namespace Core.Collection
                     return false;
                 }
 
-                if(!array1[i].Equals(array2[i]))
+                if (!array1[i].Equals(array2[i]))
                 {
                     return false;
                 }

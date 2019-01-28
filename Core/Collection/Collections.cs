@@ -78,21 +78,21 @@ namespace Core.Collection
 
         }
 
-        public static void InsertFirst<T>(List<T> collections, T obj)
+        public static void InsertFirst<T>(IList<T> list, T obj)
         {
-              collections.Insert(0, obj);
+              list.Insert(0, obj);
         }
 
-        public static void InsertLast<T>(List<T> collections, T obj)
+        public static void InsertLast<T>(IList<T> list, T obj)
         {
-            var size = collections.Count;
+            var size = list.Count;
             if (size == 0)
             {
-                collections.Add(obj);
+                list.Add(obj);
             }
             else
             {
-                collections.Insert(collections.Count, obj);
+                list.Insert(list.Count, obj);
             }
         }
 

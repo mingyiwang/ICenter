@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using Core.Collection;
 
 namespace Core.IO
 {
@@ -30,41 +31,58 @@ namespace Core.IO
             return GetBytes(stream, BUFFER_SIZE);
         }
 
-        /// <summary>
-        /// .Net Streams are mainly working with bytes that is input and output of stream are all bytes
-        /// </summary>
-        /// <param name="stream">The current stream to read</param>
-        /// <param name="bufferSize">The specified buffer size</param>
-        /// <returns>Total number of bytes read</returns>
-        /// <exception cref="T:System.ArgumentException">Buffer size is empty.</exception>
-        /// <exception cref="T:System.ArgumentException">The stream is null.</exception>
-        /// <exception cref="T:System.InvalidOperationException">The stream is not readable or seekable.</exception>
         public static byte[] GetBytes(Stream stream, int bufferSize)
         {
             Checks.NotEquals(0, bufferSize, "Buffer size must not be empty.");
-            Checks.NotNull(s, "Stream can not be null.");
+            Checks.NotNull(stream, "Stream can not be null.");
 
             if (!stream.CanRead || !stream.CanSeek)
             {
                  throw new InvalidOperationException("Stream is not readable or seekable.");
             }
 
-            if (s.CanSeek)
+            if (stream.CanSeek)
             {
-                s.Position = 0; // Make sure we are in the first position of stream if stream is seekable
+                stream.Position = 0; // Make sure we are in the first position of stream if stream is seekable
             }
-            
-            using (var reader = new BinaryReader(s))
+
+            var totalLengthOfStream = stream.Length;
+            var totalNumOfBytesRead = 0;
+            var result = Arrays.Empty<byte>(0);
+            using (stream)
             {
-                return reader.ReadBytes(bufferSize);
+                do
+                {
+                    var buffer = Arrays.Make<byte>(bufferSize);
+                    var numOfBytesRead = stream.Read(buffer, totalNumOfBytesRead, bufferSize);
+                    if (numOfBytesRead == 0)
+                    {
+                        // already reached the end of stream or this stream is not prepared.
+                        break;
+                    }
+
+                    if (numOfBytesRead != buffer.Length)
+                    {
+                        var tempBuffer = new byte[numOfBytesRead];
+                        Buffer.BlockCopy(buffer, 0, tempBuffer, 0, numOfBytesRead);
+                        buffer = tempBuffer;
+                    }
+
+                    var tempResult = new byte[result.Length + buffer.Length];
+                    Buffer.BlockCopy(buffer, 0, tempResult, totalNumOfBytesRead, buffer.Length);
+                    totalNumOfBytesRead += numOfBytesRead;
+                    result = tempResult;
+                }
+                while (totalNumOfBytesRead < totalLengthOfStream);
+                return result;
             }
-            
+
         }
 
 
         public static void PutBytes(byte[] bytes, Stream output, Encoding encoding)
         {
-            Checks.NotEmpty(bytes , "Collection can not be empty");
+            Checks.NotNullOrEmpty(bytes , "Collection can not be empty");
             Checks.NotNull(output, "Output Stream can not be null.");
             
             if (!output.CanWrite)

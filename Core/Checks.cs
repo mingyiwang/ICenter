@@ -31,7 +31,7 @@ namespace Core
 
         public static void NotNull<T>(object obj, string message) where T : Exception
         {
-            if(obj == null)
+            if (obj == null)
             {
                 Fail<T>(message);
             }
@@ -41,7 +41,8 @@ namespace Core
         {
 
             NotNull(value, "Expected not null but was null.");
-            if (value.Trim().Length == 0) {
+            if (value.Trim().Length == 0)
+            {
                 Fail<ArgumentException>("Expected not empty but was empty.");
             }
         }
@@ -76,9 +77,9 @@ namespace Core
 
         private static void NotNullOrEmpty<TE, TC>(ICollection<TC> collection, string message) where TE : Exception
         {
-            if(collection == null || collection.Count == 0)
+            if (collection == null || collection.Count == 0)
             {
-               Fail<TE>(message);
+                Fail<TE>(message);
             }
         }
 
@@ -94,7 +95,7 @@ namespace Core
 
         public static void Equals<T>(T expected, T actual)
         {
-            if(!expected.Equals(actual))
+            if (!expected.Equals(actual))
             {
                 Fail<ArgumentException>($"Expected {expected} but was {actual}.");
             }
@@ -102,16 +103,16 @@ namespace Core
 
         public static void Equals<T>(T[] actual, T[] expected)
         {
-            if (!Arrays.Equals(actual,expected))
+            if (!Arrays.Equals(actual, expected))
             {
-                 Fail<ArgumentException>($"Expected {expected} but was {actual}.");
+                Fail<ArgumentException>($"Expected {expected} but was {actual}.");
             }
         }
 
         public static void Equals<T>(object expected, object actual, string message) where T : Exception
         {
 
-            if(!expected.Equals(actual))
+            if (!expected.Equals(actual))
             {
                 Fail<T>(message);
             }
@@ -147,7 +148,7 @@ namespace Core
 
         public static void IsFalse<T>(bool? value, string message) where T : Exception
         {
-            if(value != false)
+            if (value != false)
             {
                 Fail<T>(message);
             }
@@ -165,7 +166,7 @@ namespace Core
 
         public static void IsTrue<T>(bool value, string message) where T : Exception
         {
-            if(value != true)
+            if (value != true)
             {
                 Fail<T>(message);
             }
@@ -197,7 +198,7 @@ namespace Core
 
         public static void LessThanOrEqual<T>(int comparator, int actual, string message) where T : Exception
         {
-            if(actual > comparator)
+            if (actual > comparator)
             {
                 Fail<T>(message);
             }
@@ -226,13 +227,13 @@ namespace Core
             var constructor = type.GetConstructor(new[]{
                 typeof(string)
             });
-            
+
             if (constructor == null)
             {
                 throw new ArgumentException("Exception[" + type.FullName + "] must have a constructor of a single string parameter.");
             }
 
-            throw (T) constructor.Invoke(new object[] {
+            throw (T)constructor.Invoke(new object[] {
                    message
             });
         }
