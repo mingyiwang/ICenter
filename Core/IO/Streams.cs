@@ -5,6 +5,7 @@ using Core.Collection;
 
 namespace Core.IO
 {
+
     public sealed class Streams
     {
 
@@ -83,10 +84,7 @@ namespace Core.IO
                     totalNumOfBytesRead += numOfBytesRead;
                     result = tempResult;
                 }
-                while (
-                    totalNumOfBytesRead < totalLengthOfStream
-                );
-
+                while (totalNumOfBytesRead < totalLengthOfStream);
                 return result;
             }
         }
