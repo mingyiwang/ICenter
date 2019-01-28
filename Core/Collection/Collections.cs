@@ -19,7 +19,7 @@ namespace Core.Collection
                 enumerator.MoveNext();
                 do
                 {
-                    builder.Append(StringUtil.Of(enumerator.Current));
+                    builder.Append(Strings.Of(enumerator.Current));
                 }
                 while (enumerator.MoveNext());
                 return builder.ToString();
@@ -35,7 +35,7 @@ namespace Core.Collection
                 enumerator.MoveNext();
                 do
                 {
-                    builder.Append(StringUtil.Of(convert(enumerator.Current)));
+                    builder.Append(Strings.Of(convert(enumerator.Current)));
                 }
                 while (enumerator.MoveNext());
                 return builder.ToString();
@@ -55,20 +55,20 @@ namespace Core.Collection
 
         public static string Join<TJ, T>(TJ character, IEnumerable<T> collection)
         {
-            var joiner = StringUtil.Of(character);
+            var joiner = Strings.Of(character);
             var builder = new StringBuilder();
 
             using (var enumerator = collection.GetEnumerator())
             {
                 if (enumerator.MoveNext())
                 {
-                    builder.Append(StringUtil.Of(enumerator.Current));
+                    builder.Append(Strings.Of(enumerator.Current));
                 }
 
                 while (enumerator.MoveNext())
                 {
                     builder.Append(joiner);
-                    builder.Append(StringUtil.Of(enumerator.Current));
+                    builder.Append(Strings.Of(enumerator.Current));
                 }
 
                 return builder.ToString();
@@ -78,20 +78,20 @@ namespace Core.Collection
 
         public static string Join<TJ, T>(TJ character, IEnumerable<T> collection, Func<T, string> convert)
         {
-            var joiner = StringUtil.Of(character);
+            var joiner = Strings.Of(character);
             var builder = new StringBuilder();
 
             using (var enumerator = collection.GetEnumerator())
             {
                 if (enumerator.MoveNext())
                 {
-                    builder.Append(StringUtil.Of(convert(enumerator.Current)));
+                    builder.Append(Strings.Of(convert(enumerator.Current)));
                 }
 
                 while (enumerator.MoveNext())
                 {
                     builder.Append(joiner);
-                    builder.Append(StringUtil.Of(convert(enumerator.Current)));
+                    builder.Append(Strings.Of(convert(enumerator.Current)));
                 }
 
                 return builder.ToString();

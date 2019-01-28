@@ -7,10 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="IO\Resources-Fullcharset.txt" />
     <None Remove="Json\TextFile1.txt" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="IO\Resources-Fullcharset.txt" />
     <Content Include="Json\TextFile1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

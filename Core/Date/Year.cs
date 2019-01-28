@@ -245,7 +245,7 @@ namespace Core.Date
 
         public override string ToString()
         {
-            return StringUtil.Of(_year);
+            return Strings.Of(_year);
         }
 
         /// <summary>

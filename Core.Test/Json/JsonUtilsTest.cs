@@ -2,7 +2,6 @@
 using Core.Collection;
 using Core.IO;
 using Core.Json;
-using Core.Primitive;
 using NUnit.Framework;
 
 namespace Core.Test.Json
@@ -40,8 +39,7 @@ namespace Core.Test.Json
         [Test]
         public void TestDecimal()
         {
-            var result = Resources.GetString("TextFile1", typeof(JsonUtils));
-            Console.WriteLine(result);
+            
         }
 
         [Test]

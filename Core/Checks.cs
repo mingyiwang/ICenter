@@ -211,7 +211,7 @@ namespace Core
             }
         }
 
-        public static void GreaterThanOrEqual<T>(int comparator, int actual, string message) where T : Exception
+        public static void GreaterThanOrEqual<T>(int actual, int comparator, string message) where T : Exception
         {
             if (actual < comparator)
             {

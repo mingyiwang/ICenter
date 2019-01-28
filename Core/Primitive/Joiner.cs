@@ -21,15 +21,15 @@ namespace Core.Primitive
 
         public static Joiner On(string glue)
         {
-            return new Joiner(StringUtil.Of(glue));
+            return new Joiner(Strings.Of(glue));
         }
 
         public static Joiner On<T>(T glue)
         {
-            return new Joiner(StringUtil.Of(glue));
+            return new Joiner(Strings.Of<T>(glue));
         }
 
-        public string Join<T>(IEnumerable<T> enumerable, Func<T, string> generator = null)
+        public string Join<T>(IEnumerable<T> enumerable, Func<T, string> converter = null)
         {
             if (enumerable == null)
             {
@@ -42,20 +42,20 @@ namespace Core.Primitive
                 if (enumerator.MoveNext())
                 {
                     var item = enumerator.Current;
-                    builder.Append(generator == null ? StringUtil.Of<T>(item) : generator(item));
+                    builder.Append(converter == null ? Strings.Of<T>(item) : converter(item));
                 }
 
                 while (enumerator.MoveNext())
                 {
                     var item = enumerator.Current;
                     builder.Append(_glue);
-                    builder.Append(generator == null ? StringUtil.Of<T>(item) : generator(item));
+                    builder.Append(converter == null ? Strings.Of<T>(item) : converter(item));
                 }
 
                 return builder.ToString();
             }
 
-        }  
+        }
 
     }
 

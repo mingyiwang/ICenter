@@ -1,83 +1,27 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
-using Core.Primitive;
 
 namespace Core.IO
 {
 
     public sealed class Resources
     {
-        /// <summary>
-        /// Retrieve Resource Binary Data based on FullPath e.g A.B.C.filename.txt
-        /// </summary>
-        /// <param name="fullPath"></param>
-        /// <returns></returns>
-        public static byte[] GetBytes(string fullPath)
+         
+        public static byte[] GetBytes(Type type, string resourceName)
         {
-            return Streams.GetBytes(GetStream(fullPath));
+            return Streams.GetBytes(GetStream(type, resourceName));
         }
 
-
-        /// <summary>
-        /// Retrieve String based on FullPath e.g A.B.C.filename.txt
-        /// </summary>
-        /// <param name="fullPath"></param>
-        /// <returns></returns>
-        public static string GetString(string fullPath)
+        public static string GetString(Type type, string resourceName)
         {
-            return Streams.GetString(GetStream(fullPath));
+            return Streams.GetString(GetStream(type, resourceName));
         }
 
-        /// <summary>
-        /// Retrieve Resource Stream on FullPath e.g A.B.C.filename.txt
-        /// </summary>
-        /// <param name="fullPath"></param>
-        /// <returns></returns>
-        private static Stream GetStream(string fullPath)
+        private static Stream GetStream(Type type, string resourceName)
         {
-            var assemblyName = StringUtil.Substring(fullPath, 0, fullPath.IndexOf(".", StringComparison.Ordinal));
-            var assembly = AppDomain.CurrentDomain.GetAssemblies().Single(a => a.GetName().Name.Equals(assemblyName));
-
-            if (assembly == null)
-            {
-                throw Throws.FileNotFound("Can not found resource at [" + fullPath + "]");
-            }
-
-            return assembly.GetManifestResourceStream(fullPath);
-        }
-
-        /// <summary>
-        /// Retrieve Resource Binary Data Based on Resource Name and Type lives in the same location as this Resource
-        /// </summary>
-        /// <param name="fileName">Resource Name</param>
-        /// <param name="type">Type locates in the same as Resource</param>
-        /// <returns></returns>
-        public static byte[] GetBytes(string fileName, Type type)
-        {
-            return Streams.GetBytes(GetStream(fileName, type));
-        }
-
-        /// <summary>
-        /// Retrieve String based on Resource Name and Type lives in the same location as this Resource
-        /// </summary>
-        /// <param name="fileName">Resource Name to be retrieved</param>
-        /// <param name="type">Type locates in the same location as resource name</param>
-        /// <returns>Resource</returns>
-        public static string GetString(string fileName, Type type)
-        {
-            return Streams.GetString(GetStream(fileName, type));
-        }
-
-        /// <summary>
-        /// Retrieve Resource Stream based on Resource Name and Type lives in the same location as this Resource
-        /// </summary>
-        /// <param name="fileName">Resource Name to be retrieved</param>
-        /// <param name="type">Type locates in the same location as resource name</param>
-        /// <returns>Resource</returns>
-        private static Stream GetStream(string fileName, Type type)
-        {
-            return type.Assembly.GetManifestResourceStream(type, fileName);
+            Checks.NotNull(type, "Type can not be null.");
+            Checks.NotNullOrEmpty("Resource name can not be null or empty.");
+            return type.Assembly.GetManifestResourceStream(type, resourceName);
         }
 
     }
