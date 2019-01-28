@@ -12,12 +12,12 @@ namespace Core.Primitive
     /// This class is used to working with byte, bool, short, char, int, float, long, double, decimal, 
     /// byte    : 8   bits which is 1  byte
     /// int     : 32  bits which is 4  bytes
-    /// short   : 16  bits which is 4  bytes
+    /// short   : 16  bits which is 2  bytes
     /// float   : 32  bits which is 4  bytes
     /// double  : 64  bits which is 8  bytes
     /// decimal : 128 bits which is 16 bytes
     /// char    : 16  bits which is 2  bytes
-    /// long    : 64  bits which is 4  bytes
+    /// long    : 64  bits which is 8  bytes
     /// bool    : 8   bits which is 1  byte
     /// 
     /// This class intend to be immutable 
@@ -58,28 +58,28 @@ namespace Core.Primitive
         public const long DoubleSignificantMask = 0x000fffffffffffffL;
         public const long DoubleNanBits         = 0x7ffc000000000000L;
 
-        private const short TypeUndefined     = -1;
-        private const short TypeByte          = 0;
-        private const short TypeShortInteger  = 1;
-        private const short TypeInteger       = 1 << 1;
-        private const short TypeLong          = 1 << 2;
-        private const short TypeFloat         = 1 << 3;
-        private const short TypeDouble        = 1 << 4;
-        private const short TypeDecimal       = 1 << 5;
-        private const short TypeChar          = 1 << 6;
-        private const short TypeBoolean       = 1 << 7;
+        private const short UndefinedType = -1;
+        private const short ByteType      = 0;
+        private const short ShortType     = 1;
+        private const short IntegerType   = 1 << 1;
+        private const short LongType      = 1 << 2;
+        private const short FloatType     = 1 << 3;
+        private const short DoubleType    = 1 << 4;
+        private const short DecimalType   = 1 << 5;
+        private const short CharType      = 1 << 6;
+        private const short BoolType      = 1 << 7;
 
-        public bool IsByte    => _type == TypeByte;
-        public bool IsLong    => _type == TypeLong;
-        public bool IsChar    => _type == TypeChar;
-        public bool IsShort   => _type == TypeShortInteger;
-        public bool IsInt32   => _type == TypeInteger;
-        public bool IsFloat   => _type == TypeFloat;
-        public bool IsDouble  => _type == TypeDouble;
-        public bool IsDecimal => _type == TypeDecimal;
-        public bool IsBoolean => _type == TypeBoolean;
+        public bool IsByte    => _type == ByteType;
+        public bool IsLong    => _type == LongType;
+        public bool IsChar    => _type == CharType;
+        public bool IsShort   => _type == ShortType;
+        public bool IsInteger => _type == IntegerType;
+        public bool IsFloat   => _type == FloatType;
+        public bool IsDouble  => _type == DoubleType;
+        public bool IsDecimal => _type == DecimalType;
+        public bool IsBoolean => _type == BoolType;
 
-        public int  Length => _bytes.Length;
+        public int Length => _bytes.Length;
 
         private readonly byte[] _bytes;
         private short _type;
@@ -88,16 +88,92 @@ namespace Core.Primitive
         {
             Checks.NotNull(bytes);
             _bytes = bytes;
-            _type  = TypeUndefined;
+            _type  = UndefinedType;
         }
 
-        /// <summary>
-        /// Returns byte array
-        /// </summary>
-        /// <returns><code>byte[]</code></returns>
+        public static Bits Of(byte value)
+        {
+            return new Bits(Arrays.Make<byte>(1, value))
+            {
+                _type = ByteType
+            };
+        }
+
+        public static Bits Of(bool value)
+        {
+            return new Bits(BitConverter.GetBytes(value))
+            {
+                _type = BoolType
+            };
+        }
+
+        public static Bits Of(short value)
+        {
+            return new Bits(null)
+            {
+                _type = ShortType
+            };
+        }
+
+        public static Bits Of(char value)
+        {
+            return new Bits(BitConverter.GetBytes(value))
+            {
+                _type = CharType
+            };
+        }
+
+        public static Bits Of(int value)
+        {
+            return new Bits(BitConverter.GetBytes(value))
+            {
+                _type = IntegerType
+            };
+        }
+
+        public static Bits Of(float value)
+        {
+            return new Bits(BitConverter.GetBytes(value))
+            {
+                _type = FloatType
+            };
+        }
+
+        public static Bits Of(long value)
+        {
+            return new Bits(BitConverter.GetBytes(value))
+            {
+                _type = LongType
+            };
+        }
+
+        public static Bits Of(double value)
+        {
+            return new Bits(BitConverter.GetBytes(value))
+            {
+                _type = DoubleType
+            };
+        }
+
+        public static Bits Of(decimal value)
+        {
+            var bytes = new List<byte>();
+            decimal.GetBits(value).ForEach(integer =>
+            {
+                bytes.AddRange(BitConverter.GetBytes(integer));
+            });
+
+            return new Bits(bytes.ToArray())
+            {
+                _type = DecimalType
+            };
+        }
+
         public byte[] ToBytes()
         {
-            return Arrays.CopyOf(_bytes);
+            var result = Arrays.Make<byte>(_bytes.Length);
+            Buffer.BlockCopy(_bytes,0, result,0, _bytes.Length);
+            return result;
         }
 
         /// <summary>
@@ -111,7 +187,7 @@ namespace Core.Primitive
                 return (char) ToInt();
             }
 
-            if (IsInt32)
+            if (IsInteger)
             {
                 var intValue = ToInt();
                 if (intValue < char.MinValue || intValue > char.MaxValue)
@@ -164,7 +240,7 @@ namespace Core.Primitive
                 return BitConverter.ToInt16(_bytes, 0);
             }
 
-            if (IsInt32)
+            if (IsInteger)
             {
                 return BitConverter.ToInt32(_bytes, 0);
             }
@@ -209,7 +285,7 @@ namespace Core.Primitive
                 return BitConverter.ToInt64(_bytes, 0);
             }
 
-            if (IsInt32 || IsByte || IsShort || IsChar || IsBoolean)
+            if (IsInteger || IsByte || IsShort || IsChar || IsBoolean)
             {
                 return ToInt();
             }
@@ -248,7 +324,7 @@ namespace Core.Primitive
                 return BitConverter.ToSingle(_bytes, 0);
             }
 
-            if (IsByte || IsChar || IsBoolean || IsShort || IsInt32)
+            if (IsByte || IsChar || IsBoolean || IsShort || IsInteger)
             {
                 return ToInt();
             }
@@ -283,7 +359,7 @@ namespace Core.Primitive
                 return BitConverter.ToDouble(_bytes, 0);
             }
 
-            if (IsInt32 || IsBoolean || IsByte || IsShort || IsChar)
+            if (IsInteger || IsBoolean || IsByte || IsShort || IsChar)
             {
                 return ToInt();
             }
@@ -328,7 +404,7 @@ namespace Core.Primitive
                 });
             }
 
-            if (IsBoolean || IsByte || IsChar || IsShort || IsInt32)
+            if (IsBoolean || IsByte || IsChar || IsShort || IsInteger)
             {
                return new decimal(ToInt());
             }
@@ -392,7 +468,7 @@ namespace Core.Primitive
         /// <returns></returns>
         public override string ToString()
         {
-            if (IsInt32 || IsShort || IsByte )
+            if (IsInteger || IsShort || IsByte )
             {
                 return Convert.ToString(ToInt());
             }
@@ -464,7 +540,7 @@ namespace Core.Primitive
 
         public override int GetHashCode()
         {
-            if (IsInt32 | IsByte | IsBoolean | IsChar | IsShort)
+            if (IsInteger | IsByte | IsBoolean | IsChar | IsShort)
             {
                 return ToInt();
             }
@@ -489,83 +565,7 @@ namespace Core.Primitive
             return 0;
         }
 
-        public static Bits Of(byte value)
-        {
-            return new Bits(new[] { value })
-            {
-                _type = TypeByte
-            };
-        }
-
-        public static Bits Of(bool value)
-        {
-            return new Bits(BitConverter.GetBytes(value))
-            {
-                _type = TypeBoolean
-            };
-        }
-
-        public static Bits Of(short value)
-        {
-            return new Bits(null)
-            {
-                _type = TypeShortInteger
-            };
-        }
-
-        public static Bits Of(char value)
-        {
-            return new Bits(BitConverter.GetBytes(value))
-            {
-                _type = TypeChar
-            };
-        }
-
-        public static Bits Of(int value)
-        {
-            return new Bits(BitConverter.GetBytes(value))
-            {
-                _type = TypeInteger
-            };
-        }
-
-        public static Bits Of(float value)
-        {
-            return new Bits(BitConverter.GetBytes(value))
-            {
-                _type = TypeFloat
-            };
-        }
-
-        public static Bits Of(long value)
-        {
-            return new Bits(BitConverter.GetBytes(value))
-            {
-                _type = TypeLong
-            };
-        }
-
-        public static Bits Of(double value)
-        {
-            return new Bits(BitConverter.GetBytes(value))
-            {
-                _type = TypeDouble
-            };
-        }
         
-        public static Bits Of(decimal value)
-        {
-            var bytes = new List<byte>();
-            decimal.GetBits(value).ForEach(integer =>
-            {
-                bytes.AddRange(BitConverter.GetBytes(integer));
-            });
-
-            return new Bits(bytes.ToArray())
-            {
-                _type = TypeDecimal
-            };
-        }
 
         public static int GetExponent(float floatValue)
         {

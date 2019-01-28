@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using Newtonsoft.Json.Converters;
 
 namespace Core.Json
 {
@@ -18,11 +17,7 @@ namespace Core.Json
 
         public static bool TrySerialize(object obj, ref string jsonResult, params JsonConverter[] converters)
         {
-            if (jsonResult == null)
-            {
-                jsonResult = JsonConvert.Undefined;
-            }
-            
+            jsonResult = JsonConvert.Undefined;
             try
             {
                 jsonResult = Serialize(obj, converters);

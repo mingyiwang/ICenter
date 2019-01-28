@@ -16,13 +16,12 @@ namespace WebAPI
         {
             // Read Configuration Files            
             return new WebHostBuilder()
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
-                .UseStartup<Startup>()
-                .UseApplicationInsights()
-                .Build();
-
+                  .UseKestrel()
+                  .UseContentRoot(Directory.GetCurrentDirectory())
+                  .UseIISIntegration()
+                  .UseStartup<Startup>()
+                  .UseApplicationInsights()
+                  .Build();
         }
 
 

@@ -31,7 +31,7 @@ namespace Core.Encryption
         }
 
         // Used for password hash cos the speed is fastest
-        public static string SHA1Hex(string input)
+        public static string Sha1Hex(string input)
         {
             using (var sha1 = new SHA1CryptoServiceProvider())
             {
@@ -41,7 +41,7 @@ namespace Core.Encryption
         }
 
         // Used for password hash cos the speed is fastest
-        public static string SHA1Base64(string input)
+        public static string Sha1Base64(string input)
         {
             using (var sha1 = new SHA1CryptoServiceProvider())
             {
@@ -54,7 +54,7 @@ namespace Core.Encryption
         }
 
         // Used for password hash for high security
-        public static string SHA256Hex(string input)
+        public static string Sha256Hex(string input)
         {
             using (var mySha256 = new SHA256CryptoServiceProvider())
             {
@@ -64,7 +64,7 @@ namespace Core.Encryption
         }
 
         // Used for password hash for high security
-        public static string SHA256Base64(string input)
+        public static string Sha256Base64(string input)
         {
             using (var mySha256 = new SHA256CryptoServiceProvider())
             {
@@ -77,7 +77,7 @@ namespace Core.Encryption
         }
 
         // Used for password hash for highest security
-        public static string SHA512Hex(string input)
+        public static string Sha512Hex(string input)
         {
             using (var mySha512 = new SHA512CryptoServiceProvider())
             {
@@ -87,7 +87,7 @@ namespace Core.Encryption
         }
 
         // Used for password hash for highest security
-        public static string SHA512Base64(string input)
+        public static string Sha512Base64(string input)
         {
             using (var mySha512 = new SHA512CryptoServiceProvider())
             {

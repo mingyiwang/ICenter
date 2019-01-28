@@ -45,7 +45,6 @@ namespace Core.Concurrent
                 {
                     return;
                 }
-
                 spinWait.SpinOnce();
             }
         }
