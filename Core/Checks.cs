@@ -90,7 +90,7 @@ namespace Core
 
         public static void Equals(string expected, string actual)
         {
-            Equals<ArgumentException>(expected, actual, $"Expected {expected} but was {actual}.");
+            Equals<ArgumentException>(expected, actual, $"Expected {expected} but was {actual} .");
         }
 
         public static void Equals<T>(T expected, T actual)

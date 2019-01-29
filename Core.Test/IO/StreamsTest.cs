@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 using Core.IO;
 using NUnit.Framework;
@@ -31,6 +32,16 @@ namespace Core.Test.IO
         {
             var stream = Streams.Of(Encoding.UTF8.GetBytes(FullCharSet));
             Checks.Equals<string>(FullCharSet, Streams.GetString(stream));
+        }
+
+        [Test]
+        public void TestWrite()
+        {
+            var fileStream = Streams.Of(new FileInfo("D:\\test.txt"));
+
+            var ms = Streams.Of(FullCharSet);
+            Streams.Transfer(ms, fileStream);
+            Checks.Equals(FullCharSet, Streams.GetString(fileStream));
         }
 
     }
