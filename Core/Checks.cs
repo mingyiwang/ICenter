@@ -9,19 +9,19 @@ namespace Core
     public sealed class Checks
     {
 
-        public static void Is(object actual, Type expectedType)
+        public static void Is(object obj, Type expected)
         {
-            NotNull(expectedType);
-            NotNull(actual);
-            if (actual.GetType() != expectedType)
+            NotNull(expected);
+            NotNull(obj);
+            if (obj.GetType() != expected)
             {
-                Fail<ArgumentException>($"Expected type {expectedType.Name} but was {actual.GetType().Name}");
+                Fail<ArgumentException>($"Expected type {expected.Name} but was {obj.GetType().Name}.");
             }
         }
 
         public static void NotNull(object obj)
         {
-            NotNull(obj, "Expected {not null} but was {null}.");
+            NotNull(obj, "Expected not null but was null.");
         }
 
         public static void NotNull(object obj, string message)
@@ -83,52 +83,60 @@ namespace Core
             }
         }
 
-        public static void Equals(int expected, int actual)
+        public static void IsEqual(int actual, int expected)
         {
-            Equals<ArgumentException>(expected, actual, $"Expected {expected} but was {actual}.");
-        }
-
-        public static void Equals(string expected, string actual)
-        {
-            Equals<ArgumentException>(expected, actual, $"Expected {expected} but was {actual} .");
-        }
-
-        public static void Equals<T>(T expected, T actual)
-        {
-            if (!expected.Equals(actual))
+            if (actual != expected)
             {
                 Fail<ArgumentException>($"Expected {expected} but was {actual}.");
             }
         }
 
-        public static void Equals<T>(T[] actual, T[] expected)
+        public static void IsEqual(string actual, string expected)
         {
-            if (!Arrays.Equals(actual, expected))
+            if (!expected.Equals(actual))
             {
-                Fail<ArgumentException>($"Expected {expected} but was {actual}.");
+                 Fail<ArgumentException>($"Expected {expected} but was {actual}.");
             }
         }
 
-        public static void Equals<T>(object expected, object actual, string message) where T : Exception
+        public static void IsEqual<T>(T[] actual, T[] expected)
+        {
+            if (!Arrays.IsEqual(actual, expected))
+            {
+                Fail<ArgumentException>($"Array is not equal.");
+            }
+        }
+
+        public static void IsEqual<T>(T actual, T expected)
+        {
+            IsEqual<ArgumentException>(actual, expected, $"Expected {expected} but was {actual}.");
+        }
+
+        public static void IsEqual<T>(T actual, T expected, string message)
+        {
+            IsEqual<ArgumentException>(actual, expected, message);
+        }
+
+        private static void IsEqual<T>(object actual, object expected, string message) where T : Exception
         {
 
             if (!expected.Equals(actual))
             {
-                Fail<T>(message);
+                 Fail<T>(message);
             }
         }
 
-        public static void NotEquals(int expected, int actual, string message)
+        public static void IsNotEqual(int actual, int expected, string message)
         {
-            NotEquals<ArgumentException>(expected, actual, message);
+            IsNotEqual<ArgumentException>(actual, expected, message);
         }
 
-        public static void NotEquals(object expected, object actual)
+        public static void IsNotEqual(object actual, object expected)
         {
-            NotEquals<ArgumentException>(expected, actual, "Value must not be equal.");
+            IsNotEqual<ArgumentException>(actual, expected, "Value must not be equal.");
         }
 
-        public static void NotEquals<T>(object expected, object actual, string message) where T : Exception
+        public static void IsNotEqual<T>(object actual, object expected,  string message) where T : Exception
         {
             if (ReferenceEquals(expected, actual) || expected.Equals(actual))
             {
@@ -188,7 +196,7 @@ namespace Core
             }
         }
 
-        public static void LessThan<T>(int comparator, int actual, string message) where T : Exception
+        public static void LessThan<T>(int actual, int comparator,  string message) where T : Exception
         {
             if (actual >= comparator)
             {
@@ -196,19 +204,19 @@ namespace Core
             }
         }
 
-        public static void LessThanOrEqual<T>(int comparator, int actual, string message) where T : Exception
+        public static void LessThanOrEqual(int actual, int comparator, string message)
         {
             if (actual > comparator)
             {
-                Fail<T>(message);
+                Fail<ArgumentException>(message);
             }
         }
 
-        public static void GreaterThan<T>(int actual, int comparator, string message) where T : Exception
+        public static void GreaterThan(int actual, int comparator, string message)
         {
             if (actual <= comparator)
             {
-                Fail<T>(message);
+                Fail<ArgumentException>(message);
             }
         }
 

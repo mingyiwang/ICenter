@@ -98,7 +98,7 @@ namespace Core.Primitive
                 }
                 case RoundKind.HalfUp:
                 {
-                    return diff < FloatHalfOfOne 
+                    return  diff < FloatHalfOfOne 
                           ? intValue 
                           : value.IsNegative() ? intValue - 1 : intValue + 1;
                 }
@@ -122,6 +122,7 @@ namespace Core.Primitive
                          : intValue
                          ;
                 }
+                case RoundKind.None: return intValue;
                 default : return intValue;
             }            
         }

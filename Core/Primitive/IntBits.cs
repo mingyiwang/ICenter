@@ -71,7 +71,7 @@ namespace Core.Primitive
 
         public bool Equals(IntBits other)
         {
-            return Arrays.Equals(_bits, other._bits);
+            return Arrays.IsEqual(_bits, other._bits);
         }
 
         public override bool Equals(object obj)

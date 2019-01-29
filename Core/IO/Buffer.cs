@@ -89,7 +89,7 @@ namespace Core.IO
 
         public virtual bool Equals(Buffer<T> other)
         {
-            return Arrays.Equals(_store, other._store) 
+            return Arrays.IsEqual(_store, other._store) 
                 && _position == other._position
                 && _capacity == other._capacity
                 && _limit    == other._limit
@@ -114,5 +114,21 @@ namespace Core.IO
 
     }
 
-    
+    class BufferImpl<T> : Buffer<T>
+    {
+        public BufferImpl(int capacity) : base(capacity)
+        {
+        }
+
+        public override T Get()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Put(T data)
+        {
+            throw new NotImplementedException();
+        }
+
+    }
 }

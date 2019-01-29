@@ -128,7 +128,7 @@ namespace Core.Date.Zone
 
         public bool IsAmbiguous(DateTime time)
         {
-            Checks.Equals(Year.GetYear(), time.Year);
+            Checks.IsEqual(Year.GetYear(), time.Year);
             if(!HasDayLightSavingTime)
             {
                 return false;
@@ -138,7 +138,7 @@ namespace Core.Date.Zone
 
         public bool IsInvalid(DateTime time)
         {
-            Checks.Equals(Year.GetYear(), time.Year);
+            Checks.IsEqual(Year.GetYear(), time.Year);
             if(!HasDayLightSavingTime)
             {
                 return false;

@@ -19,7 +19,7 @@ namespace Core.Test.IO
             var stream = Streams.Of(Encoding.UTF8.GetBytes(Text));
             using (stream)
             {
-                Checks.Equals<string>(Text, Streams.GetString(stream));
+                Checks.IsEqual<string>(Text, Streams.GetString(stream));
             }
             
         }
@@ -30,7 +30,7 @@ namespace Core.Test.IO
             var stream = Streams.Of(Encoding.UTF8.GetBytes(EmptyText));
             using (stream)
             {
-                Checks.Equals<string>(EmptyText,
+                Checks.IsEqual<string>(EmptyText,
                     Streams.GetString(stream)
                 );
             }
@@ -43,7 +43,7 @@ namespace Core.Test.IO
             var stream = Streams.Of(Encoding.UTF8.GetBytes(FullCharSet));
             using (stream)
             {
-                Checks.Equals<string>(FullCharSet,
+                Checks.IsEqual<string>(FullCharSet,
                     Streams.GetString(stream)
                 );
             }
@@ -59,7 +59,7 @@ namespace Core.Test.IO
             {
                 for (int i = 1; i <= 1024; i++)
                 {
-                    Checks.Equals<string>(EmptyText,
+                    Checks.IsEqual<string>(EmptyText,
                         Encoding.UTF8.GetString(Streams.GetBytes(s, i))
                     );
                 }
@@ -75,12 +75,28 @@ namespace Core.Test.IO
             {
                 for (int i = 1; i <= 1024; i++)
                 {
-                    Checks.Equals<string>(FullCharSet,
+                    Checks.IsEqual<string>(FullCharSet,
                         Encoding.UTF8.GetString(Streams.GetBytes(s, i))
                     );
                 }
             }
             
+        }
+
+        [Test]
+        public void TestTransfer()
+        {
+            var ms = Streams.Of(FullCharSet);
+            var fileInfo = new FileInfo("test.txt");
+
+            var fileStream = Streams.Of(fileInfo);
+            using (fileStream)
+            {
+                Streams.Transfer(ms, fileStream);
+                Checks.IsEqual(Streams.GetString(fileStream), FullCharSet);
+            }
+
+            File.Delete(fileInfo.FullName);
         }
 
     }

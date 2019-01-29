@@ -119,7 +119,7 @@ namespace Core.Collection
             }
         }
 
-        public static bool Equals<T>(T[] array1, T[] array2)
+        public static bool IsEqual<T>(T[] array1, T[] array2)
         {
             if (array1 == null || array2 == null)
             {

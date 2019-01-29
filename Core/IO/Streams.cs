@@ -10,7 +10,7 @@ namespace Core.IO
     public sealed class Streams
     {
 
-        private const int BUFFER_SIZE = 1024; // 8K
+        private const int BufferSize = 8; // 8K
 
         public static MemoryStream Of(string content)
         {
@@ -39,7 +39,7 @@ namespace Core.IO
 
         public static string GetString(Stream stream)
         {
-            return Encoding.UTF8.GetString(GetBytes(stream, BUFFER_SIZE));
+            return Encoding.UTF8.GetString(GetBytes(stream, BufferSize));
         }
 
         public static string GetString(Stream stream, Encoding encoding)
@@ -47,46 +47,9 @@ namespace Core.IO
             return encoding.GetString(GetBytes(stream));
         }
 
-        public static void Transfer(Stream input, Stream output)
-        {
-            Transfer(input, BUFFER_SIZE, output, Encoding.UTF8);
-        }
-
-        public static void Transfer(Stream input, int bufferSize, Stream output)
-        {
-            Transfer(input, bufferSize, output, Encoding.UTF8);
-        }
-
-        public static void Transfer(Stream input, Stream output, Encoding encoding)
-        {
-            Transfer(input, BUFFER_SIZE, output, encoding);
-        }
-
-        public static void Transfer(Stream input, int bufferSize, Stream output, Encoding encoding)
-        {
-            Checks.NotNull(input,  "InputStream can not be null");
-            Checks.NotNull(output, "OutputStream can not be null");
-            Checks.GreaterThan<ArgumentException>(bufferSize,  0, "");
-            Checks.IsTrue<InvalidOperationException>(input.CanRead,  "");
-            Checks.IsTrue<InvalidOperationException>(input.CanWrite, "");
-
-            using (input)
-            {
-                Read(input, bufferSize, data =>
-                {
-                    if (Arrays.IsEmpty(data))
-                    {
-                        return;
-                    }
-
-                    PutBytes(data, output, encoding);
-                });
-            }
-        }
-
         public static byte[] GetBytes(Stream stream)
         {
-            return GetBytes(stream, BUFFER_SIZE);
+            return GetBytes(stream, BufferSize);
         }
 
         public static byte[] GetBytes(Stream stream, int bufferSize)
@@ -110,17 +73,49 @@ namespace Core.IO
             return result.ToArray();
         }
 
-        public static void PutBytes(byte[] bytes, Stream output, Encoding encoding)
+        public static void Transfer(Stream input, Stream output)
         {
-            Checks.NotNullOrEmpty(bytes, "Collection can not be empty");
-            Checks.NotNull(output, "Output Stream can not be null.");
-            Checks.IsTrue<InvalidOperationException>(output.CanWrite, "Stream is not writable.");
+            Transfer(input, BufferSize, output);
+        }
 
-            using (var writer = new BinaryWriter(output, encoding, true))
+        public static void Transfer(Stream input, int bufferSize, Stream output)
+        {
+            Checks.GreaterThan(bufferSize, 0, "Buffer size must be greater than zero.");
+
+            Checks.NotNull(input, "InputStream can not be null");
+            Checks.IsTrue<InvalidOperationException>(input.CanRead, "Input stream is not readable.");
+
+            Checks.NotNull(output, "OutputStream can not be null");
+            Checks.IsTrue<InvalidOperationException>(input.CanWrite, "Output stream is not writable.");
+
+            using (input)
             {
-                writer.Write(bytes);
-                writer.Flush();
+                Read(input, bufferSize, data =>
+                {
+                    if (!Arrays.IsEmpty(data))
+                    {
+                         Write(data, output);
+                    }
+
+                });
             }
+        }
+
+        /// <summary>
+        /// Write a sequence of bytes to <param name="stream"/>, this method
+        /// assumes stream is writable.
+        /// </summary>
+        /// <param name="bytes">a sequence of bytes</param>
+        /// <param name="stream">The current stream</param>
+        private static void Write(byte[] bytes, Stream stream)
+        {
+            Checks.NotNullOrEmpty(bytes, "Data can not be empty");
+
+            Checks.NotNull(stream, "Output Stream can not be null.");
+            Checks.IsTrue<InvalidOperationException>(stream.CanWrite, "Stream is not writable.");
+
+            stream.Write(bytes, 0, bytes.Length);
+            stream.Flush();
         }
 
         /// <summary>
@@ -133,7 +128,6 @@ namespace Core.IO
         /// <param name="handle">Handler handing a sequence of bytes read.</param>
         private static void Read(Stream stream, int bufferSize, Action<byte[]> handle)
         {
-            
             while (true)
             {
                 var buffer = Arrays.Make<byte>(bufferSize);
@@ -145,24 +139,14 @@ namespace Core.IO
 
                 if (numOfBytesRead != buffer.Length)
                 {
-                    var temp1 = Arrays.Make<byte>(numOfBytesRead);
-                    Buffer.BlockCopy(buffer,0,temp1,0, numOfBytesRead);
-                    buffer = temp1;
+                    var temp = Arrays.Make<byte>(numOfBytesRead);
+                    Buffer.BlockCopy(buffer, 0, temp, 0, numOfBytesRead);
+                    buffer = temp;
+
+                    // Todo: gradually increase buffer size 
+                    bufferSize = (int) (1.5 * bufferSize);
                 }
 
-                // We need to know that we are reached the end of stream.
-                var nextByte = stream.ReadByte();
-                if (nextByte == -1)
-                {
-                    handle(buffer);
-                    break;
-                }
-
-                // We need to handle the next byte.
-                var temp2 = new byte[buffer.Length+1];
-                Buffer.BlockCopy(buffer, 0, temp2, 0, buffer.Length);
-                temp2[buffer.Length] = (byte) nextByte;
-                buffer = temp2;
                 handle(buffer);
             }
 

@@ -16,24 +16,24 @@ namespace Core.Test.Json
         public void TestInt()
         {
             var result = JsonUtils.Serialize(TestCase1);
-            Checks.Equals("1",result);
-            Checks.Equals(TestCase1, JsonUtils.Deserialize<int>(result));
+            Checks.IsEqual("1",result);
+            Checks.IsEqual(TestCase1, JsonUtils.Deserialize<int>(result));
         }
 
         [Test]
         public void TestBool()
         {
             var result = JsonUtils.Serialize(TestCase2);
-            Checks.Equals(TestCase2.ToString(), result);
-            Checks.Equals(TestCase2, JsonUtils.Deserialize<bool>(result));
+            Checks.IsEqual(TestCase2.ToString(), result);
+            Checks.IsEqual(TestCase2, JsonUtils.Deserialize<bool>(result));
         }
 
         [Test]
         public void TestString()
         {
             var result = JsonUtils.Serialize(TestCase3);
-            Checks.Equals(TestCase3, result);
-            Checks.Equals(TestCase3, JsonUtils.Deserialize<string>(result));
+            Checks.IsEqual(TestCase3, result);
+            Checks.IsEqual(TestCase3, JsonUtils.Deserialize<string>(result));
         }
 
         [Test]
@@ -47,7 +47,7 @@ namespace Core.Test.Json
         {
             var dateTime = DateTime.Now;
             var result   = JsonUtils.Serialize(dateTime);
-            Checks.Equals(dateTime, JsonUtils.Deserialize<DateTime>(result));
+            Checks.IsEqual(dateTime, JsonUtils.Deserialize<DateTime>(result));
         }
 
         [Test]

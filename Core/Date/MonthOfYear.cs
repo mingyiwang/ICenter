@@ -83,23 +83,12 @@ namespace Core.Date
         /// <summary>
         /// Get The Total Days in This Month of This Year
         /// </summary>
-        public int TotalDays
-        {
-            get
-            {
-                return _month.GetTotalDaysOfMonthInYear(_year.GetYear());
-            }
-        }
+        public int TotalDays => _month.GetTotalDaysOfMonthInYear(_year.GetYear());
 
         /// <summary>
         /// Get Total Days From 1/1/0001 To the End of This Month
         /// </summary>
-        public int TotalDaysToEndOfMonth
-        {
-            get {
-                return _year.TotalDaysBeforeStartOfYear + _month.GetDaysToEndOfMonthInYear(_year.GetYear());
-            }
-        }
+        public int TotalDaysToEndOfMonth => _year.TotalDaysBeforeStartOfYear + _month.GetDaysToEndOfMonthInYear(_year.GetYear());
 
         /// <summary>
         /// Get Total Days From 1/1/0001 To the End of Previous Month
@@ -114,13 +103,7 @@ namespace Core.Date
         /// <summary>
         /// Get First DateTime of This Month
         /// </summary>
-        public DateTime FirstDateOfMonth
-        {
-            get
-            {
-                return new DateTime(_year.GetYear(), _month.GetMonth(), day: 1);
-            }
-        }
+        public DateTime FirstDateOfMonth => new DateTime(_year.GetYear(), _month.GetMonth(), day: 1);
 
         /// <summary>
         /// Get Last DateTime of This Month
@@ -151,31 +134,19 @@ namespace Core.Date
                      : intOfDayOfWeek - intOfFirstDayOfThisWeek + 7
                      ;
 
-            Checks.LessThanOrEqual<ArgumentOutOfRangeException>(TotalDays, days + 1, $"{dayOfWeek} doesn't exist in {week} week(s) of {_month.GetName()} {_year}");
+            Checks.LessThanOrEqual(days++, TotalDays, $"{dayOfWeek} doesn't exist in {week} week(s) of {_month.GetName()} {_year}");
             return dateTime.AddDays(days);
         }
 
         /// <summary>
         /// Get Month
         /// </summary>
-        public Month Month
-        {
-            get
-            {
-                return Month.Of(_month.GetMonth());
-            }
-        }
+        public Month Month => Month.Of(_month.GetMonth());
 
         /// <summary>
         /// Get Year
         /// </summary>
-        public Year Year
-        {
-            get
-            {
-                return Year.Of(_year.GetYear());
-            }
-        }
+        public Year Year => Year.Of(_year.GetYear());
 
         /// <summary>
         /// Check the Day is a valid day or not
@@ -208,7 +179,7 @@ namespace Core.Date
         public int CompareTo(object obj)
         {
             Checks.NotNull(obj);
-            Checks.Is(obj, expectedType: typeof(MonthOfYear));
+            Checks.Is(obj, expected: typeof(MonthOfYear));
             return CompareTo(obj as MonthOfYear);
         }
 
