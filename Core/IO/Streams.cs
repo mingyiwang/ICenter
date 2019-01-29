@@ -34,7 +34,7 @@ namespace Core.IO
 
         public static string GetString(Stream stream)
         {
-            return Encoding.UTF8.GetString(GetBytes(stream, 1000));
+            return Encoding.UTF8.GetString(GetBytes(stream, BufferSize));
         }
 
         public static string GetString(Stream stream, Encoding encoding)
@@ -155,19 +155,12 @@ namespace Core.IO
         /// <param name="handle">Handler handing a sequence of bytes read.</param>
         private static void Read(Stream stream, int bufferSize, Action<byte[]> handle)
         {
-            var totalNumOfBytesRead = 0;
+            
             while (true)
             {
-                var nextByte = stream.ReadByte();
-                if (nextByte == -1)
-                {
-                   // handle(null);
-                    break;
-                }
-
-                totalNumOfBytesRead++;
+                
                 var buffer = Arrays.Make<byte>(bufferSize);
-                var numOfBytesRead = stream.Read(buffer, totalNumOfBytesRead, bufferSize);
+                var numOfBytesRead = stream.Read(buffer, 0, bufferSize);
                 if (numOfBytesRead == 0)
                 {
                     break;
@@ -175,21 +168,25 @@ namespace Core.IO
 
                 if (numOfBytesRead != buffer.Length)
                 {
-                    var temp = Arrays.Make<byte>(numOfBytesRead);
-                    Buffer.BlockCopy(buffer,0,temp,0, numOfBytesRead);
-                    buffer = temp;
+                    var temp1 = Arrays.Make<byte>(numOfBytesRead);
+                    Buffer.BlockCopy(buffer,0,temp1,0, numOfBytesRead);
+                    buffer = temp1;
                 }
 
-                totalNumOfBytesRead += numOfBytesRead;
-                numOfBytesRead++;
-                var temp1 = new byte[numOfBytesRead];
-                temp1[0] = (byte) nextByte;
+                // We need to know that we are reached the end of stream.
+                var nextByte = stream.ReadByte();
+                if (nextByte == -1)
+                {
+                    handle(buffer);
+                    break;
+                }
 
-                Buffer.BlockCopy(buffer, 0, temp1, 1, buffer.Length);
-                buffer = temp1;
-
+                // We need to handle the Next Byte.
+                var temp2 = new byte[buffer.Length+1];
+                Buffer.BlockCopy(buffer, 0, temp2, 0, buffer.Length);
+                temp2[buffer.Length] = (byte) nextByte;
+                buffer = temp2;
                 handle(buffer);
-                
             }
 
         }

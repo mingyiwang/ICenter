@@ -32,7 +32,7 @@ namespace Core.Collection
             var array = new T[length];
             for (var i = 0; i < array.Length; i++)
             {
-                array[i] = defaultValue;
+                 array[i] = defaultValue;
             }
             return array;
         }
