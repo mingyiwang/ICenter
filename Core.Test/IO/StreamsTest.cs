@@ -10,38 +10,77 @@ namespace Core.Test.IO
     public class StreamsTest
     {
         private const string Text = "Text";
-        private const string EmptyText = "";
+        private const string EmptyText   = "";
         private const string FullCharSet = "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-=_+[]\\{};':\",.<>";
 
         [Test]
-        public void TestText()
+        public void TestReadNormalText()
         {
             var stream = Streams.Of(Encoding.UTF8.GetBytes(Text));
-            Checks.Equals<string>(Text,Streams.GetString(stream));
+            using (stream)
+            {
+                Checks.Equals<string>(Text, Streams.GetString(stream));
+            }
+            
         }
 
         [Test]
-        public void TestEmptyText()
+        public void TestReadEmptyText()
         {
             var stream = Streams.Of(Encoding.UTF8.GetBytes(EmptyText));
-            Checks.Equals<string>(EmptyText, Streams.GetString(stream));
+            using (stream)
+            {
+                Checks.Equals<string>(EmptyText,
+                    Streams.GetString(stream)
+                );
+            }
+            
         }
-
+        
         [Test]
-        public void TestFullCharSet()
+        public void TestReadFullCharset()
         {
             var stream = Streams.Of(Encoding.UTF8.GetBytes(FullCharSet));
-            Checks.Equals<string>(FullCharSet, Streams.GetString(stream));
+            using (stream)
+            {
+                Checks.Equals<string>(FullCharSet,
+                    Streams.GetString(stream)
+                );
+            }
+            
+        }
+
+       
+        [Test]
+        public void TestReadEmptyTextWithBufferSize()
+        {
+            var s = Streams.Of(EmptyText);
+            using (s)
+            {
+                for (int i = 1; i <= 1024; i++)
+                {
+                    Checks.Equals<string>(EmptyText,
+                        Encoding.UTF8.GetString(Streams.GetBytes(s, i))
+                    );
+                }
+            }
+            
         }
 
         [Test]
-        public void TestWrite()
+        public void TestReadFullCharsetWithBufferSize()
         {
-            var fileStream = Streams.Of(new FileInfo("D:\\test.txt"));
-
-            var ms = Streams.Of(FullCharSet);
-            Streams.Transfer(ms, fileStream);
-            Checks.Equals(FullCharSet, Streams.GetString(fileStream));
+            var s = Streams.Of(FullCharSet);
+            using (s)
+            {
+                for (int i = 1; i <= 1024; i++)
+                {
+                    Checks.Equals<string>(FullCharSet,
+                        Encoding.UTF8.GetString(Streams.GetBytes(s, i))
+                    );
+                }
+            }
+            
         }
 
     }

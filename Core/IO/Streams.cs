@@ -10,11 +10,16 @@ namespace Core.IO
     public sealed class Streams
     {
 
-        private const int BufferSize = 1; // 8K
+        private const int BUFFER_SIZE = 1024; // 8K
 
         public static MemoryStream Of(string content)
         {
-            return new MemoryStream(Encoding.UTF8.GetBytes(content));
+            return Of(content, Encoding.UTF8);
+        }
+
+        public static MemoryStream Of(string content, Encoding encoding)
+        {
+            return Of(encoding.GetBytes(content));
         }
 
         public static MemoryStream Of(byte[] bytes)
@@ -22,19 +27,19 @@ namespace Core.IO
             return new MemoryStream(bytes);
         }
 
-        public static BufferedStream Of(Stream stream, int bufferSize)
-        {
-            return new BufferedStream(stream, bufferSize);
-        }
-
         public static FileStream Of(FileInfo fileInfo)
         {
             return new FileStream(fileInfo.FullName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
         }
 
+        public static BufferedStream Of(Stream stream, int bufferSize)
+        {
+            return new BufferedStream(stream, bufferSize);
+        }
+
         public static string GetString(Stream stream)
         {
-            return Encoding.UTF8.GetString(GetBytes(stream, BufferSize));
+            return Encoding.UTF8.GetString(GetBytes(stream, BUFFER_SIZE));
         }
 
         public static string GetString(Stream stream, Encoding encoding)
@@ -42,28 +47,52 @@ namespace Core.IO
             return encoding.GetString(GetBytes(stream));
         }
 
-        public static byte[] GetBytes(Stream stream)
+        public static void Transfer(Stream input, Stream output)
         {
-            return GetBytes(stream, BufferSize);
+            Transfer(input, BUFFER_SIZE, output, Encoding.UTF8);
         }
 
-        public static byte[] GetBytesAndClose(Stream stream, int bufferSize)
+        public static void Transfer(Stream input, int bufferSize, Stream output)
         {
-            using (stream)
+            Transfer(input, bufferSize, output, Encoding.UTF8);
+        }
+
+        public static void Transfer(Stream input, Stream output, Encoding encoding)
+        {
+            Transfer(input, BUFFER_SIZE, output, encoding);
+        }
+
+        public static void Transfer(Stream input, int bufferSize, Stream output, Encoding encoding)
+        {
+            Checks.NotNull(input,  "InputStream can not be null");
+            Checks.NotNull(output, "OutputStream can not be null");
+            Checks.GreaterThan<ArgumentException>(bufferSize,  0, "");
+            Checks.IsTrue<InvalidOperationException>(input.CanRead,  "");
+            Checks.IsTrue<InvalidOperationException>(input.CanWrite, "");
+
+            using (input)
             {
-                return GetBytes(stream, bufferSize);
+                Read(input, bufferSize, data =>
+                {
+                    if (Arrays.IsEmpty(data))
+                    {
+                        return;
+                    }
+
+                    PutBytes(data, output, encoding);
+                });
             }
+        }
+
+        public static byte[] GetBytes(Stream stream)
+        {
+            return GetBytes(stream, BUFFER_SIZE);
         }
 
         public static byte[] GetBytes(Stream stream, int bufferSize)
         {
-            Checks.NotEquals(0, bufferSize, "Buffer size must not be empty.");
             Checks.NotNull(stream, "Stream can not be null.");
-
-            if (!stream.CanRead)
-            {
-                 throw new InvalidOperationException("Stream is not readable or seekable.");
-            }
+            Checks.IsTrue<InvalidOperationException>(stream.CanRead, "Stream is not readable.");
 
             if (stream.CanSeek)
             {
@@ -75,7 +104,7 @@ namespace Core.IO
             {
                 if (!Arrays.IsEmpty(data))
                 {
-                     result.AddRange(data);
+                    result.AddRange(data);
                 }
             });
             return result.ToArray();
@@ -83,65 +112,14 @@ namespace Core.IO
 
         public static void PutBytes(byte[] bytes, Stream output, Encoding encoding)
         {
-            Checks.NotNullOrEmpty(bytes , "Collection can not be empty");
+            Checks.NotNullOrEmpty(bytes, "Collection can not be empty");
             Checks.NotNull(output, "Output Stream can not be null.");
-            
-            if (!output.CanWrite)
-            {
-                 throw new InvalidOperationException("Output stream is not writable");
-            }
+            Checks.IsTrue<InvalidOperationException>(output.CanWrite, "Stream is not writable.");
 
             using (var writer = new BinaryWriter(output, encoding, true))
             {
                 writer.Write(bytes);
                 writer.Flush();
-            }
-        }
-
-        public static void TransferAndClose(Stream input, Stream output)
-        {
-            using (output)
-            {
-                Transfer(input, output, Encoding.UTF8);
-            }
-        }
-
-        public static void Transfer(Stream input, Stream output)
-        {
-            Transfer(input, output, Encoding.UTF8);
-        }
-
-        public static void Transfer(Stream input, Stream output, Encoding encoding)
-        {
-            Transfer(input, 0, output, encoding);
-        }
-
-        public static void Transfer(Stream input, int offset, Stream output, Encoding encoding)
-        {
-            Checks.NotNull(input,  "InputStream can not be null");
-            Checks.NotNull(output, "OutputStream can not be null");
-
-            if (!input.CanRead)
-            {
-                throw new InvalidOperationException("Input stream is not readable");
-            }
-
-            if (!input.CanWrite)
-            {
-                throw new InvalidOperationException("Output stream is not writable");
-            }
-
-            using (input)
-            {
-                Read(input, BufferSize, data =>
-                {
-                    if (Arrays.IsEmpty(data))
-                    {
-                        return;
-                    }
-
-                    PutBytes(data, output, encoding);
-                });
             }
         }
 
@@ -158,7 +136,6 @@ namespace Core.IO
             
             while (true)
             {
-                
                 var buffer = Arrays.Make<byte>(bufferSize);
                 var numOfBytesRead = stream.Read(buffer, 0, bufferSize);
                 if (numOfBytesRead == 0)
@@ -181,7 +158,7 @@ namespace Core.IO
                     break;
                 }
 
-                // We need to handle the Next Byte.
+                // We need to handle the next byte.
                 var temp2 = new byte[buffer.Length+1];
                 Buffer.BlockCopy(buffer, 0, temp2, 0, buffer.Length);
                 temp2[buffer.Length] = (byte) nextByte;
