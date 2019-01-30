@@ -3,7 +3,7 @@
 namespace Core
 {
 
-    public sealed class UniqueIds
+    public sealed class UID
     {
         public static string NGuid => Guid.NewGuid().ToString("N");
         public static string DGuid => Guid.NewGuid().ToString("");

@@ -7,11 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="IO\Resources-Fullcharset.txt" />
+    <None Remove="IO\Charset.txt" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="IO\Resources-FullCharset.txt" />
+    <EmbeddedResource Include="IO\Charset.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

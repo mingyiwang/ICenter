@@ -1,4 +1,7 @@
-﻿namespace Core.IO
+﻿using System.Collections.Generic;
+using System.IO;
+
+namespace Core.IO
 {
     /// <summary>
     /// Utility class used to control files
@@ -6,19 +9,21 @@
     public sealed class Files
     {
 
-        public static string GetFileName(string path)
+        public static List<FileInfo> FilesOf(DirectoryInfo fileName)
         {
-            return string.Empty;
+            return null;
         }
 
-        public static void ChangeName(string src, string name)
+        public static List<DirectoryInfo> DirecotriesOf(DirectoryInfo directory)
         {
-
-        }
-
-        public static void Move(string src, string destination)
-        {
-
+            directory.GetFileSystemInfos();
+            var dds = new List<DirectoryInfo>();
+            dds.AddRange(directory.GetDirectories());
+            foreach (var d in directory.GetDirectories())
+            {
+                dds.AddRange(DirecotriesOf(d));
+            }
+            return dds;
         }
 
     }

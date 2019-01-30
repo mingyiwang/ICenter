@@ -15,22 +15,21 @@ namespace Core.Test.IO
         [Test]
         public void TestText()
         {
-            var text = Resources.GetString(typeof(ResourcesTest), "Resources-FullCharset.txt");
-            Console.WriteLine(FullCharSet.Length);
-            Console.WriteLine(text.Length);
-            Console.WriteLine(text.First());
-            Console.WriteLine(text.Last());
-            Checks.IsEqual(text, FullCharSet);
+            Console.WriteLine(Resources.GetString(typeof(ResourcesTest), "Charset.txt"));
 
+            var text = Resources.GetString("Core.Test", "Core.Test.IO.Charset.txt");
+            Console.WriteLine(text);
         }
 
         [Test]
         public void TestLoadAssemblies()
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            
             assemblies.ForEach(a =>
             {
-                Console.WriteLine(a.FullName);
+                Console.WriteLine(a.GetName().Name);
+
             });
         }
 

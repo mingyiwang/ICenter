@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Reflection;
 using Core.Collection;
 using Core.Primitive;
 
@@ -39,11 +41,19 @@ namespace Core
 
         public static void NotNullOrEmpty(string value)
         {
-
             NotNull(value, "Expected not null but was null.");
             if (value.Trim().Length == 0)
             {
                 Fail<ArgumentException>("Expected not empty but was empty.");
+            }
+        }
+
+        public static void NotNullOrEmpty(string value, string message)
+        {
+            NotNull(value, "Expected not null but was null.");
+            if (value.Trim().Length == 0)
+            {
+                Fail<ArgumentException>(message);
             }
         }
 
@@ -231,7 +241,6 @@ namespace Core
         private static void Fail<T>(string message) where T : Exception
         {
             var type = typeof(T);
-
             var constructor = type.GetConstructor(new[]{
                 typeof(string)
             });
@@ -241,10 +250,15 @@ namespace Core
                 throw new ArgumentException("Exception[" + type.FullName + "] must have a constructor of a single string parameter.");
             }
 
-            throw (T)constructor.Invoke(new object[] {
-                   message
-            });
+            throw LinqCreateException<T>(message, constructor)();
         }
+
+        private static Func<T> LinqCreateException<T>(string message, ConstructorInfo info) where T : Exception
+        {
+            return Expression.Lambda<Func<T>>(Expression.New(info, Expression.Constant(message))).Compile();
+        }
+
+        
     }
 
 }

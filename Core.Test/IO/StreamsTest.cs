@@ -19,7 +19,7 @@ namespace Core.Test.IO
             var stream = Streams.Of(Encoding.UTF8.GetBytes(Text));
             using (stream)
             {
-                Checks.IsEqual<string>(Text, Streams.GetString(stream));
+                Checks.IsEqual(Text, Streams.GetString(stream));
             }
             
         }

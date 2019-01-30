@@ -14,6 +14,8 @@ namespace Core.Concurrent
         public static readonly bool IsBit64         = Environment.Is64BitOperatingSystem;
         public static readonly bool IsLittleEndian  = BitConverter.IsLittleEndian;
 
+        public static readonly bool IsMultiCore     = CpuCount > 1;
+
     }
 
 }

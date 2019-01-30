@@ -39,7 +39,11 @@ namespace Core.Json
             {
                 return default(T);
             }
-            return JsonConvert.DeserializeObject<T>(json, CreateDefaultSettings(converters));
+
+            return JsonConvert.DeserializeObject<T>(
+                   json, 
+                   CreateDefaultSettings(converters)
+            );
         }
 
         public static bool TryDeserialize<T>(string json, out T result, params JsonConverter[] converters)
