@@ -12,7 +12,7 @@ namespace Core.Template.Expression
 
         public ExpressionReader(string input)
         {
-            Checks.NotNullOrEmpty(input);
+            Checks.IsNotNullOrEmpty(input);
             _input = input;
             _pos = 0;
         }

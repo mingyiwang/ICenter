@@ -18,21 +18,21 @@ namespace Core.Date.Format
 
         public DateTimeFormatterBuilder Append(char literal)
         {
-            Checks.NotNull(literal);
+            Checks.IsNotNull(literal);
             _tokens.Enqueue(DateTimeFormatToken.Of(literal));
             return this;
         }
 
         public DateTimeFormatterBuilder Append(DateTimeFormatToken token)
         {
-            Checks.NotNull(token);
+            Checks.IsNotNull(token);
             _tokens.Enqueue(token);
             return this;
         }
 
         public DateTimeFormatterBuilder With(CultureInfo info)
         {
-            Checks.NotNull(info);
+            Checks.IsNotNull(info);
             _cultureInfo = info;
             return this;
         }

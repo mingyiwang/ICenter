@@ -86,7 +86,7 @@ namespace Core.Primitive
 
         private Bits(byte[] bytes)
         {
-            Checks.NotNull(bytes);
+            Checks.IsNotNull(bytes);
             _bytes = bytes;
             _type  = UndefinedType;
         }

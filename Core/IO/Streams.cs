@@ -13,6 +13,11 @@ namespace Core.IO
         private const int BufferSize = 8; // 8K
         private const double BufferSizeRatio = 1.5d;
 
+        public static MemoryStream Empty()
+        {
+            return new MemoryStream();
+        }
+
         public static MemoryStream Of(string content)
         {
             return Of(content, Encoding.UTF8);
@@ -55,7 +60,7 @@ namespace Core.IO
 
         public static byte[] GetBytes(Stream stream, int bufferSize)
         {
-            Checks.NotNull(stream, "Stream can not be null.");
+            Checks.IsNotNull(stream, "Stream can not be null.");
             Checks.IsTrue<InvalidOperationException>(stream.CanRead, "Stream is not readable.");
 
             if (stream.CanSeek)
@@ -68,7 +73,7 @@ namespace Core.IO
             {
                 if (!Arrays.IsEmpty(data))
                 {
-                    result.AddRange(data);
+                     result.AddRange(data);
                 }
             });
             return result.ToArray();
@@ -81,12 +86,12 @@ namespace Core.IO
 
         public static void Transfer(Stream input, int bufferSize, Stream output)
         {
-            Checks.GreaterThan(bufferSize, 0, "Buffer size must be greater than zero.");
+            Checks.IsGreaterThan(bufferSize, 0, "Buffer size must be greater than zero.");
 
-            Checks.NotNull(input, "InputStream can not be null");
+            Checks.IsNotNull(input, "InputStream can not be null");
             Checks.IsTrue<InvalidOperationException>(input.CanRead, "Input stream is not readable.");
 
-            Checks.NotNull(output, "OutputStream can not be null");
+            Checks.IsNotNull(output, "OutputStream can not be null");
             Checks.IsTrue<InvalidOperationException>(input.CanWrite, "Output stream is not writable.");
 
             using (input)
@@ -110,9 +115,9 @@ namespace Core.IO
         /// <param name="stream">The current stream</param>
         private static void Write(byte[] bytes, Stream stream)
         {
-            Checks.NotNullOrEmpty(bytes, "Data can not be empty");
+            Checks.IsNotNullOrEmpty(bytes, "Data can not be empty");
 
-            Checks.NotNull(stream, "Output Stream can not be null.");
+            Checks.IsNotNull(stream, "Output Stream can not be null.");
             Checks.IsTrue<InvalidOperationException>(stream.CanWrite, "Stream is not writable.");
 
             stream.Write(bytes, 0, bytes.Length);

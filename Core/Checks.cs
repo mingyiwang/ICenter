@@ -13,83 +13,83 @@ namespace Core
 
         public static void Is(object obj, Type expected)
         {
-            NotNull(expected);
-            NotNull(obj);
+            IsNotNull(expected);
+            IsNotNull(obj);
             if (obj.GetType() != expected)
             {
-                Fail<ArgumentException>($"Expected type {expected.Name} but was {obj.GetType().Name}.");
+                FileAndThrow<ArgumentException>($"Expected type {expected.Name} but was {obj.GetType().Name}.");
             }
         }
 
-        public static void NotNull(object obj)
+        public static void IsNotNull(object obj)
         {
-            NotNull(obj, "Expected not null but was null.");
+            IsNotNull(obj, "Expected not null but was null.");
         }
 
-        public static void NotNull(object obj, string message)
+        public static void IsNotNull(object obj, string message)
         {
-            NotNull<NullReferenceException>(obj, message);
+            IsNotNull<NullReferenceException>(obj, message);
         }
 
-        public static void NotNull<T>(object obj, string message) where T : Exception
+        public static void IsNotNull<T>(object obj, string message) where T : Exception
         {
             if (obj == null)
             {
-                Fail<T>(message);
+                FileAndThrow<T>(message);
             }
         }
 
-        public static void NotNullOrEmpty(string value)
+        public static void IsNotNullOrEmpty(string value)
         {
-            NotNull(value, "Expected not null but was null.");
+            IsNotNull(value, "Expected not null but was null.");
             if (value.Trim().Length == 0)
             {
-                Fail<ArgumentException>("Expected not empty but was empty.");
+                FileAndThrow<ArgumentException>("Expected not empty but was empty.");
             }
         }
 
-        public static void NotNullOrEmpty(string value, string message)
+        public static void IsNotNullOrEmpty(string value, string message)
         {
-            NotNull(value, "Expected not null but was null.");
+            IsNotNull(value, "Expected not null but was null.");
             if (value.Trim().Length == 0)
             {
-                Fail<ArgumentException>(message);
+                FileAndThrow<ArgumentException>(message);
             }
         }
 
-        public static void Null(object obj)
+        public static void IsNull(object obj)
         {
-            Null(obj, "Expected null but was not null.");
+            IsNull(obj, "Expected null but was not null.");
         }
 
-        public static void Null(object obj, string message)
+        public static void IsNull(object obj, string message)
         {
-            Null<ArgumentException>(obj, message);
+            IsNull<ArgumentException>(obj, message);
         }
 
-        private static void Null<T>(object obj, string message) where T : Exception
+        private static void IsNull<T>(object obj, string message) where T : Exception
         {
             if (obj != null)
             {
-                Fail<T>(message);
+                FileAndThrow<T>(message);
             }
         }
 
-        public static void NotNullOrEmpty<TC>(ICollection<TC> collection)
+        public static void IsNotNullOrEmpty<TC>(ICollection<TC> collection)
         {
-            NotNullOrEmpty<ArgumentException, TC>(collection, "Expected not empty but was empty.");
+            IsNotNullOrEmpty<ArgumentException, TC>(collection, "Expected not empty but was empty.");
         }
 
-        public static void NotNullOrEmpty<TC>(ICollection<TC> collection, string message)
+        public static void IsNotNullOrEmpty<TC>(ICollection<TC> collection, string message)
         {
-            NotNullOrEmpty<ArgumentException, TC>(collection, message);
+            IsNotNullOrEmpty<ArgumentException, TC>(collection, message);
         }
 
-        private static void NotNullOrEmpty<TE, TC>(ICollection<TC> collection, string message) where TE : Exception
+        private static void IsNotNullOrEmpty<TE, TC>(ICollection<TC> collection, string message) where TE : Exception
         {
             if (collection == null || collection.Count == 0)
             {
-                Fail<TE>(message);
+                FileAndThrow<TE>(message);
             }
         }
 
@@ -97,7 +97,7 @@ namespace Core
         {
             if (actual != expected)
             {
-                Fail<ArgumentException>($"Expected {expected} but was {actual}.");
+                FileAndThrow<ArgumentException>($"Expected {expected} but was {actual}.");
             }
         }
 
@@ -105,7 +105,7 @@ namespace Core
         {
             if (!expected.Equals(actual))
             {
-                 Fail<ArgumentException>($"Expected {expected} but was {actual}.");
+                 FileAndThrow<ArgumentException>($"Expected {expected} but was {actual}.");
             }
         }
 
@@ -113,7 +113,7 @@ namespace Core
         {
             if (!Arrays.IsEqual(actual, expected))
             {
-                Fail<ArgumentException>($"Array is not equal.");
+                FileAndThrow<ArgumentException>($"Array is not equal.");
             }
         }
 
@@ -132,7 +132,7 @@ namespace Core
 
             if (!expected.Equals(actual))
             {
-                 Fail<T>(message);
+                 FileAndThrow<T>(message);
             }
         }
 
@@ -150,7 +150,7 @@ namespace Core
         {
             if (ReferenceEquals(expected, actual) || expected.Equals(actual))
             {
-                Fail<T>(message);
+                FileAndThrow<T>(message);
             }
         }
 
@@ -168,7 +168,7 @@ namespace Core
         {
             if (value != false)
             {
-                Fail<T>(message);
+                FileAndThrow<T>(message);
             }
         }
 
@@ -186,59 +186,59 @@ namespace Core
         {
             if (value != true)
             {
-                Fail<T>(message);
+                FileAndThrow<T>(message);
             }
         }
 
-        public static void InRange(int min, int max, int actual, string message)
+        public static void IsInRange(int min, int max, int actual, string message)
         {
             if (actual < min || actual > max)
             {
-                Fail<OverflowException>(message);
+                FileAndThrow<OverflowException>(message);
             }
         }
 
-        public static void InRange(int actual, Range<int> range, string message)
+        public static void IsInRange(int actual, Range<int> range, string message)
         {
             if (actual < range.GetStart() || actual > range.GetStart())
             {
-                Fail<OverflowException>(message);
+                FileAndThrow<OverflowException>(message);
             }
         }
 
-        public static void LessThan<T>(int actual, int comparator,  string message) where T : Exception
+        public static void IsLessThan<T>(int actual, int comparator,  string message) where T : Exception
         {
             if (actual >= comparator)
             {
-                Fail<T>(message);
+                FileAndThrow<T>(message);
             }
         }
 
-        public static void LessThanOrEqual(int actual, int comparator, string message)
+        public static void IsLessThanOrEqual(int actual, int comparator, string message)
         {
             if (actual > comparator)
             {
-                Fail<ArgumentException>(message);
+                FileAndThrow<ArgumentException>(message);
             }
         }
 
-        public static void GreaterThan(int actual, int comparator, string message)
+        public static void IsGreaterThan(int actual, int comparator, string message)
         {
             if (actual <= comparator)
             {
-                Fail<ArgumentException>(message);
+                FileAndThrow<ArgumentException>(message);
             }
         }
 
-        public static void GreaterThanOrEqual<T>(int actual, int comparator, string message) where T : Exception
+        public static void IsGreaterThanOrEqual<T>(int actual, int comparator, string message) where T : Exception
         {
             if (actual < comparator)
             {
-                Fail<T>(message);
+                FileAndThrow<T>(message);
             }
         }
 
-        private static void Fail<T>(string message) where T : Exception
+        private static void FileAndThrow<T>(string message) where T : Exception
         {
             var type = typeof(T);
             var constructor = type.GetConstructor(new[]{

@@ -32,7 +32,7 @@ namespace Core.Json
 
         public static T Deserialize<T>(string json, params JsonConverter[] converters)
         {
-            Checks.NotNullOrEmpty(json);
+            Checks.IsNotNullOrEmpty(json);
             if (json.Equals(JsonConvert.Null)
               ||json.Equals(JsonConvert.NaN)
               ||json.Equals(JsonConvert.Undefined))
@@ -63,7 +63,7 @@ namespace Core.Json
 
         public static T Deserialize<T>(string json, Func<T> valueCreator, params JsonConverter[] converters)
         {
-            Checks.NotNullOrEmpty(json);
+            Checks.IsNotNullOrEmpty(json);
             if (json.Equals(JsonConvert.Null)
              || json.Equals(JsonConvert.NaN)
              || json.Equals(JsonConvert.Undefined))

@@ -11,13 +11,13 @@ namespace Core.Primitive
 
         public static IntBits Of(IEnumerable<int> values)
         {
-            Checks.NotNull(values);
+            Checks.IsNotNull(values);
             return Of(values.ToArray());
         }
 
         public static IntBits Of(params int[] values)
         {
-            Checks.NotNull(values);
+            Checks.IsNotNull(values);
             return new IntBits(values);
         }
 
@@ -26,7 +26,7 @@ namespace Core.Primitive
 
         private IntBits(int[] bits)
         {
-            Checks.NotNull(bits);
+            Checks.IsNotNull(bits);
             _bits = bits;
         }
 

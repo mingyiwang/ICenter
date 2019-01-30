@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text;
+using Core.IO;
 
 namespace Core.Primitive
 {
@@ -30,10 +32,10 @@ namespace Core.Primitive
 
         public static string GetSubstring(string input, int startIndex, int endIndex)
         {
-            Checks.NotNullOrEmpty(input);
-            Checks.GreaterThanOrEqual<IndexOutOfRangeException>(startIndex, 0, $"Start index[{startIndex}] can not be negative.");
-            Checks.GreaterThanOrEqual<IndexOutOfRangeException>(endIndex,   0, $"End index[{endIndex}] can not be negative.");
-            Checks.GreaterThanOrEqual<IndexOutOfRangeException>(endIndex,   startIndex, $"End index[{endIndex}] must be greater than start index[{startIndex}].");
+            Checks.IsNotNullOrEmpty(input);
+            Checks.IsGreaterThanOrEqual<IndexOutOfRangeException>(startIndex, 0, $"Start index[{startIndex}] can not be negative.");
+            Checks.IsGreaterThanOrEqual<IndexOutOfRangeException>(endIndex,   0, $"End index[{endIndex}] can not be negative.");
+            Checks.IsGreaterThanOrEqual<IndexOutOfRangeException>(endIndex,   startIndex, $"End index[{endIndex}] must be greater than start index[{startIndex}].");
             var length = endIndex - startIndex + 1;
             return input.Substring(startIndex, length);
         }
@@ -85,6 +87,10 @@ namespace Core.Primitive
             }
         }
 
+        public static byte[] GetBytes(string content)
+        {
+            return Encoding.UTF8.GetBytes(content);
+        }
 
     }
 

@@ -37,8 +37,8 @@ namespace Core.IO
         /// </summary>
         private static Stream GetStream(Type type, string resourceName)
         {
-            Checks.NotNullOrEmpty(resourceName);
-            Checks.NotNull(type, "Type can not be null.");
+            Checks.IsNotNullOrEmpty(resourceName);
+            Checks.IsNotNull(type, "Type can not be null.");
             
             return type.Assembly
                        .GetManifestResourceStream(type, resourceName);
@@ -50,7 +50,7 @@ namespace Core.IO
         /// Todo: Change for loop to string splitter solution in case there are hundreds of assemblies.
         private static Stream GetStream(string resourcePath)
         {
-            Checks.NotNullOrEmpty(resourcePath);
+            Checks.IsNotNullOrEmpty(resourcePath);
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 if (!resourcePath.Contains(assembly.GetName().Name))
