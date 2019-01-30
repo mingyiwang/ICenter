@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace Core.Collection {
 
@@ -46,6 +48,17 @@ namespace Core.Collection {
         public static void Clear<T>(this ConcurrentQueue<T> queue)
         {
             while (queue.TryDequeue(out T result)) { }
+        }
+
+        /// <summary>
+        /// ForEach Extension
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="collection"></param>
+        /// <param name="action"></param>
+        public static void TakeIF<T>(this IEnumerable<T> collection, Func<T, bool> predicate)
+        {
+            
         }
 
     }

@@ -7,7 +7,7 @@ namespace Core.IO
     /// This class is used to store a sequence of data.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class Chain<T> : IEquatable<Chain<T>>
+    public class Buffer<T> : IEquatable<Buffer<T>>
     {
         private const int MarkUnset = -1;
 
@@ -34,7 +34,7 @@ namespace Core.IO
 
         
 
-        private Chain(int capacity)
+        private Buffer(int capacity)
         {
             _limit    = _capacity = capacity;
             _position = 0;
@@ -53,7 +53,7 @@ namespace Core.IO
         /// </summary>
         /// <param name="pos"></param>
         /// <returns></returns>
-        public Chain<T> SetPosition(int pos)
+        public Buffer<T> SetPosition(int pos)
         {
             if (pos < 0 || pos > _limit)
             {
@@ -75,7 +75,7 @@ namespace Core.IO
         /// </summary>
         /// <param name="limit"></param>
         /// <returns></returns>
-        public Chain<T> SetLimit(int limit)
+        public Buffer<T> SetLimit(int limit)
         {
             if (limit < 0 || limit > _capacity)
             {
@@ -96,7 +96,7 @@ namespace Core.IO
             return this;
         }
 
-        public Chain<T> Flip()
+        public Buffer<T> Flip()
         {
             _limit    = _position;
             _position = 0;
@@ -104,19 +104,19 @@ namespace Core.IO
             return this;
         }
 
-        public Chain<T> Mark()
+        public Buffer<T> Mark()
         {
             _mark = _position;
             return this;
         }
 
-        public Chain<T> Reset()
+        public Buffer<T> Reset()
         {
             _position = _mark;
             return this;
         }
 
-        public Chain<T> Clear()
+        public Buffer<T> Clear()
         {
             _position = 0;
             _limit = _capacity;
@@ -158,7 +158,7 @@ namespace Core.IO
             return p;
         }
 
-        public virtual bool Equals(Chain<T> other)
+        public virtual bool Equals(Buffer<T> other)
         {
             return Arrays.IsEqual(_store, other._store) 
                 && _position == other._position
@@ -180,7 +180,7 @@ namespace Core.IO
                 return true;
             }
 
-            return other is Chain<T> buf && Equals(buf);
+            return other is Buffer<T> buf && Equals(buf);
         }
 
     }

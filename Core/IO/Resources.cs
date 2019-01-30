@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 
 namespace Core.IO
 {
@@ -15,7 +14,6 @@ namespace Core.IO
                 return Streams.GetBytes(s);
             }
         }
-
 
         public static string GetString(Type type, string resourceName)
         {
@@ -33,27 +31,41 @@ namespace Core.IO
             }
         }
 
+        /// <summary>
+        /// Retrieve the stream based on the resource name e.g. Resource.txt,
+        /// resource should be located in the same location as type specified.
+        /// </summary>
         private static Stream GetStream(Type type, string resourceName)
         {
             Checks.NotNullOrEmpty(resourceName);
             Checks.NotNull(type, "Type can not be null.");
-            return type.Assembly.GetManifestResourceStream(type, resourceName);
+            
+            return type.Assembly
+                       .GetManifestResourceStream(type, resourceName);
         }
 
+        /// <summary>
+        /// Retrieve the stream based on the full resource path e.g A.B.C.Resource.txt.
+        /// </summary>
+        /// Todo: Change for loop to string splitter solution in case there are hundreds of assemblies.
         private static Stream GetStream(string resourcePath)
         {
             Checks.NotNullOrEmpty(resourcePath);
-            // Find assembly.
-            Assembly assembly;
-            /*Checks.NotNull(assembly, "{resourcePath} doesn't exist.");
-
-            return assembly.GetManifestResourceStream(resourcePath);*/
-            var chars = resourcePath.ToCharArray();
-            for (int i = 0; i < chars.Length; i++)
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
+                if (!resourcePath.Contains(assembly.GetName().Name))
+                {
+                     continue;
+                }
                 
+                var stream = assembly.GetManifestResourceStream(resourcePath);
+                if (stream != null)
+                {
+                    return stream;
+                }
             }
-            return null;
+
+            throw new FileNotFoundException("Can not find resource on {resourcePath}.");
         }
 
     }

@@ -15,10 +15,8 @@ namespace Core.Test.IO
         [Test]
         public void TestText()
         {
-            Console.WriteLine(Resources.GetString(typeof(ResourcesTest), "Charset.txt"));
-
-            var text = Resources.GetString("Core.Test", "Core.Test.IO.Charset.txt");
-            Console.WriteLine(text);
+            var text = Resources.GetString("Core.Test.IO.Charset.txt");
+            
         }
 
         [Test]

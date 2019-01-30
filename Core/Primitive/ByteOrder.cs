@@ -6,14 +6,14 @@ namespace Core.Primitive
     {
         /// <summary>
         /// Constant denoting little-endian byte order.  In this order, the bytes of
-        /// a multibyte value are ordered from least significant to most
+        /// a multi byte value are ordered from least significant to most
         /// significant.
         /// </summary>
         LittleEndian,
 
         /// <summary>
         /// Constant denoting big-endian byte order.  In this order, the bytes of a
-        /// multibyte value are ordered from most significant to least significant.
+        /// multi byte value are ordered from most significant to least significant.
         /// </summary>
         BigEndian
 

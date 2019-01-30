@@ -11,6 +11,7 @@ namespace Core.IO
     {
 
         private const int BufferSize = 8; // 8K
+        private const double BufferSizeRatio = 1.5d;
 
         public static MemoryStream Of(string content)
         {
@@ -144,7 +145,7 @@ namespace Core.IO
                     buffer = temp;
 
                     // Todo: gradually increase buffer size 
-                    bufferSize = (int) (1.5 * bufferSize);
+                    bufferSize = (int) (BufferSizeRatio * bufferSize);
                 }
 
                 handle(buffer);
