@@ -4,13 +4,13 @@ using Core.Collection;
 using Core.IO;
 using Core.Primitive;
 
-namespace Core.Encryption
+namespace Core.Security
 {
 
-    public sealed class Encryptor
+    public sealed class Encryption
     {
         private EncryptionKind _kind = EncryptionKind.Aes;
-        private ISymmetricAlgorithmKey _key;
+        private EncryptionKey  _key;
 
         // Todo: Wrap this into a class
         private static readonly HashMap<EncryptionKind, SymmetricAlgorithm> Algorithms =
@@ -20,19 +20,18 @@ namespace Core.Encryption
                 // Todo: Add more SymmetricAlgorithm here
             };
 
-        internal Encryptor(EncryptionKind kind)
+        internal Encryption(EncryptionKind kind)
         {
             _kind = kind;
         }
 
-        public static Encryptor Of(EncryptionKind kind)
+        public static Encryption Of(EncryptionKind kind)
         {
-            return new Encryptor(kind);
+            return new Encryption(kind);
         }
 
-        public bool TryEncrypt(string content, out string result)
+        public bool TryEncrypt(string content, out Base64String result)
         {
-            result = string.Empty;
             try
             {
                 result = Encrypt(content);
@@ -40,11 +39,12 @@ namespace Core.Encryption
             }
             catch
             {
+                result = default(Base64String);
                 return false;
             }
         }
 
-        public string Encrypt(string content)
+        public Base64String Encrypt(string content)
         {
             var succeed = Algorithms.TryGetValue(_kind, out var symmetricAlgorithm);
             if (!succeed)
@@ -60,12 +60,13 @@ namespace Core.Encryption
                     var data = Strings.GetBytes(content);
                     crypto.Write(data, 0, data.Length);
                     crypto.FlushFinalBlock();
-                    return Convert.ToBase64String(Streams.GetBytes(ms));
+
+                    return new Base64String(Streams.GetBytes(ms));
                 }
             }
         }
 
-        public bool TryDecrypt(string content, out string result)
+        public bool TryDecrypt(Base64String content, out string result)
         {
             result = string.Empty;
             try
@@ -79,7 +80,7 @@ namespace Core.Encryption
             }
         }
 
-        public string Decrypt(string content)
+        public string Decrypt(Base64String content)
         {
             var succeed = Algorithms.TryGetValue(_kind, out var symmetricAlgorithm);
             if (!succeed)
@@ -87,7 +88,7 @@ namespace Core.Encryption
                 throw new ArgumentException("{Kind} is not found.");
             }
 
-            using (var ms = Streams.Of(Convert.FromBase64String(content)))
+            using (var ms = Streams.Of(content.ToBytes()))
             {
                 using (var crypto =
                     new CryptoStream(ms,symmetricAlgorithm.CreateDecryptor(), CryptoStreamMode.Read))
@@ -104,9 +105,6 @@ namespace Core.Encryption
        Aes, Des
     }
 
-    public interface ISymmetricAlgorithmKey
-    {
-        
-    }
+    
 
 }

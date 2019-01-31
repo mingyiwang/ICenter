@@ -1,5 +1,5 @@
 ﻿using System;
-using Core.Encryption;
+using Core.Security;
 using NUnit.Framework;
 
 namespace Core.Test.Encryption
@@ -10,8 +10,11 @@ namespace Core.Test.Encryption
         [Test]
         public void TestEncryption()
         {
-            var encryptor = Encryptor.Of(EncryptionKind.Aes);
-            Checks.IsEqual(encryptor.Decrypt(encryptor.Encrypt("")),"");
+            var encryptor = Security.Encryption.Of(EncryptionKind.Aes);
+            Console.WriteLine(encryptor.Encrypt("test"));
+
+
+            Checks.IsEqual(encryptor.Decrypt(encryptor.Encrypt("test")),"test");
         }
 
         [Test]

@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Core.Encryption
+namespace Core.Security
 {
 
     public sealed class Hashing
