@@ -17,7 +17,7 @@ namespace Core
             IsNotNull(obj);
             if (obj.GetType() != expected)
             {
-                FileAndThrow<ArgumentException>($"Expected type {expected.Name} but was {obj.GetType().Name}.");
+                Throw<ArgumentException>($"Expected type {expected.Name} but was {obj.GetType().Name}.");
             }
         }
 
@@ -35,7 +35,7 @@ namespace Core
         {
             if (obj == null)
             {
-                FileAndThrow<T>(message);
+                Throw<T>(message);
             }
         }
 
@@ -44,7 +44,7 @@ namespace Core
             IsNotNull(value, "Expected not null but was null.");
             if (value.Trim().Length == 0)
             {
-                FileAndThrow<ArgumentException>("Expected not empty but was empty.");
+                Throw<ArgumentException>("Expected not empty but was empty.");
             }
         }
 
@@ -53,7 +53,7 @@ namespace Core
             IsNotNull(value, "Expected not null but was null.");
             if (value.Trim().Length == 0)
             {
-                FileAndThrow<ArgumentException>(message);
+                Throw<ArgumentException>(message);
             }
         }
 
@@ -71,7 +71,7 @@ namespace Core
         {
             if (obj != null)
             {
-                FileAndThrow<T>(message);
+                Throw<T>(message);
             }
         }
 
@@ -89,7 +89,7 @@ namespace Core
         {
             if (collection == null || collection.Count == 0)
             {
-                FileAndThrow<TE>(message);
+                Throw<TE>(message);
             }
         }
 
@@ -97,7 +97,7 @@ namespace Core
         {
             if (actual != expected)
             {
-                FileAndThrow<ArgumentException>($"Expected {expected} but was {actual}.");
+                Throw<ArgumentException>($"Expected {expected} but was {actual}.");
             }
         }
 
@@ -105,7 +105,7 @@ namespace Core
         {
             if (!expected.Equals(actual))
             {
-                 FileAndThrow<ArgumentException>($"Expected {expected} but was {actual}.");
+                 Throw<ArgumentException>($"Expected {expected} but was {actual}.");
             }
         }
 
@@ -113,7 +113,7 @@ namespace Core
         {
             if (!Arrays.IsEqual(actual, expected))
             {
-                FileAndThrow<ArgumentException>($"Array is not equal.");
+                Throw<ArgumentException>($"Array is not equal.");
             }
         }
 
@@ -132,7 +132,7 @@ namespace Core
 
             if (!expected.Equals(actual))
             {
-                 FileAndThrow<T>(message);
+                 Throw<T>(message);
             }
         }
 
@@ -150,7 +150,7 @@ namespace Core
         {
             if (ReferenceEquals(expected, actual) || expected.Equals(actual))
             {
-                FileAndThrow<T>(message);
+                Throw<T>(message);
             }
         }
 
@@ -168,7 +168,7 @@ namespace Core
         {
             if (value != false)
             {
-                FileAndThrow<T>(message);
+                Throw<T>(message);
             }
         }
 
@@ -186,7 +186,7 @@ namespace Core
         {
             if (value != true)
             {
-                FileAndThrow<T>(message);
+                Throw<T>(message);
             }
         }
 
@@ -194,7 +194,7 @@ namespace Core
         {
             if (actual < min || actual > max)
             {
-                FileAndThrow<OverflowException>(message);
+                Throw<OverflowException>(message);
             }
         }
 
@@ -202,7 +202,7 @@ namespace Core
         {
             if (actual < range.GetStart() || actual > range.GetStart())
             {
-                FileAndThrow<OverflowException>(message);
+                Throw<OverflowException>(message);
             }
         }
 
@@ -210,7 +210,7 @@ namespace Core
         {
             if (actual >= comparator)
             {
-                FileAndThrow<T>(message);
+                Throw<T>(message);
             }
         }
 
@@ -218,7 +218,7 @@ namespace Core
         {
             if (actual > comparator)
             {
-                FileAndThrow<ArgumentException>(message);
+                Throw<ArgumentException>(message);
             }
         }
 
@@ -226,7 +226,7 @@ namespace Core
         {
             if (actual <= comparator)
             {
-                FileAndThrow<ArgumentException>(message);
+                Throw<ArgumentException>(message);
             }
         }
 
@@ -234,11 +234,11 @@ namespace Core
         {
             if (actual < comparator)
             {
-                FileAndThrow<T>(message);
+                Throw<T>(message);
             }
         }
 
-        private static void FileAndThrow<T>(string message) where T : Exception
+        private static void Throw<T>(string message) where T : Exception
         {
             var type = typeof(T);
             var constructor = type.GetConstructor(new[]{

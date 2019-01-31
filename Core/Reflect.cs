@@ -12,7 +12,7 @@ namespace Core
         /// <summary>
         /// This method used to find assembly with specified assembly name.
         /// </summary>
-        /// <param name="name">The assembly name e.g A.B.C.file.txt</param>
+        /// <param name="name">The assembly name</param>
         /// <returns>Assembly or null if more then one assembly with the same found.</returns>
         public static Assembly GetAssembly(string name)
         {
