@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Core.Collection;
 using Core.Primitive;
 
@@ -15,11 +16,13 @@ namespace Core.Security
 
         public Base64String(byte[] data)
         {
-            if (Arrays.IsEmpty(data)) _base64String = string.Empty;
-            _base64String = Convert.ToBase64String(data);
             _store = data;
         }
 
+        /// <summary>
+        /// Not safe
+        /// </summary>
+        /// <returns></returns>
         public byte[] ToBytes()
         {
             var buffer = Arrays.Make<byte>(_store.Length);
@@ -27,6 +30,10 @@ namespace Core.Security
             return buffer;
         }
 
+        /// <summary>
+        /// Not safe
+        /// </summary>
+        /// <returns></returns>
         public string Get()
         {
             return ToString();
@@ -34,7 +41,9 @@ namespace Core.Security
 
         public override string ToString()
         {
-            return Strings.Of(_base64String);
+            var base64String = _base64String;
+            LazyInitializer.EnsureInitialized(ref base64String, () => Strings.Of(_base64String));
+            return base64String;
         }
 
         public int CompareTo(object obj)
