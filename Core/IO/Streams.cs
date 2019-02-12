@@ -13,7 +13,7 @@ namespace Core.IO
         private const int BufferSize = 8; // 8K
         private const double BufferSizeRatio = 1.5d;
 
-        public static MemoryStream Empty()
+        public static MemoryStream New()
         {
             return new MemoryStream();
         }

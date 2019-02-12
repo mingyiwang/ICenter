@@ -52,7 +52,7 @@ namespace Core.Security
                  throw new ArgumentException("{Kind} is not found.");
             }
 
-            using (var ms = Streams.Empty())
+            using (var ms = Streams.New())
             {
                 using (var crypto =
                     new CryptoStream(ms, symmetricAlgorithm.CreateEncryptor(), CryptoStreamMode.Write))
