@@ -15,17 +15,17 @@ namespace Core.Json
                  ;
         }
 
-        public static bool TrySerialize(object obj, ref string jsonResult, params JsonConverter[] converters)
+        public static bool TrySerialize(object obj, ref string result, params JsonConverter[] converters)
         {
-            jsonResult = JsonConvert.Undefined;
+            result = JsonConvert.Undefined;
             try
             {
-                jsonResult = Serialize(obj, converters);
+                result = Serialize(obj, converters);
                 return true;
             }
             catch (Exception)
             {
-                jsonResult = JsonConvert.NaN;
+                result = JsonConvert.NaN;
                 return false;
             }
         }
