@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 using Core.Collection;
 using Core.Primitive;
@@ -14,9 +15,19 @@ namespace Core.Security
         private readonly byte[] _store;
         private readonly string _base64String;
 
-        public Base64String(byte[] data)
+        private Base64String(byte[] data)
         {
             _store = data;
+        }
+
+        public static Base64String FromString(string content)
+        {
+            return new Base64String(Encoding.UTF8.GetBytes(content));
+        }
+
+        public static Base64String FromBytes(byte[] data)
+        {
+            return new Base64String(data);
         }
 
         /// <summary>

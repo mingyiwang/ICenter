@@ -10,7 +10,7 @@ namespace Core.Test.Encryption
         [Test]
         public void TestEncryption()
         {
-            var encryptor = Security.Encryption.Of(EncryptionKind.Aes);
+            var encryptor = Security.Encryptor.Of(EncryptionKind.Aes);
             Console.WriteLine(encryptor.Encrypt("test"));
 
 

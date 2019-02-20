@@ -7,27 +7,28 @@ using Core.Primitive;
 namespace Core.Security
 {
 
-    public sealed class Encryption
+    public sealed class Encryptor
     {
-        private EncryptionKind _kind = EncryptionKind.Aes;
-        private EncryptionKey  _key;
+
+        private readonly EncryptionKind _kind;
 
         // Todo: Wrap this into a class
         private static readonly HashMap<EncryptionKind, SymmetricAlgorithm> Algorithms =
             new HashMap<EncryptionKind, SymmetricAlgorithm>
             {
-                { EncryptionKind.Aes, new AesCryptoServiceProvider()}
+                { EncryptionKind.Aes, new AesCryptoServiceProvider()},
+                { EncryptionKind.Des, new DESCryptoServiceProvider()}
                 // Todo: Add more SymmetricAlgorithm here
             };
 
-        internal Encryption(EncryptionKind kind)
+        internal Encryptor(EncryptionKind kind)
         {
             _kind = kind;
         }
 
-        public static Encryption Of(EncryptionKind kind)
+        public static Encryptor Of(EncryptionKind kind)
         {
-            return new Encryption(kind);
+            return new Encryptor(kind);
         }
 
         public bool TryEncrypt(string content, out Base64String result)
@@ -55,13 +56,12 @@ namespace Core.Security
             using (var ms = Streams.New())
             {
                 using (var crypto =
-                    new CryptoStream(ms, symmetricAlgorithm.CreateEncryptor(), CryptoStreamMode.Write))
+                new CryptoStream(ms, symmetricAlgorithm.CreateEncryptor(), CryptoStreamMode.Write))
                 {
                     var data = Strings.GetBytes(content);
                     crypto.Write(data, 0, data.Length);
                     crypto.FlushFinalBlock();
-
-                    return new Base64String(Streams.GetBytes(ms));
+                    return Base64String.FromBytes(Streams.GetBytes(ms));
                 }
             }
         }
@@ -87,15 +87,12 @@ namespace Core.Security
             {
                 throw new ArgumentException("{Kind} is not found.");
             }
-
-            using (var ms = Streams.Of(content.ToBytes()))
+            using (var crypto =
+            new CryptoStream(Streams.Of(content.ToBytes()), symmetricAlgorithm.CreateDecryptor(), CryptoStreamMode.Read))
             {
-                using (var crypto =
-                    new CryptoStream(ms,symmetricAlgorithm.CreateDecryptor(), CryptoStreamMode.Read))
-                {
-                    return Streams.GetString(crypto);
-                }
+                return Streams.GetString(crypto);
             }
+            
         }
 
     }
