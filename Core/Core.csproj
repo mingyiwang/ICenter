@@ -6,18 +6,17 @@
 
   <ItemGroup>
     <Compile Remove="Cdn\**" />
+    <Compile Remove="Expression\**" />
     <EmbeddedResource Remove="Cdn\**" />
+    <EmbeddedResource Remove="Expression\**" />
     <None Remove="Cdn\**" />
+    <None Remove="Expression\**" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Aliyun.Acs.Cdn" Version="1.0.0" />
     <PackageReference Include="MongoDB.Driver" Version="2.7.2" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Expression\" />
   </ItemGroup>
 
 </Project>

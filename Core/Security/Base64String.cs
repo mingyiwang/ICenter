@@ -2,18 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading;
 using Core.Collection;
-using Core.Primitive;
 
 namespace Core.Security
 {
 
-    public sealed class Base64String : IComparable, IEnumerable<char>, IComparable<string>, IEquatable<string>, IConvertible, ICloneable
+    public class Base64String : IEnumerable<char>, IComparable<string>, IEquatable<string>, IConvertible, ICloneable
     {
 
         private readonly byte[] _store;
-        private readonly string _base64String;
 
         private Base64String(byte[] data)
         {
@@ -50,21 +47,10 @@ namespace Core.Security
             return ToString();
         }
 
-        public override string ToString()
-        {
-            var base64String = _base64String;
-            LazyInitializer.EnsureInitialized(ref base64String, () => Strings.Of(_base64String));
-            return base64String;
-        }
-
-        public int CompareTo(object obj)
-        {
-            return _base64String.CompareTo(obj);
-        }
 
         public IEnumerator<char> GetEnumerator()
         {
-            return _base64String.GetEnumerator();
+            throw new NotImplementedException();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -74,106 +60,103 @@ namespace Core.Security
 
         public int CompareTo(string other)
         {
-            return String.Compare(_base64String, other, StringComparison.Ordinal);
+            throw new NotImplementedException();
         }
 
         public bool Equals(string other)
         {
-            return _base64String.Equals(other);
+            throw new NotImplementedException();
         }
 
         public TypeCode GetTypeCode()
         {
-            return _base64String.GetTypeCode();
+            throw new NotImplementedException();
         }
 
         public bool ToBoolean(IFormatProvider provider)
         {
-            return Convert.ToBoolean(_base64String, provider);
+            throw new NotImplementedException();
         }
 
         public byte ToByte(IFormatProvider provider)
         {
-            return Convert.ToByte(_base64String, provider);
+            throw new NotImplementedException();
         }
 
         public char ToChar(IFormatProvider provider)
         {
-            return Convert.ToChar(_base64String, provider);
+            throw new NotImplementedException();
         }
 
         public DateTime ToDateTime(IFormatProvider provider)
         {
-            return Convert.ToDateTime(_base64String, provider);
+            throw new NotImplementedException();
         }
 
         public decimal ToDecimal(IFormatProvider provider)
         {
-            return Convert.ToDecimal(_base64String, provider);
+            throw new NotImplementedException();
         }
 
         public double ToDouble(IFormatProvider provider)
         {
-            return Convert.ToDouble(_base64String, provider);
+            throw new NotImplementedException();
         }
 
         public short ToInt16(IFormatProvider provider)
         {
-            return Convert.ToInt16(_base64String, provider);
+            throw new NotImplementedException();
         }
 
         public int ToInt32(IFormatProvider provider)
         {
-            return Convert.ToInt32(_base64String, provider);
+            throw new NotImplementedException();
         }
 
         public long ToInt64(IFormatProvider provider)
         {
-            return Convert.ToInt64(_base64String, provider);
+            throw new NotImplementedException();
         }
 
         public sbyte ToSByte(IFormatProvider provider)
         {
-            return Convert.ToSByte(_base64String, provider);
+            throw new NotImplementedException();
         }
 
         public float ToSingle(IFormatProvider provider)
         {
-            return Convert.ToSingle(_base64String, provider);
+            throw new NotImplementedException();
         }
 
         public string ToString(IFormatProvider provider)
         {
-            return _base64String.ToString(provider);
+            throw new NotImplementedException();
         }
 
         public object ToType(Type conversionType, IFormatProvider provider)
         {
-            return null;
+            throw new NotImplementedException();
         }
 
         public ushort ToUInt16(IFormatProvider provider)
         {
-            return Convert.ToUInt16(_base64String, provider);
+            throw new NotImplementedException();
         }
 
         public uint ToUInt32(IFormatProvider provider)
         {
-            return Convert.ToUInt32(_base64String, provider);
+            throw new NotImplementedException();
         }
 
         public ulong ToUInt64(IFormatProvider provider)
         {
-            return Convert.ToUInt64(_base64String, provider);
+            throw new NotImplementedException();
         }
 
         public object Clone()
         {
-            return _base64String.Clone();
+            throw new NotImplementedException();
         }
-
-        
-
     }
 
 }

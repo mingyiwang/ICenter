@@ -17,7 +17,8 @@ namespace Core.Security
             new HashMap<EncryptionKind, SymmetricAlgorithm>
             {
                 { EncryptionKind.Aes, new AesCryptoServiceProvider()},
-                { EncryptionKind.Des, new DESCryptoServiceProvider()}
+                { EncryptionKind.Des, new DESCryptoServiceProvider()},
+                { EncryptionKind.TrippleDes, new TripleDESCryptoServiceProvider()}
                 // Todo: Add more SymmetricAlgorithm here
             };
 
@@ -99,7 +100,7 @@ namespace Core.Security
 
     public enum EncryptionKind
     {
-       Aes, Des
+       Aes, Des, TrippleDes
     }
 
     
