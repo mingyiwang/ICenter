@@ -265,12 +265,7 @@ namespace Core.Collection
 
             public T Current => _queue.First();
 
-            object IEnumerator.Current
-            {
-                get {
-                    return Current;
-                }
-            }
+            object IEnumerator.Current => Current;
 
             public void Dispose()
             {
