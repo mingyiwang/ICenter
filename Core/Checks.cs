@@ -50,7 +50,7 @@ namespace Core
 
         public static void IsNotNullOrEmpty(string value, string message)
         {
-            IsNotNull(value, "Expected not null but was null.");
+            IsNotNull(value, message);
             if (value.Trim().Length == 0)
             {
                 Throw<ArgumentException>(message);

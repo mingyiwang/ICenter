@@ -17,7 +17,6 @@ namespace Core.Json
 
         public static bool TrySerialize(object obj, ref string result, params JsonConverter[] converters)
         {
-            result = JsonConvert.Undefined;
             try
             {
                 result = Serialize(obj, converters);
@@ -25,7 +24,6 @@ namespace Core.Json
             }
             catch (Exception)
             {
-                result = JsonConvert.NaN;
                 return false;
             }
         }
@@ -90,7 +88,7 @@ namespace Core.Json
 
         private static JsonSerializerSettings CreateDefaultSettings(JsonConverter[] converters)
         {
-            return new JsonSerializerSettings()
+            return new JsonSerializerSettings
             {
                    DateFormatHandling   = DateFormatHandling.IsoDateFormat,
                    Converters           = converters,
