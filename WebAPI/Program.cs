@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace WebAPI
 {
@@ -20,7 +21,6 @@ namespace WebAPI
                   .UseContentRoot(Directory.GetCurrentDirectory())
                   .UseIISIntegration()
                   .UseStartup<Startup>()
-                  .UseApplicationInsights()
                   .Build();
         }
 

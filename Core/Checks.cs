@@ -129,7 +129,7 @@ namespace Core
 
         private static void IsEqual<T>(object actual, object expected, string message) where T : Exception
         {
-
+            
             if (!expected.Equals(actual))
             {
                  Throw<T>(message);
