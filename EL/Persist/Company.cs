@@ -1,4 +1,6 @@
-﻿namespace EL.Persist
+﻿using System;
+
+namespace EL.Persist
 {
     
     /**
@@ -7,7 +9,9 @@
     public class Company
     {
 
-        public string Data { get; set; } // Could be changed to File Path
+        public int Id { get; set; }
+        public DateTime RegisterDate { get; set;  }
+        
 
 
     }

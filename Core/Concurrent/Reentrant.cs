@@ -16,7 +16,7 @@ namespace Core.Concurrent
         }
 
         /// <summary>
-        /// Checks whether current thread hold this lock
+        /// Checks whether current thread holds this lock
         /// </summary>
         public bool IsOccupiedByCurrentThread => Monitor.IsEntered(_lock);
 
@@ -296,7 +296,7 @@ namespace Core.Concurrent
         }
 
         /// <summary>
-        /// Execute Action Only when certain conditaion met, block otherwise
+        /// Execute Action Only when certain condition meet, block otherwise
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="model"></param>

@@ -43,7 +43,6 @@ namespace Core.Date
             }
             
             return Of(dateTime.Month, dateTime.Year);
-
         }
 
         /// <summary>
