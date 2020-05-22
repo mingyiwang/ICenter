@@ -1,6 +1,4 @@
 ﻿using System;
-using Core.IO;
-using Core.Json;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApplication.Controllers

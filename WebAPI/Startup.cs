@@ -25,7 +25,6 @@ namespace WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.Add(new ServiceDescriptor(typeof(int),1));
             
         }
         
@@ -34,11 +33,7 @@ namespace WebAPI
             
             Middleware
                 .Of(app)
-                .With(context =>
-                {
-                    
-                    
-                })
+                .With(context => { app.UseMvc(); })
                 .With(context =>
                 {
                     

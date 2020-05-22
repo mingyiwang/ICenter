@@ -2,6 +2,7 @@
 using Core.Collection;
 using Core.IO;
 using Core.Json;
+using Newtonsoft.Json.Converters;
 using NUnit.Framework;
 
 namespace Core.Test.Json
@@ -46,8 +47,9 @@ namespace Core.Test.Json
         public void TestDateTime()
         {
             var dateTime = DateTime.Now;
-            var result   = JsonUtils.Serialize(dateTime);
-            Checks.IsEqual(dateTime, JsonUtils.Deserialize<DateTime>(result));
+            var result   = JsonUtils.Serialize(dateTime, new JavaScriptDateTimeConverter());
+            Checks.IsEqual(dateTime, JsonUtils.Deserialize<DateTime>(result, new JavaScriptDateTimeConverter()));
+            Console.WriteLine(result);
         }
 
         [Test]
