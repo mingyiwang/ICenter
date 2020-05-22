@@ -70,7 +70,27 @@ namespace Core.Test.Json
 
         }
 
-        
+
+        [Test]
+        public void TestMap()
+        {
+            var map = new HashMap<TestKey, TestValue>();
+            map.Add(new TestKey(), new TestValue());
+            map.Add(new TestKey(), new TestValue());
+
+            var json = JsonUtils.Serialize(map);
+            Console.WriteLine(json);
+        }
+
+        class TestKey
+        {
+            private string KeyValue = "KeyValue";
+        }
+
+        class TestValue
+        {
+            private string ValueValue = "ValueValue";
+        }
     }
 
 }

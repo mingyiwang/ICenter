@@ -10,8 +10,6 @@
         public decimal TurnOver  { get; set; }
         public decimal Tax       { get; set; }
         public decimal RdCost    { get; set; }
-
-
         public string  Data      { get; set; }
 
     }
