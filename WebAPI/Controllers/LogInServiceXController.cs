@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
-    [Produces("application/json")]
+   
     [Route("api/[controller]/[action]")]
     public class LogInServiceXController : Controller
     {
