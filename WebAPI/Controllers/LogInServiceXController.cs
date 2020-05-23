@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebAPI.Transfer;
 
 namespace WebAPI.Controllers
 {
+
     [ApiController]
+    [Route("api/{controller}/{action}")]
     public class LogInServiceXController : ControllerBase
     {
 
@@ -13,9 +16,12 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        public JsonResult LogIn(string userName, string password)
+        public JsonResult LogIn()
         {
-            return new JsonResult("sdkfjdlfjdlfj");
+            return new JsonResult(new Session
+            {
+                passport = "12312323"
+            });
         }
 
     }

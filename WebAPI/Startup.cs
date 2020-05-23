@@ -33,7 +33,7 @@ namespace WebAPI
         public void Configure(IApplicationBuilder app)
         {
 
-            app.UseMvc(routes => routes.MapRoute("default", "api/{controller=Home}/{action=Index}"));
+            app.UseMvc(routes => routes.MapRoute("default", "api/{controller=LogInServiceX}/{action=Home}"));
             /*Middleware
                 .Of(app)
                 .With(context => { app.UseMvc(); })
