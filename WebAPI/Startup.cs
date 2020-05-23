@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,14 +25,16 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc(routes => {})
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             
         }
         
         public void Configure(IApplicationBuilder app)
         {
-            
-            Middleware
+
+            app.UseMvc(routes => routes.MapRoute("default", "api/{controller=Home}/{action=Index}"));
+            /*Middleware
                 .Of(app)
                 .With(context => { app.UseMvc(); })
                 .With(context =>
@@ -46,7 +49,7 @@ namespace WebAPI
                 {
                     
                 })
-                .Build();
+                .Build();*/
         }
 
     }

@@ -2,15 +2,14 @@
 
 namespace WebAPI.Controllers
 {
-   
-    [Route("api/[controller]/[action]")]
-    public class LogInServiceXController : Controller
+    [ApiController]
+    public class LogInServiceXController : ControllerBase
     {
 
         [HttpGet]
-        public JsonResult Home()
+        public ActionResult<string> Home()
         {
-            return new JsonResult("Welcome");
+            return "Welcome";
         }
 
         [HttpPost]
