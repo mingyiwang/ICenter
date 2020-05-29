@@ -1,55 +1,32 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 
 namespace WebAPI
 {
-    public class Startup
+    public sealed class Startup
     {
-
-        public IConfigurationRoot Configuration { get; }
-
-        public Startup(IHostingEnvironment env)
-        {
-            Configuration = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", false, true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
-                .AddEnvironmentVariables()
-                .Build();
-        }       
-
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(routes => {})
+            services.AddMvc()
                     .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            
+            services.AddSwaggerGen(c => {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+            });
+
         }
         
         public void Configure(IApplicationBuilder app)
         {
-
-            app.UseMvc(routes => routes.MapRoute("default", "api/{controller=LogInServiceX}/{action=Home}"));
-            /*Middleware
-                .Of(app)
-                .With(context => { app.UseMvc(); })
-                .With(context =>
-                {
-                    
-                })
-                .First(context =>
-                {
-                    
-                })
-                .Last(context =>
-                {
-                    
-                })
-                .Build();*/
+            app.UseStaticFiles();
+            app.UseMvc();
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+            
         }
 
     }

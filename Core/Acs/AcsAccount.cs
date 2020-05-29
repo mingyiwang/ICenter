@@ -4,21 +4,20 @@
     public sealed class AcsAccount
     {
 
-        public string AccessAccount { get; }
+        public string AccessKeyId { get; }
 
-        public string PrivateKey { get; }
+        public string AccessKey   { get; }
 
-        private AcsAccount(string account, string key)
+        public static AcsAccount Of(string accessKeyId, string accessKey)
         {
-            AccessAccount = account;
-            PrivateKey = key;
+            return new AcsAccount(accessKeyId, accessKey);
         }
 
-        public static AcsAccount Of(string account, string key)
+        private AcsAccount(string keyId, string key)
         {
-            return new AcsAccount(account, key);
+            AccessKeyId = keyId;
+            AccessKey   = key;
         }
-
     }
 
 }

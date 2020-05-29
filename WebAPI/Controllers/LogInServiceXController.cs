@@ -5,18 +5,12 @@ namespace WebAPI.Controllers
 {
 
     [ApiController]
-    [Route("api/{controller}/{action}")]
+    [Route("api/LogInServiceX")]
     public class LogInServiceXController : ControllerBase
     {
 
-        [HttpGet]
-        public ActionResult<string> Home()
-        {
-            return "Welcome";
-        }
-
         [HttpPost]
-        public JsonResult LogIn()
+        public JsonResult LogIn(string userName, string password)
         {
             return new JsonResult(new Session
             {
