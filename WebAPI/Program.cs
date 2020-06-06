@@ -13,8 +13,11 @@ namespace WebAPI
                    .UseKestrel()
                    .UseIISIntegration()
                    .UseContentRoot(Directory.GetCurrentDirectory())
+                  // .UseConfiguration(null)
+                //.UseUrls("http://locohost:8080")
                    .Build()
                    .Run();
+            
         }
 
     }
