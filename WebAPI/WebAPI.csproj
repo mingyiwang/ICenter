@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <StartupObject></StartupObject>
+    <StartupObject>WebAPI.Program</StartupObject>
     <ApplicationIcon />
     <OutputType>Exe</OutputType>
   </PropertyGroup>

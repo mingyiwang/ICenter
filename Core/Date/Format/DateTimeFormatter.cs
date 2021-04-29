@@ -8,54 +8,25 @@ namespace Core.Date.Format
     public sealed class DateTimeFormatter
     {
 
-        public static DateTimeFormatter IsoDate
-        {
-            get
-            {
-                return Of("yyyy-MM-dd");
-            }
-        }
+        public static DateTimeFormatter IsoDate => Of("yyyy-MM-dd");
+        public static DateTimeFormatter IsoTime => Of("hh:mm:ss");
+        public static DateTimeFormatter IsoDateTime => Of("yyyy-MM-ddThh:mm:ss");
 
-        public static DateTimeFormatter IsoTime
-        {
-            get {
-                return Of("hh:mm:ss");
-            }
-        }
+        public static DateTimeFormatter YYYY_MM_DD => new DateTimeFormatterBuilder()
+                .Append(DateTimeFormatToken.Year.WithKind(4))
+                .Append('_')
+                .Append(DateTimeFormatToken.Month.WithKind(2))
+                .Append('_')
+                .Append(DateTimeFormatToken.Day.WithKind(2))
+                .GetFormatter();
 
-        public static DateTimeFormatter IsoDateTime
-        {
-            get {
-                return Of("yyyy-MM-ddThh:mm:ss");
-            }
-        }
-
-        public static DateTimeFormatter YYYY_MM_DD
-        {
-            get
-            {
-               return new DateTimeFormatterBuilder()
-                    .Append(DateTimeFormatToken.Year.WithKind(4))
-                    .Append('_')
-                    .Append(DateTimeFormatToken.Month.WithKind(2))
-                    .Append('_')
-                    .Append(DateTimeFormatToken.Day.WithKind(2))
-                    .GetFormatter();
-            }
-        }
-
-        public static DateTimeFormatter YYYY_S_MM_S_DD
-        {
-            get {
-                return new DateTimeFormatterBuilder()
-                     .Append(DateTimeFormatToken.Year.WithKind(4))
-                     .Append('/')
-                     .Append(DateTimeFormatToken.Month.WithKind(2))
-                     .Append('/')
-                     .Append(DateTimeFormatToken.Day.WithKind(2))
-                     .GetFormatter();
-            }
-        }
+        public static DateTimeFormatter YYYY_S_MM_S_DD => new DateTimeFormatterBuilder()
+                .Append(DateTimeFormatToken.Year.WithKind(4))
+                .Append('/')
+                .Append(DateTimeFormatToken.Month.WithKind(2))
+                .Append('/')
+                .Append(DateTimeFormatToken.Day.WithKind(2))
+                .GetFormatter();
 
         private readonly CultureInfo _formatInfo;
         private readonly string _pattern;
@@ -78,12 +49,11 @@ namespace Core.Date.Format
 
         public DateTime Parse(string dateTimeString)
         {
-            DateTime result;
             var parsed = DateTime.TryParseExact(dateTimeString,
                          Strings.Of(_pattern, _formatInfo.DateTimeFormat.FullDateTimePattern),
                          _formatInfo,
                          DateTimeStyles.AllowWhiteSpaces,
-                         out result);
+                         out var result);
             if (parsed)
             {
                 return result;
@@ -99,12 +69,11 @@ namespace Core.Date.Format
                 return returnIfNotParsed;
             }
 
-            DateTime result;
             var parsed = DateTime.TryParseExact(dateTimeString,
                          Strings.Of(_pattern, _formatInfo.DateTimeFormat.FullDateTimePattern),
                          _formatInfo,
                          DateTimeStyles.AllowWhiteSpaces,
-                         out result);
+                         out var result);
 
             return !parsed ? returnIfNotParsed : result;
         }

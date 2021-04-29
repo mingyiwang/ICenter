@@ -65,8 +65,7 @@ namespace Core.Date.Format
 
         private sealed class DateTimeLiteralFormatToken : DateTimeFormatToken
         {
-            public DateTimeLiteralFormatToken(string baseCode, int baseKind) 
-                : base(baseCode, baseKind)
+            public DateTimeLiteralFormatToken(string baseCode, int baseKind) : base(baseCode, baseKind)
             {
                 IsLiteral = true;
             }
@@ -79,8 +78,7 @@ namespace Core.Date.Format
 
         private sealed class DateTimeValueFormatToken : DateTimeFormatToken
         {
-            public DateTimeValueFormatToken(string baseCode, int baseKind) 
-                : base(baseCode, baseKind)
+            public DateTimeValueFormatToken(string baseCode, int baseKind) : base(baseCode, baseKind)
             {
                 IsValue = true;
             }

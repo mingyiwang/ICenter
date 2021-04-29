@@ -69,69 +69,33 @@ namespace Core.Date
         /// <summary>
         /// Get Total Mill Seconds of this Year
         /// </summary>
-        public int TotalMillSeconds
-        {
-            get
-            {
-                return 1000 * TotalSeconds;
-            }
-        }
+        public int TotalMillSeconds => 1000 * TotalSeconds;
 
         /// <summary>
         /// Get Total Seconds of this Year
         /// </summary>
-        public int TotalSeconds
-        {
-            get { return 60 * TotalMinitues; }
-        }
+        public int TotalSeconds => 60 * TotalMinitues;
 
         /// <summary>
         /// Get Total Minitues of this Year
         /// </summary>
-        public int TotalMinitues
-        {
-            get {
-                return 60 * TotalHours;
-            }
-        }
+        public int TotalMinitues => 60 * TotalHours;
 
         /// <summary>
         /// Get Total Hours of This Year
         /// </summary>
-        public int TotalHours
-        {
-            get
-            {
-                return 24 * TotalDays;
-            }
-
-        }
+        public int TotalHours => 24 * TotalDays;
 
         /// <summary>
         /// Get Total Days of this Year
         /// </summary>
-        public int TotalDays
-        {
-            get
-            {
-                return DateTime.IsLeapYear(_year) ? Dates.DaysPerLeapYear : Dates.DaysPerYear;
-            }
-        }
+        public int TotalDays => DateTime.IsLeapYear(_year) ? Dates.DaysPerLeapYear : Dates.DaysPerYear;
 
         /// <summary>
         /// Calculate Days From 1/1/0001 To the end of This Year
         /// </summary>
-        public int TotalDaysToEndOfYear
-        {
-            get
-            {
-                return Dates.DaysPerYear  * _year
-                    + (int) Math.Floor(_year * 0.25) 
-                    - (int) Math.Floor(_year * 0.01)   // if can be divided by 100 then must be divided by 4
-                    + (int) Math.Floor(_year * 0.0025) // if can be divided by 400 then must be divided by 100
-                    ;
-            }
-        }
+        public int TotalDaysToEndOfYear =>
+            Dates.DaysPerYear * _year + (int) Math.Floor(_year * 0.25) - (int) Math.Floor(_year * 0.01);   // if can be divided by 100 then must be divided by 4+ (int) Math.Floor(_year * 0.0025);
 
 
         /// <summary>
@@ -152,13 +116,7 @@ namespace Core.Date
         /// <summary>
         /// Check this Year is a Leap Year or Not
         /// </summary>
-        public bool IsLeap
-        {
-            get
-            {
-                return DateTime.IsLeapYear(_year);
-            }
-        }
+        public bool IsLeapYear => DateTime.IsLeapYear(_year);
 
 
         /// <summary>

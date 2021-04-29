@@ -31,17 +31,12 @@ namespace Core.Json
         public static T Deserialize<T>(string json, params JsonConverter[] converters)
         {
             Checks.IsNotNullOrEmpty(json);
-            if (json.Equals(JsonConvert.Null)
-              ||json.Equals(JsonConvert.NaN)
-              ||json.Equals(JsonConvert.Undefined))
+            if (json.Equals(JsonConvert.Null)||json.Equals(JsonConvert.NaN)||json.Equals(JsonConvert.Undefined))
             {
                 return default(T);
             }
 
-            return JsonConvert.DeserializeObject<T>(
-                   json, 
-                   CreateDefaultSettings(converters)
-            );
+            return JsonConvert.DeserializeObject<T>(json, CreateDefaultSettings(converters));
         }
 
         public static bool TryDeserialize<T>(string json, out T result, params JsonConverter[] converters)

@@ -355,7 +355,7 @@ namespace Core.Concurrent
             }
         }
 
-        public void SingalAll()
+        public void SignalAll()
         {
             if(!IsOccupiedByCurrentThread)
             {
